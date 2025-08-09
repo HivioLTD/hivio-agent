@@ -1,23 +1,248 @@
-<!DOCTYPE html>
-<html lang="ru">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hivio LTD</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hivio — AI Agents for Business Operations</title>
+  <meta name="description" content="Hivio builds autonomous AI agents that orchestrate and optimize business processes end-to-end." />
+  <meta name="robots" content="index,follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Hivio — AI Agents for Business Operations" />
+  <meta property="og:description" content="Autonomous agents that plan, execute, and report — across the whole business stack." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hivio.uk" />
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: linear-gradient(120deg, #00c6ff, #0072ff);
-      color: white;
-      padding: 50px;
+    :root{
+      --bg:#0b0f17;
+      --bg2:#111726;
+      --card:rgba(255,255,255,.06);
+      --text:#e9eef7;
+      --muted:#a8b3c7;
+      --accent:#ff7a18;        /* orange */
+      --accent-2:#ff4d4d;      /* orange-red */
+      --ring:rgba(255,255,255,.14);
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --radius:18px;
     }
-    h1 { font-size: 3em; }
-    p { font-size: 1.2em; }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans";
+      color:var(--text);
+      background:
+        radial-gradient(1000px 600px at 80% 10%, rgba(255,122,24,.18), transparent),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:inherit}
+    .wrap{max-width:1080px;margin:0 auto;padding:28px 18px 80px}
+
+    /* Top nav */
+    .nav{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:10px 14px;border:1px solid var(--ring);
+      background:rgba(255,255,255,.04);backdrop-filter:blur(8px);
+      border-radius:14px;
+    }
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.3px}
+    .logo{
+      width:34px;height:34px;border-radius:50%;
+      display:grid;place-items:center;font-weight:800;color:#111;
+      background: conic-gradient(from 210deg, var(--accent), #ffc371 40%, #fff 40%);
+      box-shadow: inset 0 0 0 2px rgba(0,0,0,.15);
+    }
+    .nav a.ghost{
+      text-decoration:none;border:1px solid var(--ring);padding:10px 14px;border-radius:12px;
+    }
+    .nav a.ghost:hover{background:rgba(255,255,255,.06)}
+
+    /* Hero */
+    .hero{
+      margin-top:26px;padding:36px;border-radius:24px;
+      background:
+        radial-gradient(1200px 500px at 20% -10%, rgba(255,122,24,.35), transparent),
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--ring);box-shadow:var(--shadow);
+    }
+    .badge{display:inline-block;font-size:12px;padding:6px 10px;border-radius:999px;background:rgba(255,122,24,.15);border:1px solid rgba(255,122,24,.45)}
+    h1{margin:10px 0 8px;font-size:clamp(30px,5.5vw,56px);line-height:1.05}
+    .lead{margin:0 0 18px;color:var(--muted);font-size:clamp(16px,2.2vw,19px)}
+    .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;height:46px;padding:0 18px;
+      border-radius:14px;font-weight:600;text-decoration:none;cursor:pointer;border:1px solid var(--ring);
+      transition:.15s transform, .2s box-shadow, .2s background;
+    }
+    .btn.primary{background:linear-gradient(135deg, var(--accent), var(--accent-2));color:#111;border:none}
+    .btn.primary:hover{transform:translateY(-1px);box-shadow:0 10px 30px rgba(255,122,24,.35)}
+    .btn.ghost{background:transparent;color:var(--text)}
+    .btn.ghost:hover{background:rgba(255,255,255,.06)}
+
+    /* Feature grid */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;margin-top:20px}
+    .card{
+      grid-column:span 12;padding:18px;border-radius:18px;background:rgba(0,0,0,.22);
+      border:1px solid var(--ring);min-height:120px
+    }
+    .card h3{margin:2px 0 6px;font-size:18px}
+    .card p{margin:0;color:var(--muted);font-size:14px}
+    @media (min-width:900px){
+      .card.span4{grid-column:span 4}
+      .card.span6{grid-column:span 6}
+    }
+
+    /* Stylized placeholder “image” block (keeps orange theme) */
+    .mock{
+      border-radius:18px;height:260px;margin-top:8px;
+      background:
+        radial-gradient(120% 90% at 70% 20%, rgba(0,0,0,.75), rgba(0,0,0,.9)),
+        linear-gradient(135deg, #ffb36b, #ff7a18 40%, #ff4d4d 80%);
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.08), 0 18px 60px rgba(255,122,24,.18);
+    }
+
+    /* Sections */
+    section{margin-top:34px}
+    .section-title{font-size:22px;margin:0 0 8px}
+    .list{display:grid;gap:10px}
+    .item{display:flex;gap:10px;align-items:flex-start}
+    .bullet{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;font-weight:800;color:#111;flex:0 0 22px}
+
+    /* Footer */
+    footer{margin-top:34px;color:var(--muted);font-size:13px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    footer a{text-decoration:none;color:var(--text);opacity:.85}
+    footer a:hover{text-decoration:underline}
+
+    /* Tiny utility */
+    .dim{opacity:.82}
   </style>
 </head>
 <body>
-  <h1>Hivio LTD</h1>
-  <p>Скоро здесь появится наш ИИ-агент для анализа акций.</p>
+  <div class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">H</div>
+        <span>Hivio LTD</span>
+        <span class="badge">Live Preview</span>
+      </div>
+      <a class="ghost" href="mailto:hivioinfo@mail.ru?subject=Hivio%20demo%20request">Contact</a>
+    </nav>
+
+    <header class="hero">
+      <span class="badge">AI Agents for Operations</span>
+      <h1>Autonomous agents that run your business processes</h1>
+      <p class="lead">
+        Hivio agents plan, execute, and report across your stack — CRM, spreadsheets, email,
+        analytics, and more. They coordinate tasks, talk to APIs, and keep humans in the loop.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="mailto:hivioinfo@mail.ru?subject=Request%20early%20access">
+          Request Early Access →
+        </a>
+        <a class="btn ghost" href="#how">How it works</a>
+      </div>
+
+      <div class="grid" style="margin-top:18px">
+        <div class="card span6">
+          <h3>Why it’s different</h3>
+          <p>
+            Instead of isolated automations, agents reason about goals, chain tools together,
+            verify results, and adapt to change — like a smart teammate who never sleeps.
+          </p>
+          <div class="mock" aria-hidden="true"></div>
+        </div>
+        <div class="card span6">
+          <h3>Outcomes we deliver</h3>
+          <div class="list">
+            <div class="item"><div class="bullet">✓</div><p class="dim">Lead-to-invoice flows with zero manual copy/paste</p></div>
+            <div class="item"><div class="bullet">✓</div><p class="dim">Daily KPI digests, anomaly alerts, and root-cause notes</p></div>
+            <div class="item"><div class="bullet">✓</div><p class="dim">Ticket triage & customer replies within minutes</p></div>
+            <div class="item"><div class="bullet">✓</div><p class="dim">Inventory sync & purchase orders triggered automatically</p></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section id="how">
+      <h2 class="section-title">How the agent works</h2>
+      <div class="grid">
+        <div class="card span4">
+          <h3>1) Understand</h3>
+          <p>The agent reads goals and constraints, then maps them to a multi-step plan.</p>
+        </div>
+        <div class="card span4">
+          <h3>2) Orchestrate</h3>
+          <p>It calls tools (APIs, databases, email, spreadsheets) and coordinates tasks across systems.</p>
+        </div>
+        <div class="card span4">
+          <h3>3) Verify & Report</h3>
+          <p>Every step is checked against success criteria. You receive concise summaries and logs.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Popular use cases</h2>
+      <div class="grid">
+        <div class="card span6">
+          <h3>Sales Ops</h3>
+          <p>Prospect research, CRM updates, follow-ups, quotes, and invoicing — end-to-end.</p>
+        </div>
+        <div class="card span6">
+          <h3>Support & CX</h3>
+          <p>Classify tickets, draft replies, escalate edge cases, and keep SLAs on track.</p>
+        </div>
+        <div class="card span6">
+          <h3>Finance & BI</h3>
+          <p>Consolidate data, reconcile transactions, and send daily KPI snapshots with insights.</p>
+        </div>
+        <div class="card span6">
+          <h3>Ops & Inventory</h3>
+          <p>Sync stock, predict shortages, and auto-create purchase orders when thresholds are hit.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Why teams choose Hivio</h2>
+      <div class="grid">
+        <div class="card span4">
+          <h3>Fast to adopt</h3>
+          <p>Starts with your tools — Sheets, Notion, HubSpot, Gmail, Slack — no rip-and-replace.</p>
+        </div>
+        <div class="card span4">
+          <h3>Human-in-the-loop</h3>
+          <p>Approve critical steps, set guardrails, and audit every action.</p>
+        </div>
+        <div class="card span4">
+          <h3>Secure by design</h3>
+          <p>Scoped credentials, least-privilege access, and detailed activity logs.</p>
+        </div>
+      </div>
+    </section>
+
+    <section style="text-align:center;margin-top:36px">
+      <h2 style="margin:0 0 10px;font-size:26px">Ready to give your team an always-on operator?</h2>
+      <p class="lead" style="margin-bottom:16px">
+        Tell us your process — we’ll turn it into an autonomous agent within days, not months.
+      </p>
+      <div class="cta" style="justify-content:center">
+        <a class="btn primary" href="mailto:hivioinfo@mail.ru?subject=Hivio%20—%20Request%20a%20demo">Request a demo</a>
+        <a class="btn ghost" href="mailto:hivioinfo@mail.ru?subject=Hivio%20—%20Contact">Contact sales</a>
+      </div>
+    </section>
+
+    <footer>
+      <div>© Hivio LTD · 2025</div>
+      <div>
+        <a href="mailto:hivioinfo@mail.ru">Email</a> ·
+        <a href="#">Privacy</a>
+      </div>
+    </footer>
+  </div>
 </body>
 </html>
