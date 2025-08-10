@@ -7,7 +7,6 @@
   <meta name="description" content="Papilocare — негормональный интимный гель для увлажнения и восстановления кожи и слизистой. Комбинация 7 активных компонентов. Подходит после родов, в менопаузу и после процедур.">
   <meta name="color-scheme" content="light dark">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
   <style>
     :root{
       --bg:#ffffff; --text:#18161a; --muted:#6b6b76;
@@ -79,92 +78,46 @@
     .partners{display:flex; gap:12px; flex-wrap:wrap; align-items:center}
     .logo-chip{width:80px; height:40px; border-radius:10px; background:#2a2533; border:1px solid #3a3444}
 
-    /* ===================== О ПРОДУКТЕ — АНИМИРОВАННАЯ ОРБИТА ===================== */
-    .orbit-wrap{position:relative;}
-    .orbit{
-      --R: 120px;                 /* радиус полукруга в закрытом состоянии */
-      --R-open: 190px;            /* радиус в раскрытом состоянии */
-      --core: 120px;              /* диаметр центрального круга */
-      --dur: .5s;
-      position:relative; min-height: 380px; margin-top: 8px;
-      border:1px solid var(--border); border-radius:16px; padding:18px;
-      background: #fff; box-shadow: var(--shadow);
-      overflow: hidden;
+    /* --- Инфографика для блока #product (новое) --- */
+    .ingrid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px 16px;
+      margin:6px 0 14px;
     }
-    .orbit:before{
-      content:""; position:absolute; inset:0; pointer-events:none;
-      background: radial-gradient(600px 180px at 50% -80px, #f2e8ff 0%, transparent 65%);
+    .ing{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:10px; border:1px solid var(--border); border-radius:12px; background:#fff;
     }
-    .orbit-core{
-      position:absolute; left:50%; bottom:36px; transform: translateX(-50%);
-      width: var(--core); height: var(--core); border-radius:50%;
-      display:grid; place-items:center; gap:6px;
-      background:linear-gradient(145deg,#f9f5ff,#ece8ff);
-      border:1px solid #d9cdfa; box-shadow: var(--shadow);
-      text-align:center; padding:10px;
+    .ing .chip{
+      display:grid; place-items:center; width:28px; height:28px;
+      border-radius:8px; background:var(--brand); color:#fff; font-weight:800;
     }
-    .packshot--circle{
-      width:70%; aspect-ratio: 1 / 1; border-radius:12px;
-      background:linear-gradient(145deg,#ffffff,#f0eaff); border:1px dashed #cdbbf4;
-      color:#7d62b8; display:grid; place-items:center; font-weight:700;
+    .ing .note{color:var(--muted); font-size:12px}
+    .effects{
+      margin-top:6px;
+      display:grid; gap:12px;
+      grid-template-columns:repeat(2,1fr);
     }
-    .core-caption{font-size:12px; color:#6f5aa4}
+    .effect{
+      border:1px solid var(--border); background:#fff; border-radius:12px; padding:12px;
+      box-shadow: var(--shadow);
+    }
+    .badge{
+      display:inline-flex; align-items:center; padding:6px 10px; border-radius:999px;
+      font-weight:700; font-size:13px; background:#efe7ff; color:#57308a; margin-bottom:6px;
+    }
+    .s{font-size:13px}
 
-    .orbit-items{list-style:none; margin:0; padding:0}
-    .orbit-item{
-      position:absolute; left:50%; bottom: calc(36px + var(--core)/2);
-      transform-origin: 0 calc(var(--R));
-      transform: translateX(-50%) rotate(calc(var(--angle)*1deg)) translateY(calc(-1*var(--R)));
-      opacity:.85; transition: transform var(--dur) ease, opacity var(--dur) ease, filter var(--dur) ease;
-      display:flex; align-items:center; gap:10px;
-    }
-    .orbit.open .orbit-item{
-      transform: translateX(-50%) rotate(calc(var(--angle)*1deg)) translateY(calc(-1*var(--R-open)));
-      opacity:1;
-    }
-    .orbit-item .dot{
-      width:10px; height:10px; border-radius:50%;
-      background: linear-gradient(135deg,var(--brand),var(--brand-2));
-      box-shadow: 0 0 0 3px rgba(106,27,154,.15);
-      flex:0 0 auto;
-    }
-    .orbit-item .label{
-      background:#fff; border:1px solid var(--border); border-radius:999px; padding:6px 10px;
-      font-size:13px; font-weight:700; color:#57308a; white-space:nowrap;
-      box-shadow: var(--shadow); opacity:0; transform: translateY(6px);
-      transition:opacity var(--dur) ease, transform var(--dur) ease;
-    }
-    .orbit.open .orbit-item .label{opacity:1; transform:translateY(0)}
-    .orbit-hint{position:absolute; right:12px; top:12px; font-size:12px; color:var(--muted)}
-    .orbit:hover, .orbit:focus-within{outline:none}
-    .orbit:hover .orbit-item{filter:none}
-    .orbit .orbit-ring{
-      position:absolute; left:50%; bottom: calc(36px + var(--core)/2);
-      width: calc(var(--R-open)*2); height: calc(var(--R-open)+8px);
-      transform: translate(-50%, 8px);
-      border: 1px dashed #d9cdfa; border-top-left-radius: calc(var(--R-open)*2);
-      border-top-right-radius: calc(var(--R-open)*2);
-      border-bottom: none; opacity:.7; pointer-events:none;
-    }
-
-    /* открытие по hover (desktop) */
-    @media (hover:hover){
-      .orbit:not(.open):hover{cursor:pointer}
-      .orbit:not(.open):hover .orbit-item{
-        transform: translateX(-50%) rotate(calc(var(--angle)*1deg)) translateY(calc(-1*var(--R-open)));
-        opacity:1;
-      }
-      .orbit:not(.open):hover .orbit-item .label{opacity:1; transform:translateY(0)}
-    }
-
-    /* Mobile: сразу открыто и колонка вместо дуги (если совсем узко) */
-    @media (max-width: 520px){
-      .orbit{--R: 110px; --R-open: 150px; --core: 110px}
-      .orbit .orbit-ring{display:none}
-      /* на очень узких превращаем в список */
-      .orbit.stack .orbit-item{
-        position:relative; left:auto; bottom:auto; transform:none; margin:10px 0;
-      }
+    /* Mobile */
+    @media (max-width: 980px){
+      .menu{display:none}
+      .burger{display:inline-grid; place-items:center}
+      .hero-grid{grid-template-columns:1fr}
+      .grid-4{grid-template-columns:1fr 1fr}
+      .grid-3,.grid-2,.steps{grid-template-columns:1fr}
+      .ingrid{grid-template-columns:1fr}
+      .effects{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -238,31 +191,101 @@
     </div>
   </section>
 
-  <!-- ===================== ОБНОВЛЁННЫЙ БЛОК О ПРОДУКТЕ ===================== -->
+  <!-- О продукте (ОБНОВЛЁННЫЙ БЛОК С ИНФОГРАФИКОЙ) -->
   <section id="product">
     <div class="container grid-2">
-      <!-- Левая колонка: круглая инфографика -->
-      <div class="card orbit-wrap">
+      <!-- Левая колонка -->
+      <div class="card">
         <h2>О продукте</h2>
-        <p class="muted" style="margin-bottom:14px">
-          Papilocare — негормональный интимный гель для ежедневного бережного ухода: увлажнение,
+        <p class="muted">
+          Papilocare — негормональный интимный гель для ежедневного бережного ухода: увлажнение и
           восстановление кожи и слизистой, снижение сухости, поддержка микрофлоры и комфорт.
         </p>
+        <div class="pill" style="margin:10px 0 14px;">Комбинация 7 активных ингредиентов</div>
 
-        <div class="orbit" id="orbitProduct" tabindex="0" aria-label="Комбинация 7 активных ингредиентов">
-          <div class="orbit-hint">Наведите, чтобы раскрыть</div>
-          <div class="orbit-ring" aria-hidden="true"></div>
-
-          <!-- центральный круг (упаковка) -->
-          <div class="orbit-core" role="img" aria-label="Упаковка Papilocare">
-            <div class="packshot packshot--circle">Pack</div>
-            <div class="core-caption">Комбинация 7 активных ингредиентов</div>
+        <!-- 7 ингредиентов -->
+        <div class="ingrid">
+          <div class="ing">
+            <span class="chip">1</span>
+            <div>
+              <strong>Ниосомы / Фитосомы</strong>
+              <div class="note">Современные носители для доставки активов</div>
+            </div>
           </div>
+          <div class="ing">
+            <span class="chip">2</span>
+            <div>
+              <strong>Гиалуроновая кислота</strong>
+              <div class="note">Удерживает влагу и повышает эластичность</div>
+            </div>
+          </div>
+          <div class="ing">
+            <span class="chip">3</span>
+            <div>
+              <strong>Центелла азиатская</strong>
+              <div class="note">Поддержка заживления (фибробласты, коллаген)</div>
+            </div>
+          </div>
+          <div class="ing">
+            <span class="chip">4</span>
+            <div>
+              <strong>Кориолус пестрый</strong>
+              <div class="note">Антиоксидантная поддержка тканей</div>
+            </div>
+          </div>
+          <div class="ing">
+            <span class="chip">5</span>
+            <div>
+              <strong>BioEcolia® (пребиотик)</strong>
+              <div class="note">Рост и баланс полезной микрофлоры</div>
+            </div>
+          </div>
+          <div class="ing">
+            <span class="chip">6</span>
+            <div>
+              <strong>Экстракт нима</strong>
+              <div class="note">Защитная плёнка, уменьшение дискомфорта</div>
+            </div>
+          </div>
+          <div class="ing">
+            <span class="chip">7</span>
+            <div>
+              <strong>Алоэ вера + ГЭЦ + β-глюкан</strong>
+              <div class="note">Увлажнение, регенерация, комфорт</div>
+            </div>
+          </div>
+        </div>
 
-          <!-- элементы полукруга — JS разложит их по дуге -->
-          <ul class="orbit-items" id="orbitItems">
-            <!-- наполняются из JS -->
-          </ul>
+        <!-- 7 эффектов -->
+        <div class="effects">
+          <div class="effect">
+            <div class="badge">Увлажнение</div>
+            <div class="muted s">Поддерживает гидратацию и эластичность</div>
+          </div>
+          <div class="effect">
+            <div class="badge">Заживление</div>
+            <div class="muted s">Стимулирует фибробласты и синтез коллагена</div>
+          </div>
+          <div class="effect">
+            <div class="badge">Регенерация</div>
+            <div class="muted s">Поддержка реэпителизации и восстановления</div>
+          </div>
+          <div class="effect">
+            <div class="badge">Антиоксидант</div>
+            <div class="muted s">Стабильность структуры и функций слизистых</div>
+          </div>
+          <div class="effect">
+            <div class="badge">Пребиотик</div>
+            <div class="muted s">Баланс полезной микрофлоры</div>
+          </div>
+          <div class="effect">
+            <div class="badge">Антисептик</div>
+            <div class="muted s">Защитная плёнка, меньше дискомфорта</div>
+          </div>
+          <div class="effect">
+            <div class="badge">Восстановление</div>
+            <div class="muted s">Комплексный уход после процедур</div>
+          </div>
         </div>
 
         <p class="muted" style="margin-top:12px; font-size:12px">
@@ -512,7 +535,7 @@
   </div>
 
   <script>
-    // ====== Мобильное меню
+    // Мобильное меню
     const drawer = document.getElementById('drawer');
     const openMenu = document.getElementById('openMenu');
     const closeMenu = document.getElementById('closeMenu');
@@ -520,7 +543,7 @@
     if (closeMenu) closeMenu.addEventListener('click', ()=> drawer.style.display='none');
     document.querySelectorAll('.m-link').forEach(a=>a.addEventListener('click', ()=> drawer.style.display='none'));
 
-    // ====== Видео: показать/скрыть
+    // Видео: показать/скрыть
     const toggleVideoBtn = document.getElementById('toggleVideo');
     const video = document.getElementById('productVideo');
     let videoShown = false;
@@ -528,7 +551,8 @@
       toggleVideoBtn.addEventListener('click', ()=>{
         videoShown = !videoShown;
         if (videoShown) {
-          video.src = "DEMO_URL"; // замените на реальный https://www.youtube.com/embed/XXXXX
+          // вставь реальный URL вместо DEMO_URL (например, https://www.youtube.com/embed/XXXXX)
+          video.src = "DEMO_URL";
           toggleVideoBtn.textContent = "Скрыть видео";
         } else {
           video.src = "about:blank";
@@ -537,82 +561,23 @@
       });
     }
 
-    // ====== Подсветка активного пункта меню
+    // Подсветка активного пункта меню при скролле (простая версия)
     const sections = ['home','product','usage','aesthetic','postpartum','menopause','post-proc','blog','buy']
       .map(id=>document.getElementById(id)).filter(Boolean);
     const menuLinks = [...document.querySelectorAll('.menu a')];
     function onScroll(){
       const y = window.scrollY + 140;
       let current = sections[0]?.id;
-      for (const s of sections){ if (s.offsetTop <= y) current = s.id; }
-      menuLinks.forEach(a=>{ a.style.opacity = a.getAttribute('href') === '#'+current ? '1' : '.75'; });
+      for (const s of sections){
+        if (s.offsetTop <= y) current = s.id;
+      }
+      menuLinks.forEach(a=>{
+        a.style.opacity = a.getAttribute('href') === '#'+current ? '1' : '.75';
+      });
     }
     document.addEventListener('scroll', onScroll, {passive:true});
     onScroll();
-
-    // ====== О ПРОДУКТЕ — анимированная орбита
-    const orbit = document.getElementById('orbitProduct');
-    const list = document.getElementById('orbitItems');
-
-    // 7 компонентов (в нужном порядке полукруга слева-направо)
-    const components = [
-      "Гиалуроновая кислота",
-      "β-глюкан",
-      "Центелла азиатская",
-      "Кориолус пестрый",
-      "BioEcolia® (пребиотик)",
-      "Экстракт нима",
-      "Ниосомы / Фитосомы"
-    ];
-
-    // создаём элементы
-    components.forEach((label, i) => {
-      const li = document.createElement('li');
-      li.className = 'orbit-item';
-      // угол для полукруга (от -90 до +90 с равными интервалами)
-      const start = -90, end = 90;
-      const angle = start + i * ((end - start) / (components.length - 1));
-      li.style.setProperty('--angle', angle.toString());
-
-      // содержимое
-      const dot = document.createElement('span'); dot.className = 'dot';
-      const cap = document.createElement('span'); cap.className = 'label'; cap.textContent = label;
-      li.appendChild(dot); li.appendChild(cap);
-      list.appendChild(li);
-    });
-
-    // авто-раскрытие на мобильных и при попадании в viewport
-    function openOrbit(){ orbit.classList.add('open'); }
-    function closeOrbit(){ orbit.classList.remove('open'); }
-
-    // 1) если устройство без hover (мобильное) — держим открытым
-    const isTouch = matchMedia('(hover: none)').matches;
-    if (isTouch){ openOrbit(); }
-
-    // 2) IntersectionObserver — открыть при скролле в зону видимости
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) openOrbit();
-        else if (!isTouch) closeOrbit(); // на десктопе можно закрывать при уходе
-      });
-    }, {threshold: .35});
-    io.observe(orbit);
-
-    // 3) управление с клавиатуры: фокус = открыть
-    orbit.addEventListener('focus', openOrbit);
-    orbit.addEventListener('blur', ()=>{ if(!isTouch) closeOrbit(); });
-
-    // 4) защита от слишком узких экранов — превращаем орбиту в список
-    function checkStack(){
-      if (window.innerWidth <= 520){
-        orbit.classList.add('stack'); // CSS переведёт элементы в столбик
-        openOrbit();
-      } else {
-        orbit.classList.remove('stack');
-      }
-    }
-    checkStack();
-    window.addEventListener('resize', checkStack, {passive:true});
   </script>
 </body>
 </html>
+
