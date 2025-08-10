@@ -1,380 +1,490 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Hivio — Agent CRM & Process Builder</title>
-<meta name="description" content="Register with email OTP, create a company, invite teammates, and design live business processes with draggable nodes and smart links.">
-
-<!-- Tech palette + subtle glow -->
-<style>
-  :root{
-    --bg-0:#0b1020;     /* deep navy */
-    --bg-1:#0f1733;     /* indigo */
-    --panel:rgba(255,255,255,.05);
-    --ring:rgba(255,255,255,.12);
-    --text:#e8eef8;
-    --muted:#9fb0c9;
-    --primary:#6ee7ff;  /* neon cyan */
-    --secondary:#7c7cff;/* electric indigo */
-    --accent:#36d1dc;   /* cyan */
-    --accent2:#5b86e5;  /* blue */
-    --ok:#22c55e; --warn:#f59e0b; --err:#ef4444;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Inter,Arial;color:var(--text);
-    background:
-      radial-gradient(900px 500px at 80% -10%, rgba(108,99,255,.30), transparent 60%),
-      radial-gradient(700px 420px at 10% 10%, rgba(54,209,220,.20), transparent 60%),
-      linear-gradient(180deg,var(--bg-0),var(--bg-1));
-    -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
-  }
-  a{color:inherit}
-  .wrap{max-width:1220px;margin:0 auto;padding:24px 16px 48px}
-
-  .glass{
-    border:1px solid var(--ring);border-radius:16px;background:var(--panel);backdrop-filter:blur(8px);
-    box-shadow:0 10px 40px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.02);
-  }
-
-  /* NAV */
-  .nav{display:flex;align-items:center;justify-content:space-between;padding:10px 14px}
-  .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px}
-  .logo{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;font-weight:900;color:#0a1020;
-    background:linear-gradient(135deg,var(--primary),var(--secondary));
-    box-shadow:0 0 24px rgba(108,99,255,.45), inset 0 0 0 2px rgba(0,0,0,.25);
-  }
-  .btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:12px;border:1px solid var(--ring);
-    background:transparent;color:var(--text);cursor:pointer}
-  .btn.primary{border:none;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#08111f;font-weight:700}
-  .btn:hover{background:rgba(255,255,255,.05)}
-
-  /* LAYOUT */
-  .grid{display:grid;grid-template-columns:340px 1fr;gap:16px;margin-top:16px}
-  @media (max-width:980px){ .grid{grid-template-columns:1fr} }
-
-  .panel{padding:16px}
-  label{font-size:12px;color:var(--muted)}
-  input,select,textarea{
-    width:100%;padding:10px 12px;margin-top:6px;border-radius:12px;border:1px solid var(--ring);
-    background:#0c1428;color:var(--text)
-  }
-  .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .tag{display:inline-block;font-size:12px;padding:4px 8px;border-radius:999px;border:1px solid var(--ring);background:rgba(255,255,255,.05)}
-  .ok{color:var(--ok)} .warn{color:var(--warn)} .err{color:var(--err)}
-  .hidden{display:none}
-
-  /* CANVAS */
-  #canvasWrap{position:relative;height:660px;border:1px dashed var(--ring);border-radius:16px;background:rgba(255,255,255,.03)}
-  svg#edges{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-  .node{
-    position:absolute;min-width:120px;min-height:54px;padding:12px;border-radius:14px;border:1px solid var(--ring);
-    background:#0c1428;box-shadow:0 16px 48px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.03);cursor:grab;transition:.15s transform;
-  }
-  .node:active{cursor:grabbing} .node .title{font-weight:700}
-  .node .pins{position:absolute;inset:auto -8px -8px auto;display:flex;gap:8px}
-  .pin{width:14px;height:14px;border-radius:50%;
-    background:radial-gradient(circle at 30% 30%, #fff, var(--primary) 40%, var(--secondary));
-    border:1px solid #0b1020;box-shadow:0 0 0 2px rgba(0,0,0,.35);cursor:crosshair}
-
-  .toolbar{display:flex;gap:8px;flex-wrap:wrap}
-  .palette{display:flex;gap:8px;flex-wrap:wrap}
-  .dot{width:18px;height:18px;border-radius:999px;border:1px solid var(--ring);cursor:pointer}
-  .section-title{margin:0 0 10px;font-size:18px;opacity:.9}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Papilocare — Интимный гель для увлажнения и восстановления</title>
+  <meta name="description" content="Papilocare — интимный гель: увлажнение, восстановление, поддержка микрофлоры. Подходит после родов, в менопаузу, после процедур.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#18161a;
+      --muted:#6b6b76;
+      --brand:#6A1B9A;          /* фиолетовый бренда */
+      --brand-2:#9C27B0;        /* лиловый */
+      --accent:#009688;         /* бирюзовый акцент */
+      --wash:#F5F3FF;           /* светлый лиловый фон секций */
+      --card:#ffffff;
+      --ring:rgba(106,27,154,.25);
+      --border:#ececf5;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text); background:var(--bg);
+    }
+    a{color:var(--brand); text-decoration:none}
+    .container{max-width:1120px; margin:0 auto; padding:0 20px}
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:50; background:rgba(255,255,255,.8);
+      backdrop-filter: saturate(180%) blur(10px); border-bottom:1px solid var(--border);
+    }
+    .nav{display:flex; align-items:center; justify-content:space-between; height:68px}
+    .logo{display:flex; align-items:center; gap:10px; font-weight:700; color:var(--brand)}
+    .logo-badge{width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,var(--brand),var(--brand-2))}
+    .menu{display:flex; gap:18px; align-items:center; flex-wrap:wrap}
+    .menu a{color:#222; font-weight:600; font-size:14px; opacity:.9}
+    .menu a:hover{color:var(--brand)}
+    .burger{display:none; width:40px; height:40px; border:1px solid var(--border); border-radius:10px; background:#fff}
+    /* Hero */
+    .hero{padding:56px 0 24px; background:radial-gradient(1200px 400px at 50% -100px, #f3e9ff 0%, #fff 65%)}
+    .hero-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:36px; align-items:center}
+    h1{font-size:44px; line-height:1.1; margin:0 0 12px}
+    .lead{font-size:18px; color:#3b3b44; margin:0 0 22px}
+    .actions{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      height:46px; padding:0 18px; border-radius:12px; border:1px solid transparent;
+      font-weight:700; cursor:pointer; transition:.2s transform,.2s box-shadow,.2s background;
+    }
+    .btn-primary{background:var(--brand); color:#fff; box-shadow:var(--shadow)}
+    .btn-primary:hover{transform:translateY(-1px); box-shadow:0 12px 30px rgba(106,27,154,.25)}
+    .btn-ghost{border-color:var(--brand); color:var(--brand); background:#ffffff}
+    .hero-card{
+      background:var(--card); border:1px solid var(--border); border-radius:16px; padding:18px;
+      box-shadow:var(--shadow)
+    }
+    .packshot{
+      width:100%; aspect-ratio: 4 / 5; border-radius:12px;
+      background:linear-gradient(145deg,#f9f5ff,#ece8ff); border:1px dashed #d9cdfa;
+      display:grid; place-items:center; color:#7d62b8; font-weight:600
+    }
+    /* Sections */
+    section{padding:56px 0}
+    section.alt{background:var(--wash)}
+    h2{margin:0 0 18px; font-size:32px}
+    .muted{color:var(--muted)}
+    .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:28px}
+    .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+    .grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:18px}
+    .card{
+      background:var(--card); border:1px solid var(--border); border-radius:14px; padding:18px;
+      box-shadow:var(--shadow)
+    }
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-size:12px; background:#efe7ff; color:#57308a}
+    /* Video toggle */
+    .video-wrap{position:relative; border-radius:14px; overflow:hidden; border:1px solid var(--border)}
+    .video-toggle{margin-top:10px}
+    /* Audience cards */
+    .aud-card{cursor:pointer; border:1px solid var(--border); border-radius:14px; padding:16px; background:#fff; transition:.2s transform,.2s box-shadow}
+    .aud-card:hover{transform:translateY(-2px); box-shadow:var(--shadow)}
+    .aud-card h3{margin:0 0 6px; font-size:18px}
+    /* Steps */
+    .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+    .step{border:1px solid var(--border); border-radius:14px; padding:16px; background:#fff}
+    .step .n{width:28px; height:28px; border-radius:8px; background:var(--brand); color:#fff; display:grid; place-items:center; font-weight:700; margin-bottom:8px}
+    /* FAQ */
+    details{border:1px solid var(--border); border-radius:12px; padding:12px 14px; background:#fff}
+    details summary{cursor:pointer; font-weight:700}
+    details+details{margin-top:10px}
+    /* Sticky Buy button */
+    .sticky-buy{
+      position:fixed; right:18px; bottom:22px; z-index:60; display:flex; flex-direction:column; gap:10px;
+    }
+    .fab{
+      background:linear-gradient(135deg,var(--accent),#00b3a3); color:#fff; border:none; border-radius:14px;
+      height:50px; padding:0 16px; display:flex; align-items:center; gap:10px; box-shadow:0 14px 30px rgba(0,150,136,.3);
+      font-weight:800; cursor:pointer
+    }
+    .fab.secondary{background:#fff; color:var(--brand); border:1px solid var(--border)}
+    /* Footer */
+    footer{background:#0f0d13; color:#e9e7ef; padding:40px 0}
+    .partners{display:flex; gap:12px; flex-wrap:wrap; align-items:center}
+    .logo-chip{width:80px; height:40px; border-radius:10px; background:#2a2533; border:1px solid #3a3444}
+    /* Mobile */
+    @media (max-width: 980px){
+      .menu{display:none}
+      .burger{display:inline-grid; place-items:center}
+      .hero-grid{grid-template-columns:1fr}
+      .grid-4{grid-template-columns:1fr 1fr}
+      .grid-3,.grid-2,.steps{grid-template-columns:1fr}
+    }
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <!-- NAV -->
-  <div class="glass nav">
-    <div class="brand"><div class="logo">H</div><span>Hivio · Agent CRM</span></div>
-    <div id="authBox">
-      <button id="btnOpenAuth" class="btn">Sign in / Register</button>
-      <span id="userEmail" class="tag hidden"></span>
-      <button id="btnSignOut" class="btn hidden">Sign out</button>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <div class="logo" aria-label="Papilocare">
+        <div class="logo-badge" aria-hidden="true"></div>
+        Papilocare
+      </div>
+      <nav class="menu" aria-label="Главное меню">
+        <a href="#home">Главная</a>
+        <a href="#product">О продукте</a>
+        <a href="#usage">Применение</a>
+        <a href="#aesthetic">Эстетическая гинекология</a>
+        <a href="#postpartum">После родов</a>
+        <a href="#menopause">Менопауза</a>
+        <a href="#post-proc">После процедур</a>
+        <a href="#blog">Блог</a>
+        <a href="#buy">Где купить</a>
+      </nav>
+      <button class="burger" aria-label="Открыть меню" id="openMenu">☰</button>
     </div>
+  </header>
+
+  <!-- Mobile drawer -->
+  <div id="drawer" style="display:none; position:fixed; inset:0 0 0 auto; width:78%; max-width:360px; background:#fff; border-left:1px solid var(--border); z-index:70; box-shadow: -18px 0 40px rgba(0,0,0,.12);">
+    <div style="padding:16px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border)">
+      <div class="logo" style="font-size:18px"><div class="logo-badge"></div>Papilocare</div>
+      <button class="burger" id="closeMenu" aria-label="Закрыть меню">✕</button>
+    </div>
+    <nav style="display:grid; gap:10px; padding:16px; font-weight:700">
+      <a href="#home" class="m-link">Главная</a>
+      <a href="#product" class="m-link">О продукте</a>
+      <a href="#usage" class="m-link">Применение</a>
+      <a href="#aesthetic" class="m-link">Эстетическая гинекология</a>
+      <a href="#postpartum" class="m-link">После родов</a>
+      <a href="#menopause" class="m-link">Менопауза</a>
+      <a href="#post-proc" class="m-link">После процедур</a>
+      <a href="#blog" class="m-link">Блог</a>
+      <a href="#buy" class="m-link">Где купить</a>
+    </nav>
   </div>
 
-  <div class="grid">
-    <!-- LEFT: AUTH, COMPANY, INSPECTOR -->
-    <div class="glass panel">
-      <h3 class="section-title">Access</h3>
-      <div id="authPanel" class="hidden">
-        <div class="row">
-          <div>
-            <label>Email</label>
-            <input id="inpEmail" type="email" placeholder="you@company.com" />
-          </div>
-          <div style="display:flex;align-items:end"><button id="btnSendCode" class="btn primary">Send code</button></div>
-        </div>
-        <div class="row" style="margin-top:8px">
-          <div>
-            <label>Code from email</label>
-            <input id="inpCode" placeholder="123456" />
-          </div>
-          <div style="display:flex;align-items:end"><button id="btnVerify" class="btn">Verify</button></div>
-        </div>
-        <div id="authMsg" class="tag" style="margin-top:8px"></div>
-      </div>
-
-      <div id="companyPanel" class="hidden" style="margin-top:10px">
-        <h3 class="section-title">Company</h3>
-        <div class="row">
-          <div><label>Company name</label><input id="companyName" placeholder="Hivio LTD" /></div>
-          <div style="display:flex;align-items:end"><button id="btnCreateCompany" class="btn primary">Create</button></div>
-        </div>
-        <div style="margin-top:8px">
-          <label>Invite teammate</label>
-          <div class="row">
-            <input id="inviteEmail" placeholder="teammate@company.com" />
-            <select id="inviteRole"><option>admin</option><option selected>member</option><option>viewer</option></select>
-          </div>
-          <button id="btnInvite" class="btn" style="margin-top:8px">Add</button>
-          <div id="inviteMsg" class="tag" style="margin-top:8px"></div>
-        </div>
-      </div>
-
-      <hr style="border-color:var(--ring);margin:16px 0">
-      <h3 class="section-title">Process Inspector</h3>
-      <div class="toolbar" style="margin-bottom:8px">
-        <button id="btnAddBox" class="btn">Add box</button>
-        <button id="btnAddOval" class="btn">Add oval</button>
-        <button id="btnConnect" class="btn">Connect</button>
-        <button id="btnSave" class="btn primary">Save</button>
-      </div>
-      <div class="palette">
-        <div class="dot" data-color="#6ee7ff" style="background:#6ee7ff"></div>
-        <div class="dot" data-color="#7c7cff" style="background:#7c7cff"></div>
-        <div class="dot" data-color="#22c55e" style="background:#22c55e"></div>
-        <div class="dot" data-color="#f59e0b" style="background:#f59e0b"></div>
-        <div class="dot" data-color="#ef4444" style="background:#ef4444"></div>
-      </div>
-      <div style="margin-top:8px">
-        <label>Title</label><input id="nodeTitle" placeholder="Process step…">
-      </div>
-      <div class="row" style="margin-top:8px">
-        <div><label>Font size</label><input id="fontSize" type="number" value="14"></div>
-        <div><label>Corner radius</label><input id="radius" type="number" value="14"></div>
-      </div>
-    </div>
-
-    <!-- RIGHT: CANVAS -->
-    <div class="glass panel">
-      <h3 class="section-title" style="display:flex;align-items:center;justify-content:space-between">
-        Business Process <span id="saveStatus" class="tag">not saved</span>
-      </h3>
-      <div id="canvasWrap">
-        <svg id="edges"></svg>
-      </div>
-      <p class="tag" style="margin-top:8px">Drag nodes · Select to edit · Click “Connect”, then source → target.</p>
-    </div>
-  </div>
-
-  <div class="glass panel" style="margin-top:16px">
-    <h3 class="section-title">Company CRM</h3>
-    <div class="row">
-      <div><label>About</label><textarea id="about" rows="3" placeholder="What the company does…"></textarea></div>
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="container hero-grid">
       <div>
-        <label>Website</label><input id="website" placeholder="https://" />
-        <label style="margin-top:8px;display:block">Industry</label><input id="industry" placeholder="SaaS / e-commerce / manufacturing…" />
+        <span class="pill">Интимный гель • 7 одноразовых канюль × 5 мл</span>
+        <h1>Увлажнение, восстановление и комфорт — каждый день</h1>
+        <p class="lead">
+          Papilocare помогает улучшить состояние кожи и слизистой интимной зоны, уменьшить сухость,
+          поддержать баланс микрофлоры и способствует естественному заживлению микроповреждений.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="UTEKA_LINK" target="_blank" rel="noopener">Где купить</a>
+          <a class="btn btn-ghost" href="#product">Подробнее о продукте</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="packshot">Здесь фото упаковки</div>
+        <div style="display:flex; gap:8px; margin-top:14px; flex-wrap:wrap">
+          <span class="pill">Эстетическая гинекология</span>
+          <span class="pill">После родов</span>
+          <span class="pill">Менопауза</span>
+          <span class="pill">После процедур</span>
+        </div>
       </div>
     </div>
-    <div class="row" style="margin-top:8px">
-      <div><label>Headcount</label><input id="headcount" type="number" placeholder="25" /></div>
-      <div><label>HQ</label><input id="hq" placeholder="London, UK" /></div>
+  </section>
+
+  <!-- About + Video -->
+  <section id="product">
+    <div class="container grid-2">
+      <div class="card">
+        <h2>О продукте</h2>
+        <p class="muted">
+          Формула Papilocare создана для ежедневного бережного ухода: увлажнение и восстановление слизистой,
+          снижение ощущений сухости, поддержка нормальной микрофлоры. Может рекомендоваться в период
+          менопаузы, после родов и в период лактации, после косметических и терапевтических процедур.
+        </p>
+        <ul>
+          <li>Помогает естественному заживлению при микроповреждениях</li>
+          <li>Может использоваться после депиляции и лазерных процедур</li>
+          <li>Поддерживает комфорт и ощущение ухоженности</li>
+        </ul>
+        <div style="margin-top:12px" class="pill">Клинические данные и активные компоненты</div>
+      </div>
+      <div>
+        <div class="video-wrap">
+          <!-- Замените src на реальную ссылку YouTube/Vimeo -->
+          <iframe id="productVideo" title="Видео о продукте" width="100%" height="300" src="about:blank" loading="lazy" style="border:0"></iframe>
+        </div>
+        <button class="btn btn-ghost video-toggle" id="toggleVideo">Показать видео</button>
+        <p class="muted" style="margin-top:8px">Видео-блок можно скрыть / показать</p>
+      </div>
     </div>
+  </section>
+
+  <!-- Benefits -->
+  <section class="alt">
+    <div class="container">
+      <h2>Преимущества</h2>
+      <div class="grid-4">
+        <div class="card">
+          <h3>Увлажняет и восстанавливает</h3>
+          <p class="muted">Создан для ежедневного комфорта и мягкого ухода за слизистой.</p>
+        </div>
+        <div class="card">
+          <h3>Поддерживает микрофлору</h3>
+          <p class="muted">Помогает поддерживать баланс микробиоты интимной зоны.</p>
+        </div>
+        <div class="card">
+          <h3>Снижает сухость</h3>
+          <p class="muted">Помогает уменьшить дискомфорт и ощущение сухости.</p>
+        </div>
+        <div class="card">
+          <h3>Клинические данные</h3>
+          <p class="muted">Визуальные акценты: «7 активных компонентов», «% улучшения».</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Audience -->
+  <section id="audiences">
+    <div class="container">
+      <h2>Для кого подходит</h2>
+      <div class="grid-4">
+        <a class="aud-card" href="#aesthetic" aria-label="Эстетическая гинекология и anti-age">
+          <h3>Эстетическая гинекология</h3>
+          <p class="muted">Бьюти-сегмент 18+</p>
+        </a>
+        <a class="aud-card" href="#postpartum" aria-label="Уход после родов">
+          <h3>После родов</h3>
+          <p class="muted">Период лактации 20–40 лет</p>
+        </a>
+        <a class="aud-card" href="#menopause" aria-label="Забота в период менопаузы">
+          <h3>Менопауза</h3>
+          <p class="muted">Поддержка комфорта 45+</p>
+        </a>
+        <a class="aud-card" href="#post-proc" aria-label="Восстановление после процедур">
+          <h3>После процедур</h3>
+          <p class="muted">Терапевтические и хирургические</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Usage scheme -->
+  <section id="usage" class="alt">
+    <div class="container">
+      <h2>Схема применения</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="n">1</div>
+          <strong>Откройте одноразовую канюлю</strong>
+          <p class="muted">Подготовьте средство согласно инструкции.</p>
+        </div>
+        <div class="step">
+          <div class="n">2</div>
+          <strong>Нанесите согласно инструкции</strong>
+          <p class="muted">Соблюдайте рекомендуемый способ применения.</p>
+        </div>
+        <div class="step">
+          <div class="n">3</div>
+          <strong>Используйте ежедневно</strong>
+          <p class="muted">Для поддержания комфорта и увлажнения.</p>
+        </div>
+      </div>
+      <div style="margin-top:14px">
+        <a class="btn btn-ghost" href="INSTRUCTION_PDF" target="_blank" rel="noopener">Скачать инструкцию (PDF)</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep sections for each audience (anchors for menu) -->
+  <section id="aesthetic">
+    <div class="container grid-2">
+      <div class="card">
+        <h2>Эстетическая гинекология и anti-age</h2>
+        <p class="muted">Поддержка ухода после процедур депиляции, лазера, косметических вмешательств.</p>
+      </div>
+      <div class="card">
+        <h3>Полезная информация</h3>
+        <ul class="muted">
+          <li>Рекомендации по уходу после процедур</li>
+          <li>Как сохранить ощущение комфорта ежедневно</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="postpartum" class="alt">
+    <div class="container grid-2">
+      <div class="card">
+        <h2>Комфорт после родов и в период лактации</h2>
+        <p class="muted">Бережный ежедневный уход в деликатный период.</p>
+      </div>
+      <div class="card">
+        <h3>Рекомендации</h3>
+        <ul class="muted">
+          <li>Как мягко восстановить ощущение комфорта</li>
+          <li>Что учитывать при ежедневном уходе</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="menopause">
+    <div class="container grid-2">
+      <div class="card">
+        <h2>Забота в период менопаузы</h2>
+        <p class="muted">Поддержка увлажнения и снижение сухости.</p>
+      </div>
+      <div class="card">
+        <h3>Рекомендации</h3>
+        <ul class="muted">
+          <li>Ежедневные привычки комфорта</li>
+          <li>Поддержка естественного баланса</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="post-proc" class="alt">
+    <div class="container grid-2">
+      <div class="card">
+        <h2>Восстановление после процедур</h2>
+        <p class="muted">Период после терапевтических и хирургических вмешательств.</p>
+      </div>
+      <div class="card">
+        <h3>Полезно знать</h3>
+        <ul class="muted">
+          <li>Роль мягкого увлажнения и ухода</li>
+          <li>Когда обратиться к специалисту</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download -->
+  <section class="alt" id="docs">
+    <div class="container">
+      <h2>Документы</h2>
+      <p class="muted">Здесь можно скачать листок-вкладыш и общую характеристику препарата (ОХЛП).</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="INSTRUCTION_PDF" target="_blank" rel="noopener">Скачать инструкцию (PDF)</a>
+        <a class="btn btn-ghost" href="OCHLP_PDF" target="_blank" rel="noopener">Скачать ОХЛП (PDF)</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <h2>Вопрос-ответ</h2>
+      <details>
+        <summary>Кому подходит Papilocare?</summary>
+        <p class="muted">Женщинам 18+, в т.ч. после родов, в менопаузу, после косметических и терапевтических процедур.</p>
+      </details>
+      <details>
+        <summary>Можно ли использовать ежедневно?</summary>
+        <p class="muted">Да, согласно инструкции, для поддержания комфорта и увлажнения.</p>
+      </details>
+      <details>
+        <summary>Совместим ли с другими средствами?</summary>
+        <p class="muted">Смотрите инструкцию и рекомендации специалиста.</p>
+      </details>
+      <details>
+        <summary>Есть ли клинические данные?</summary>
+        <p class="muted">Да. На сайте предусмотрены акценты: «7 активных компонентов», «% улучшения».</p>
+      </details>
+      <details>
+        <summary>Где купить?</summary>
+        <p class="muted">Нажмите «Где купить» — вы перейдёте к списку аптек/карте.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Where to buy -->
+  <section id="buy" class="alt">
+    <div class="container grid-2">
+      <div class="card">
+        <h2>Где купить</h2>
+        <p class="muted">Нажмите кнопку ниже — откроется список аптек (Uteka) или карта.</p>
+        <a class="btn btn-primary" href="UTEKA_LINK" target="_blank" rel="noopener">Перейти к аптекам</a>
+      </div>
+      <div class="card" aria-hidden="true">
+        <div class="packshot" style="aspect-ratio: 16 / 9; color:#5a3c99">Здесь будет карта</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container grid-2">
+      <div>
+        <div class="logo" style="color:#fff"><div class="logo-badge"></div>Papilocare</div>
+        <p class="muted" style="color:#b7b0c6; margin-top:10px">
+          Информация для конечных потребителей. При необходимости проконсультируйтесь со специалистом.
+        </p>
+      </div>
+      <div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
+          <strong>В партнёрстве с акушерами-гинекологами</strong>
+        </div>
+        <div class="partners" aria-label="Логотипы партнёров (заглушки)">
+          <div class="logo-chip"></div>
+          <div class="logo-chip"></div>
+          <div class="logo-chip"></div>
+          <div class="logo-chip"></div>
+        </div>
+      </div>
+    </div>
+    <div class="container" style="margin-top:18px; border-top:1px solid #2a2533; padding-top:14px; font-size:13px; color:#a79fb6">
+      © 2025 Papilocare • Все права защищены
+    </div>
+  </footer>
+
+  <!-- Sticky floating actions -->
+  <div class="sticky-buy">
+    <a class="fab" href="UTEKA_LINK" target="_blank" rel="noopener" aria-label="Где купить">🛒 Где купить</a>
+    <a class="fab secondary" href="INSTRUCTION_PDF" target="_blank" rel="noopener" aria-label="Скачать инструкцию">⬇️ Инструкция</a>
   </div>
 
-  <p style="text-align:center;color:var(--muted);margin-top:12px">© Hivio LTD · The future runs on AI agents</p>
-</div>
+  <script>
+    // Мобильное меню
+    const drawer = document.getElementById('drawer');
+    const openMenu = document.getElementById('openMenu');
+    const closeMenu = document.getElementById('closeMenu');
+    if (openMenu) openMenu.addEventListener('click', ()=> drawer.style.display='block');
+    if (closeMenu) closeMenu.addEventListener('click', ()=> drawer.style.display='none');
+    document.querySelectorAll('.m-link').forEach(a=>a.addEventListener('click', ()=> drawer.style.display='none'));
 
-<!-- App (Supabase + canvas) -->
-<script type="module">
-  // ====== CONFIG: put your own Supabase keys here ======
-  const SUPABASE_URL  = "https://YOUR-PROJECT-ref.supabase.co";
-  const SUPABASE_ANON = "YOUR-ANON-PUBLIC-KEY";
-  // =====================================================
-  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-  const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
-
-  // Shortcuts for DOM
-  const $ = (id)=>document.getElementById(id);
-  const authPanel = $("authPanel"), btnOpenAuth = $("btnOpenAuth"), btnSendCode = $("btnSendCode"),
-        btnVerify = $("btnVerify"), btnSignOut = $("btnSignOut"), inpEmail = $("inpEmail"),
-        inpCode = $("inpCode"), authMsg = $("authMsg"), userEmail = $("userEmail"),
-        companyPanel = $("companyPanel"), companyName = $("companyName"),
-        btnCreateCompany = $("btnCreateCompany"), inviteEmail = $("inviteEmail"),
-        inviteRole = $("inviteRole"), btnInvite = $("btnInvite"), inviteMsg = $("inviteMsg"),
-        canvasWrap = $("canvasWrap"), edgesSvg = $("edges"),
-        nodeTitle = $("nodeTitle"), fontSize = $("fontSize"), radius = $("radius"),
-        btnAddBox = $("btnAddBox"), btnAddOval = $("btnAddOval"),
-        btnConnect = $("btnConnect"), btnSave = $("btnSave"), saveStatus = $("saveStatus");
-
-  // Palette
-  let currentColor = "#6ee7ff";
-  document.querySelectorAll('.dot').forEach(d => d.onclick = () => {
-    currentColor = d.dataset.color;
-    if (selected) { const n = get(selected.dataset.id); n.color = currentColor; draw(); dirty(); }
-  });
-
-  // Auth
-  btnOpenAuth.onclick = ()=> authPanel.classList.toggle("hidden");
-  btnSendCode.onclick = async ()=>{
-    authMsg.textContent="Sending code…";
-    const { error } = await sb.auth.signInWithOtp({ email: inpEmail.value, options:{ shouldCreateUser:true } });
-    authMsg.textContent = error ? `Error: ${error.message}` : "Code sent. Check inbox.";
-  };
-  btnVerify.onclick = async ()=>{
-    authMsg.textContent="Verifying…";
-    const { error } = await sb.auth.verifyOtp({ email: inpEmail.value, token: inpCode.value, type:"email" });
-    authMsg.textContent = error ? `Error: ${error.message}` : "Verified!";
-    await refresh();
-  };
-  btnSignOut.onclick = async ()=>{ await sb.auth.signOut(); location.reload(); };
-
-  // Session & default company
-  let activeCompany=null, currentUserId=null, diagramId=null;
-  async function refresh(){
-    const { data:{ user } } = await sb.auth.getUser();
-    if (user){
-      currentUserId = user.id;
-      userEmail.textContent = user.email; userEmail.classList.remove("hidden");
-      btnSignOut.classList.remove("hidden"); btnOpenAuth.classList.add("hidden");
-      authPanel.classList.add("hidden"); companyPanel.classList.remove("hidden");
-
-      const { data: comps } = await sb.from('companies').select('id,name').eq('owner', user.id).limit(1);
-      if (comps?.length){ activeCompany = comps[0]; await loadDiagram(); }
+    // Видео: показать/скрыть
+    const toggleVideoBtn = document.getElementById('toggleVideo');
+    const video = document.getElementById('productVideo');
+    let videoShown = false;
+    if (toggleVideoBtn) {
+      toggleVideoBtn.addEventListener('click', ()=>{
+        videoShown = !videoShown;
+        if (videoShown) {
+          // вставь реальный URL вместо DEMO_URL (например, https://www.youtube.com/embed/XXXXX)
+          video.src = "DEMO_URL";
+          toggleVideoBtn.textContent = "Скрыть видео";
+        } else {
+          video.src = "about:blank";
+          toggleVideoBtn.textContent = "Показать видео";
+        }
+      });
     }
-  }
-  await refresh();
 
-  // Company & invites
-  btnCreateCompany.onclick = async ()=>{
-    if (!companyName.value.trim()) return;
-    const { data:{user} } = await sb.auth.getUser();
-    const { data, error } = await sb.from('companies').insert({
-      owner:user.id, name:companyName.value.trim()
-    }).select('id,name').single();
-    if (error) return alert(error.message);
-    activeCompany = data; alert("Company created"); await loadDiagram();
-  };
-  btnInvite.onclick = async ()=>{
-    if (!activeCompany) return inviteMsg.textContent="Create a company first.";
-    const { data:{user} } = await sb.auth.getUser();
-    const { error } = await sb.from('memberships').upsert({
-      company_id: activeCompany.id,
-      user_id: user.id,          // NOTE: для настоящих инвайтов позже подменим на приглашённого user_id
-      user_email: inviteEmail.value.trim(),
-      role: inviteRole.value
-    });
-    inviteMsg.textContent = error ? `Error: ${error.message}` : "Invitation recorded.";
-  };
-
-  // Diagram editor
-  let nodes=[], edges=[], selected=null, connecting=false;
-  const uid=()=>Math.random().toString(36).slice(2,9);
-
-  function addNode(shape='box'){
-    const n={id:uid(),x:40+nodes.length*14,y:40+nodes.length*14,w:180,h:70,shape,
-             title:shape==='box'?'Step':'Decision',color:currentColor,fs:14,rad:shape==='box'?14:24};
-    nodes.push(n); mount(n); draw();
-  }
-  function mount(n){
-    const el=document.createElement('div'); el.className='node glass'; el.dataset.id=n.id;
-    el.style.left=n.x+'px'; el.style.top=n.y+'px'; el.style.width=n.w+'px'; el.style.height=n.h+'px';
-    el.style.borderColor=n.color; el.style.borderRadius=n.rad+'px';
-    el.innerHTML=`<div class="title" style="font-size:${n.fs}px">${n.title}</div>
-                  <div class="pins"><div class="pin" title="connect"></div></div>`;
-    canvasWrap.appendChild(el);
-    n.el=el; enableDrag(el);
-    el.onclick=(e)=>{ if(e.target.classList.contains('pin'))return; select(el); };
-    el.querySelector('.pin').onclick=(e)=>{ e.stopPropagation(); startConnect(el); };
-  }
-  function select(el){
-    selected?.classList.remove('selected');
-    selected=el; const n=get(el.dataset.id);
-    nodeTitle.value=n.title; fontSize.value=n.fs; radius.value=n.rad;
-  }
-  function get(id){ return nodes.find(n=>n.id===id); }
-
-  function enableDrag(el){
-    let sx,sy,ox,oy;
-    el.addEventListener('pointerdown',e=>{
-      if(e.button!==0)return; sx=e.clientX; sy=e.clientY; ox=parseInt(el.style.left); oy=parseInt(el.style.top);
-      el.setPointerCapture(e.pointerId);
-      const move=(ev)=>{ el.style.left=(ox+ev.clientX-sx)+'px'; el.style.top=(oy+ev.clientY-sy)+'px'; draw(); };
-      const up=()=>{ el.releasePointerCapture(e.pointerId); document.removeEventListener('pointermove',move); document.removeEventListener('pointerup',up);
-        const n=get(el.dataset.id); n.x=parseInt(el.style.left); n.y=parseInt(el.style.top); dirty(); };
-      document.addEventListener('pointermove',move); document.addEventListener('pointerup',up);
-    });
-  }
-  function startConnect(fromEl){
-    if(!connecting){ connecting=fromEl; btnConnect.classList.add('active'); }
-    else { const a=connecting.dataset.id, b=fromEl.dataset.id; if(a!==b) edges.push({id:uid(),from:a,to:b});
-           connecting=false; btnConnect.classList.remove('active'); draw(); dirty(); }
-  }
-  function draw(){
-    // nodes
-    nodes.forEach(n=>{
-      if(!n.el)return; n.el.style.borderColor=n.color; n.el.style.borderRadius=n.rad+'px';
-      n.el.querySelector('.title').textContent=n.title; n.el.querySelector('.title').style.fontSize=n.fs+'px';
-    });
-    // edges
-    edgesSvg.innerHTML='';
-    const NS='http://www.w3.org/2000/svg';
-    if(!document.getElementById('defs')){
-      const defs=document.createElementNS(NS,'defs'); defs.id='defs';
-      const g=document.createElementNS(NS,'linearGradient'); g.id='wire'; g.setAttribute('x1','0%'); g.setAttribute('x2','100%');
-      const s1=document.createElementNS(NS,'stop'); s1.setAttribute('offset','0%'); s1.setAttribute('stop-color', '#6ee7ff');
-      const s2=document.createElementNS(NS,'stop'); s2.setAttribute('offset','100%'); s2.setAttribute('stop-color','#7c7cff');
-      g.appendChild(s1); g.appendChild(s2); defs.appendChild(g); edgesSvg.appendChild(defs);
+    // Подсветка активного пункта меню при скролле (простая версия)
+    const sections = ['home','product','usage','aesthetic','postpartum','menopause','post-proc','blog','buy']
+      .map(id=>document.getElementById(id)).filter(Boolean);
+    const menuLinks = [...document.querySelectorAll('.menu a')];
+    function onScroll(){
+      const y = window.scrollY + 140;
+      let current = sections[0]?.id;
+      for (const s of sections){
+        if (s.offsetTop <= y) current = s.id;
+      }
+      menuLinks.forEach(a=>{
+        a.style.opacity = a.getAttribute('href') === '#'+current ? '1' : '.75';
+      });
     }
-    edges.forEach(e=>{
-      const A=get(e.from), B=get(e.to); if(!A||!B)return;
-      const ax=A.x+A.w, ay=A.y+A.h/2, bx=B.x, by=B.y+B.h/2, mid=(ax+bx)/2;
-      const p=document.createElementNS(NS,'path');
-      p.setAttribute('d',`M${ax},${ay} C ${mid},${ay} ${mid},${by} ${bx},${by}`);
-      p.setAttribute('fill','none'); p.setAttribute('stroke','url(#wire)'); p.setAttribute('stroke-width','3'); p.setAttribute('opacity','.95');
-      edgesSvg.appendChild(p);
-    });
-  }
-
-  // Inspector bindings
-  btnAddBox.onclick=()=>addNode('box');
-  btnAddOval.onclick=()=>addNode('oval');
-  btnConnect.onclick=()=>{ connecting=false; };
-  nodeTitle.oninput=()=>{ if(!selected)return; const n=get(selected.dataset.id); n.title=nodeTitle.value; draw(); dirty(); };
-  fontSize.oninput=()=>{ if(!selected)return; const n=get(selected.dataset.id); n.fs=+fontSize.value; draw(); dirty(); };
-  radius.oninput=()=>{ if(!selected)return; const n=get(selected.dataset.id); n.rad=+radius.value; draw(); dirty(); };
-
-  // Save / load
-  function dirty(){ saveStatus.textContent='unsaved changes'; }
-  function clearCanvas(){ [...canvasWrap.querySelectorAll('.node')].forEach(n=>n.remove()); edgesSvg.innerHTML=''; }
-  function restore(){ clearCanvas(); nodes.forEach(n=>mount(n)); draw(); }
-
-  async function loadDiagram(){
-    if(!activeCompany) return;
-    const { data } = await sb.from('diagrams').select('id,payload').eq('company_id',activeCompany.id).limit(1).maybeSingle();
-    if(data){ diagramId=data.id; nodes=data.payload.nodes||[]; edges=data.payload.edges||[]; restore(); }
-    else { nodes=[]; edges=[]; clearCanvas(); }
-    saveStatus.textContent='loaded';
-  }
-
-  btnSave.onclick=async ()=>{
-    if(!activeCompany) return alert('Create a company first');
-    const payload={ nodes:nodes.map(n=>({id:n.id,x:n.x,y:n.y,w:n.w,h:n.h,shape:n.shape,title:n.title,color:n.color,fs:n.fs,rad:n.rad})), edges };
-    if(diagramId){
-      const { error } = await sb.from('diagrams').update({ payload, updated_at:new Date().toISOString() }).eq('id',diagramId);
-      if(error) return alert(error.message);
-    }else{
-      const { data, error } = await sb.from('diagrams').insert({ company_id:activeCompany.id, payload }).select('id').single();
-      if(error) return alert(error.message); diagramId=data.id;
-    }
-    saveStatus.textContent='saved ✓';
-  };
-</script>
+    document.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+  </script>
 </body>
 </html>
