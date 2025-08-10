@@ -3,38 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Papilocare — Интимный гель для увлажнения и восстановления</title>
-  <meta name="description" content="Papilocare — интимный гель: увлажнение, восстановление, поддержка микрофлоры. Подходит после родов, в менопаузу, после процедур.">
+  <title>Papilocare — Интимный гель: увлажнение и восстановление</title>
+  <meta name="description" content="Papilocare — негормональный интимный гель для увлажнения и восстановления кожи и слизистой. Комбинация 7 активных компонентов. Подходит после родов, в менопаузу и после процедур.">
   <meta name="color-scheme" content="light dark">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#ffffff;
-      --text:#18161a;
-      --muted:#6b6b76;
-      --brand:#6A1B9A;          /* фиолетовый бренда */
-      --brand-2:#9C27B0;        /* лиловый */
-      --accent:#009688;         /* бирюзовый акцент */
-      --wash:#F5F3FF;           /* светлый лиловый фон секций */
-      --card:#ffffff;
-      --ring:rgba(106,27,154,.25);
-      --border:#ececf5;
-      --shadow:0 10px 30px rgba(0,0,0,.08);
+      --bg:#ffffff; --text:#18161a; --muted:#6b6b76;
+      --brand:#6A1B9A; --brand-2:#9C27B0; --accent:#009688;
+      --wash:#F5F3FF; --border:#ececf5; --shadow:0 10px 30px rgba(0,0,0,.08);
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
-    body{
-      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      color:var(--text); background:var(--bg);
-    }
+    body{margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--text); background:var(--bg)}
     a{color:var(--brand); text-decoration:none}
     .container{max-width:1120px; margin:0 auto; padding:0 20px}
+
     /* Header */
-    header{
-      position:sticky; top:0; z-index:50; background:rgba(255,255,255,.8);
-      backdrop-filter: saturate(180%) blur(10px); border-bottom:1px solid var(--border);
-    }
+    header{position:sticky; top:0; z-index:50; background:rgba(255,255,255,.82); backdrop-filter: blur(10px); border-bottom:1px solid var(--border)}
     .nav{display:flex; align-items:center; justify-content:space-between; height:68px}
     .logo{display:flex; align-items:center; gap:10px; font-weight:700; color:var(--brand)}
     .logo-badge{width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,var(--brand),var(--brand-2))}
@@ -42,29 +28,20 @@
     .menu a{color:#222; font-weight:600; font-size:14px; opacity:.9}
     .menu a:hover{color:var(--brand)}
     .burger{display:none; width:40px; height:40px; border:1px solid var(--border); border-radius:10px; background:#fff}
+
     /* Hero */
-    .hero{padding:56px 0 24px; background:radial-gradient(1200px 400px at 50% -100px, #f3e9ff 0%, #fff 65%)}
+    .hero{padding:56px 0 24px; background:radial-gradient(1200px 420px at 50% -100px, #f3e9ff 0%, #fff 65%)}
     .hero-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:36px; align-items:center}
     h1{font-size:44px; line-height:1.1; margin:0 0 12px}
     .lead{font-size:18px; color:#3b3b44; margin:0 0 22px}
     .actions{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:10px;
-      height:46px; padding:0 18px; border-radius:12px; border:1px solid transparent;
-      font-weight:700; cursor:pointer; transition:.2s transform,.2s box-shadow,.2s background;
-    }
+    .btn{display:inline-flex; align-items:center; justify-content:center; gap:10px; height:46px; padding:0 18px; border-radius:12px; border:1px solid transparent; font-weight:700; cursor:pointer; transition:.2s transform,.2s box-shadow,.2s background}
     .btn-primary{background:var(--brand); color:#fff; box-shadow:var(--shadow)}
     .btn-primary:hover{transform:translateY(-1px); box-shadow:0 12px 30px rgba(106,27,154,.25)}
     .btn-ghost{border-color:var(--brand); color:var(--brand); background:#ffffff}
-    .hero-card{
-      background:var(--card); border:1px solid var(--border); border-radius:16px; padding:18px;
-      box-shadow:var(--shadow)
-    }
-    .packshot{
-      width:100%; aspect-ratio: 4 / 5; border-radius:12px;
-      background:linear-gradient(145deg,#f9f5ff,#ece8ff); border:1px dashed #d9cdfa;
-      display:grid; place-items:center; color:#7d62b8; font-weight:600
-    }
+    .hero-card{background:#fff; border:1px solid var(--border); border-radius:16px; padding:18px; box-shadow:var(--shadow)}
+    .packshot{width:100%; aspect-ratio: 4 / 5; border-radius:12px; background:linear-gradient(145deg,#f9f5ff,#ece8ff); border:1px dashed #d9cdfa; display:grid; place-items:center; color:#7d62b8; font-weight:600}
+
     /* Sections */
     section{padding:56px 0}
     section.alt{background:var(--wash)}
@@ -73,40 +50,65 @@
     .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:28px}
     .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
     .grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:18px}
-    .card{
-      background:var(--card); border:1px solid var(--border); border-radius:14px; padding:18px;
-      box-shadow:var(--shadow)
-    }
+    .card{background:#fff; border:1px solid var(--border); border-radius:14px; padding:18px; box-shadow:var(--shadow)}
     .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-size:12px; background:#efe7ff; color:#57308a}
-    /* Video toggle */
-    .video-wrap{position:relative; border-radius:14px; overflow:hidden; border:1px solid var(--border)}
-    .video-toggle{margin-top:10px}
+
     /* Audience cards */
     .aud-card{cursor:pointer; border:1px solid var(--border); border-radius:14px; padding:16px; background:#fff; transition:.2s transform,.2s box-shadow}
     .aud-card:hover{transform:translateY(-2px); box-shadow:var(--shadow)}
     .aud-card h3{margin:0 0 6px; font-size:18px}
+
     /* Steps */
     .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
     .step{border:1px solid var(--border); border-radius:14px; padding:16px; background:#fff}
     .step .n{width:28px; height:28px; border-radius:8px; background:var(--brand); color:#fff; display:grid; place-items:center; font-weight:700; margin-bottom:8px}
+
     /* FAQ */
     details{border:1px solid var(--border); border-radius:12px; padding:12px 14px; background:#fff}
     details summary{cursor:pointer; font-weight:700}
     details+details{margin-top:10px}
-    /* Sticky Buy button */
-    .sticky-buy{
-      position:fixed; right:18px; bottom:22px; z-index:60; display:flex; flex-direction:column; gap:10px;
-    }
-    .fab{
-      background:linear-gradient(135deg,var(--accent),#00b3a3); color:#fff; border:none; border-radius:14px;
-      height:50px; padding:0 16px; display:flex; align-items:center; gap:10px; box-shadow:0 14px 30px rgba(0,150,136,.3);
-      font-weight:800; cursor:pointer
-    }
+
+    /* Sticky floating actions */
+    .sticky-buy{position:fixed; right:18px; bottom:22px; z-index:60; display:flex; flex-direction:column; gap:10px}
+    .fab{background:linear-gradient(135deg,var(--accent),#00b3a3); color:#fff; border:none; border-radius:14px; height:50px; padding:0 16px; display:flex; align-items:center; gap:10px; box-shadow:0 14px 30px rgba(0,150,136,.3); font-weight:800; cursor:pointer}
     .fab.secondary{background:#fff; color:var(--brand); border:1px solid var(--border)}
+
     /* Footer */
     footer{background:#0f0d13; color:#e9e7ef; padding:40px 0}
     .partners{display:flex; gap:12px; flex-wrap:wrap; align-items:center}
     .logo-chip{width:80px; height:40px; border-radius:10px; background:#2a2533; border:1px solid #3a3444}
+
+    /* --- Инфографика для блока #product (новое) --- */
+    .ingrid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px 16px;
+      margin:6px 0 14px;
+    }
+    .ing{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:10px; border:1px solid var(--border); border-radius:12px; background:#fff;
+    }
+    .ing .chip{
+      display:grid; place-items:center; width:28px; height:28px;
+      border-radius:8px; background:var(--brand); color:#fff; font-weight:800;
+    }
+    .ing .note{color:var(--muted); font-size:12px}
+    .effects{
+      margin-top:6px;
+      display:grid; gap:12px;
+      grid-template-columns:repeat(2,1fr);
+    }
+    .effect{
+      border:1px solid var(--border); background:#fff; border-radius:12px; padding:12px;
+      box-shadow: var(--shadow);
+    }
+    .badge{
+      display:inline-flex; align-items:center; padding:6px 10px; border-radius:999px;
+      font-weight:700; font-size:13px; background:#efe7ff; color:#57308a; margin-bottom:6px;
+    }
+    .s{font-size:13px}
+
     /* Mobile */
     @media (max-width: 980px){
       .menu{display:none}
@@ -114,6 +116,8 @@
       .hero-grid{grid-template-columns:1fr}
       .grid-4{grid-template-columns:1fr 1fr}
       .grid-3,.grid-2,.steps{grid-template-columns:1fr}
+      .ingrid{grid-template-columns:1fr}
+      .effects{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -187,29 +191,117 @@
     </div>
   </section>
 
-  <!-- About + Video -->
+  <!-- О продукте (ОБНОВЛЁННЫЙ БЛОК С ИНФОГРАФИКОЙ) -->
   <section id="product">
     <div class="container grid-2">
+      <!-- Левая колонка -->
       <div class="card">
         <h2>О продукте</h2>
         <p class="muted">
-          Формула Papilocare создана для ежедневного бережного ухода: увлажнение и восстановление слизистой,
-          снижение ощущений сухости, поддержка нормальной микрофлоры. Может рекомендоваться в период
-          менопаузы, после родов и в период лактации, после косметических и терапевтических процедур.
+          Papilocare — негормональный интимный гель для ежедневного бережного ухода: увлажнение и
+          восстановление кожи и слизистой, снижение сухости, поддержка микрофлоры и комфорт.
         </p>
-        <ul>
-          <li>Помогает естественному заживлению при микроповреждениях</li>
-          <li>Может использоваться после депиляции и лазерных процедур</li>
-          <li>Поддерживает комфорт и ощущение ухоженности</li>
-        </ul>
-        <div style="margin-top:12px" class="pill">Клинические данные и активные компоненты</div>
+        <div class="pill" style="margin:10px 0 14px;">Комбинация 7 активных ингредиентов</div>
+
+        <!-- 7 ингредиентов -->
+        <div class="ingrid">
+          <div class="ing">
+            <span class="chip">1</span>
+            <div>
+              <strong>Ниосомы / Фитосомы</strong>
+              <div class="note">Современные носители для доставки активов</div>
+            </div>
+          </div>
+          <div class="ing">
+            <span class="chip">2</span>
+            <div>
+              <strong>Гиалуроновая кислота</strong>
+              <div class="note">Удерживает влагу и повышает эластичность</div>
+            </div>
+          </div>
+          <div class="ing">
+            <span class="chip">3</span>
+            <div>
+              <strong>Центелла азиатская</strong>
+              <div class="note">Поддержка заживления (фибробласты, коллаген)</div>
+            </div>
+          </div>
+          <div class="ing">
+            <span class="chip">4</span>
+            <div>
+              <strong>Кориолус пестрый</strong>
+              <div class="note">Антиоксидантная поддержка тканей</div>
+            </div>
+          </div>
+          <div class="ing">
+            <span class="chip">5</span>
+            <div>
+              <strong>BioEcolia® (пребиотик)</strong>
+              <div class="note">Рост и баланс полезной микрофлоры</div>
+            </div>
+          </div>
+          <div class="ing">
+            <span class="chip">6</span>
+            <div>
+              <strong>Экстракт нима</strong>
+              <div class="note">Защитная плёнка, уменьшение дискомфорта</div>
+            </div>
+          </div>
+          <div class="ing">
+            <span class="chip">7</span>
+            <div>
+              <strong>Алоэ вера + ГЭЦ + β-глюкан</strong>
+              <div class="note">Увлажнение, регенерация, комфорт</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7 эффектов -->
+        <div class="effects">
+          <div class="effect">
+            <div class="badge">Увлажнение</div>
+            <div class="muted s">Поддерживает гидратацию и эластичность</div>
+          </div>
+          <div class="effect">
+            <div class="badge">Заживление</div>
+            <div class="muted s">Стимулирует фибробласты и синтез коллагена</div>
+          </div>
+          <div class="effect">
+            <div class="badge">Регенерация</div>
+            <div class="muted s">Поддержка реэпителизации и восстановления</div>
+          </div>
+          <div class="effect">
+            <div class="badge">Антиоксидант</div>
+            <div class="muted s">Стабильность структуры и функций слизистых</div>
+          </div>
+          <div class="effect">
+            <div class="badge">Пребиотик</div>
+            <div class="muted s">Баланс полезной микрофлоры</div>
+          </div>
+          <div class="effect">
+            <div class="badge">Антисептик</div>
+            <div class="muted s">Защитная плёнка, меньше дискомфорта</div>
+          </div>
+          <div class="effect">
+            <div class="badge">Восстановление</div>
+            <div class="muted s">Комплексный уход после процедур</div>
+          </div>
+        </div>
+
+        <p class="muted" style="margin-top:12px; font-size:12px">
+          Информация может содержать материалы для мед. и фарм. работников. Ознакомьтесь с инструкцией.
+        </p>
+        <div class="actions" style="margin-top:8px">
+          <a class="btn btn-ghost" href="INSTRUCTION_PDF" target="_blank" rel="noopener">Скачать инструкцию (PDF)</a>
+        </div>
       </div>
+
+      <!-- Правая колонка: видео -->
       <div>
-        <div class="video-wrap">
-          <!-- Замените src на реальную ссылку YouTube/Vimeo -->
+        <div class="video-wrap" style="position:relative; border-radius:14px; overflow:hidden; border:1px solid var(--border)">
           <iframe id="productVideo" title="Видео о продукте" width="100%" height="300" src="about:blank" loading="lazy" style="border:0"></iframe>
         </div>
-        <button class="btn btn-ghost video-toggle" id="toggleVideo">Показать видео</button>
+        <button class="btn btn-ghost video-toggle" id="toggleVideo" style="margin-top:10px">Показать видео</button>
         <p class="muted" style="margin-top:8px">Видео-блок можно скрыть / показать</p>
       </div>
     </div>
@@ -222,19 +314,19 @@
       <div class="grid-4">
         <div class="card">
           <h3>Увлажняет и восстанавливает</h3>
-          <p class="muted">Создан для ежедневного комфорта и мягкого ухода за слизистой.</p>
+          <p class="muted">Создан для ежедневного комфорта и мягкого ухода.</p>
         </div>
         <div class="card">
           <h3>Поддерживает микрофлору</h3>
-          <p class="muted">Помогает поддерживать баланс микробиоты интимной зоны.</p>
+          <p class="muted">Помогает поддерживать баланс микробиоты.</p>
         </div>
         <div class="card">
           <h3>Снижает сухость</h3>
-          <p class="muted">Помогает уменьшить дискомфорт и ощущение сухости.</p>
+          <p class="muted">Снимает ощущения дискомфорта и сухости.</p>
         </div>
         <div class="card">
-          <h3>Клинические данные</h3>
-          <p class="muted">Визуальные акценты: «7 активных компонентов», «% улучшения».</p>
+          <h3>Клинические акценты</h3>
+          <p class="muted">«7 активных компонентов», «% улучшения» — как визуальные маркеры.</p>
         </div>
       </div>
     </div>
@@ -292,12 +384,12 @@
     </div>
   </section>
 
-  <!-- Deep sections for each audience (anchors for menu) -->
+  <!-- Deep sections for menu anchors -->
   <section id="aesthetic">
     <div class="container grid-2">
       <div class="card">
         <h2>Эстетическая гинекология и anti-age</h2>
-        <p class="muted">Поддержка ухода после процедур депиляции, лазера, косметических вмешательств.</p>
+        <p class="muted">Поддержка ухода после депиляции, лазера, косметических вмешательств.</p>
       </div>
       <div class="card">
         <h3>Полезная информация</h3>
@@ -357,11 +449,11 @@
     </div>
   </section>
 
-  <!-- Download -->
+  <!-- Documents -->
   <section class="alt" id="docs">
     <div class="container">
       <h2>Документы</h2>
-      <p class="muted">Здесь можно скачать листок-вкладыш и общую характеристику препарата (ОХЛП).</p>
+      <p class="muted">Скачайте листок-вкладыш и общую характеристику препарата (ОХЛП).</p>
       <div class="actions">
         <a class="btn btn-primary" href="INSTRUCTION_PDF" target="_blank" rel="noopener">Скачать инструкцию (PDF)</a>
         <a class="btn btn-ghost" href="OCHLP_PDF" target="_blank" rel="noopener">Скачать ОХЛП (PDF)</a>
