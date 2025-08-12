@@ -1,85 +1,216 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hivio • AI Agent CRM</title>
-  <meta name="description" content="Design business processes with AI-first CRM: blocks, arrows, teams." />
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/crm.css" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Hivio — AI Agents for Business Operations</title>
+<meta name="description" content="Autonomous AI agents that plan, execute, and verify your business processes end‑to‑end." />
+
+<style>
+  :root{
+    --bg-0:#0b1020; --bg-1:#0f1733;
+    --panel:rgba(255,255,255,.06); --ring:rgba(255,255,255,.12);
+    --text:#e8eef8; --muted:#9fb0c9;
+    --c1:#6ee7ff; /* neon cyan */
+    --c2:#7c7cff; /* electric indigo */
+    --c3:#36d1dc; --c4:#5b86e5; /* cyan→blue */
+  }
+  *{box-sizing:border-box} html,body{height:100%}
+  body{
+    margin:0; color:var(--text);
+    font-family: ui-sans-serif, system-ui, Inter, Segoe UI, Roboto, Arial;
+    background:
+      radial-gradient(900px 520px at 80% -10%, rgba(124,124,255,.25), transparent 60%),
+      radial-gradient(680px 420px at 12% 12%, rgba(110,231,255,.18), transparent 60%),
+      linear-gradient(180deg, var(--bg-0), var(--bg-1));
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  }
+  a{color:inherit; text-decoration:none}
+
+  .wrap{max-width:1240px; margin:0 auto; padding:24px 16px 56px}
+
+  .glass{
+    background:var(--panel); backdrop-filter: blur(10px);
+    border:1px solid var(--ring); border-radius:16px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.02);
+  }
+
+  /* NAV */
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:12px 16px}
+  .brand{display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.2px}
+  .logo{
+    width:36px; height:36px; border-radius:12px; display:grid; place-items:center; font-weight:900; color:#07101d;
+    background:linear-gradient(135deg, var(--c1), var(--c2));
+    box-shadow: 0 0 24px rgba(124,124,255,.45), inset 0 0 0 2px rgba(0,0,0,.25);
+  }
+  .nav .actions{display:flex; gap:8px}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; height:40px; padding:0 14px;
+    border-radius:12px; border:1px solid var(--ring); color:var(--text); background:transparent; cursor:pointer;
+    transition:.15s background, .15s transform, .2s box-shadow;
+  }
+  .btn:hover{background:rgba(255,255,255,.06)}
+  .btn.primary{border:none; color:#06101d; font-weight:700;
+    background:linear-gradient(135deg, var(--c3), var(--c4));
+    box-shadow: 0 10px 28px rgba(91,134,229,.33);
+  }
+  .btn.primary:hover{transform:translateY(-1px); box-shadow: 0 16px 36px rgba(91,134,229,.45)}
+
+  /* HERO */
+  .hero{margin-top:18px; padding:38px; border-radius:22px}
+  .badge{display:inline-block; font-size:12px; padding:6px 10px; border-radius:999px;
+         border:1px solid var(--ring); background:rgba(255,255,255,.05)}
+  h1{margin:10px 0 8px; font-size: clamp(30px, 5.5vw, 56px); line-height:1.05}
+  .lead{margin:0 0 18px; color:var(--muted); font-size: clamp(16px, 2.2vw, 19px)}
+  .cta{display:flex; flex-wrap:wrap; gap:10px}
+
+  /* SECTIONS */
+  .grid{display:grid; grid-template-columns:repeat(12,1fr); gap:14px; margin-top:18px}
+  .card{grid-column:span 12; padding:18px; border-radius:16px; border:1px solid var(--ring)}
+  @media(min-width:960px){ .span6{grid-column:span 6} .span4{grid-column: span 4} }
+
+  .list{display:grid; gap:10px}
+  .item{display:flex; gap:10px; align-items:flex-start}
+  .dot{width:18px; height:18px; border-radius:999px; flex:0 0 18px;
+       background:linear-gradient(135deg, var(--c1), var(--c2)); box-shadow:0 0 0 2px rgba(0,0,0,.25)}
+  .tag{display:inline-block; padding:4px 8px; border-radius:999px; border:1px solid var(--ring); background:rgba(255,255,255,.05); font-size:12px}
+
+  /* INTEGRATIONS row (placeholder) */
+  .logos{display:flex; flex-wrap:wrap; gap:10px; opacity:.9}
+  .logo-pill{padding:8px 12px; border-radius:12px; border:1px solid var(--ring); background:rgba(255,255,255,.04); font-size:14px}
+
+  /* FOOTER */
+  footer{margin-top:24px; color:var(--muted); font-size:13px; display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap}
+  footer a{opacity:.85}
+  footer a:hover{text-decoration:underline}
+
+  /* Subtle animated gradient line under hero */
+  .underline{
+    height:2px; margin:14px 0; border-radius:999px;
+    background: linear-gradient(90deg, var(--c3), var(--c4));
+    filter: drop-shadow(0 2px 8px rgba(110,231,255,.25));
+    animation: flow 6s linear infinite;
+    background-size:200% 100%;
+  }
+  @keyframes flow{0%{background-position:0% 0}100%{background-position:200% 0}}
+</style>
 </head>
 <body>
   <div class="wrap">
+    <!-- NAV -->
     <header class="glass nav">
       <div class="brand">
         <div class="logo">H</div>
-        <div class="brand-text">
-          <strong>Hivio</strong><span class="muted"> • Agent CRM</span>
-        </div>
+        <div><strong>Hivio</strong> <span style="opacity:.7">• AI Agent Platform</span></div>
       </div>
       <nav class="actions">
-        <a class="btn ghost" href="login.html">Sign in</a>
-        <a class="btn primary" href="register.html">Create account</a>
+        <a class="btn" href="project/pages/login.html">Sign in</a>
+        <a class="btn primary" href="project/pages/register.html">Register</a>
       </nav>
     </header>
 
-    <main class="grid">
-      <!-- Sidebar -->
-      <aside class="glass panel">
-        <h3 class="section-title">Tools</h3>
-        <div class="toolbar">
-          <button id="addBox" class="btn">Add box</button>
-          <button id="addOval" class="btn">Add oval</button>
-          <button id="connect" class="btn">Connect</button>
-          <button id="clear" class="btn warn">Clear</button>
-        </div>
+    <!-- HERO -->
+    <section class="glass hero">
+      <span class="badge">Autonomous operations</span>
+      <h1>Run your company with AI agents</h1>
+      <p class="lead">
+        Plan → Execute → Verify. Agents orchestrate CRM, finance, support, and analytics.
+        Parallel tasks, zero copy‑paste, measurable outcomes.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="#use-cases">See use cases</a>
+        <a class="btn" href="mailto:hivioinfo@mail.ru?subject=Hivio%20demo">Request a demo</a>
+      </div>
+      <div class="underline" aria-hidden="true"></div>
 
-        <h3 class="section-title" style="margin-top:14px">Inspector</h3>
-        <label>Title</label>
-        <input id="titleInput" placeholder="Process step…" />
-
-        <div class="row">
-          <div>
-            <label>Font size</label>
-            <input id="fontSize" type="number" value="14" />
+      <!-- Two feature cards -->
+      <div class="grid">
+        <div class="glass card span6">
+          <h3 style="margin:0 0 6px">How it works</h3>
+          <div class="list">
+            <div class="item"><div class="dot"></div><p><strong>Understand:</strong> goals & constraints → multi‑step plan.</p></div>
+            <div class="item"><div class="dot"></div><p><strong>Orchestrate:</strong> APIs + browser actions across systems.</p></div>
+            <div class="item"><div class="dot"></div><p><strong>Verify & report:</strong> success criteria, logs, summaries.</p></div>
           </div>
-          <div>
-            <label>Corner radius</label>
-            <input id="radius" type="number" value="14" />
+        </div>
+        <div class="glass card span6">
+          <h3 style="margin:0 0 6px">Why teams choose Hivio</h3>
+          <div class="list">
+            <div class="item"><div class="dot"></div><p><strong>Speed:</strong> parallel execution, no context switching.</p></div>
+            <div class="item"><div class="dot"></div><p><strong>Coverage:</strong> APIs + web for systems without APIs.</p></div>
+            <div class="item"><div class="dot"></div><p><strong>Control:</strong> roles, audit, human‑in‑the‑loop.</p></div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <h3 class="section-title" style="margin-top:14px">Color</h3>
-        <div class="palette">
-          <button class="dot" data-color="#6ee7ff" style="background:#6ee7ff"></button>
-          <button class="dot" data-color="#7c7cff" style="background:#7c7cff"></button>
-          <button class="dot" data-color="#22c55e" style="background:#22c55e"></button>
-          <button class="dot" data-color="#f59e0b" style="background:#f59e0b"></button>
-          <button class="dot" data-color="#ef4444" style="background:#ef4444"></button>
+    <!-- USE CASES -->
+    <section id="use-cases" class="grid" style="margin-top:18px">
+      <div class="glass card span4">
+        <h3 style="margin:0 0 6px">Sales Ops</h3>
+        <p class="lead" style="font-size:15px">Prospecting → CRM updates → quotes → invoices.</p>
+        <span class="tag">Lead‑to‑cash ↓</span>
+      </div>
+      <div class="glass card span4">
+        <h3 style="margin:0 0 6px">Support</h3>
+        <p class="lead" style="font-size:15px">Ticket triage, draft replies, escalations, SLAs.</p>
+        <span class="tag">MTTR ↓</span>
+      </div>
+      <div class="glass card span4">
+        <h3 style="margin:0 0 6px">Finance & BI</h3>
+        <p class="lead" style="font-size:15px">Reconcile data, KPI snapshots, anomaly alerts.</p>
+        <span class="tag">Errors ↓</span>
+      </div>
+    </section>
+
+    <!-- INTEGRATIONS (placeholder pills) -->
+    <section class="glass card" style="margin-top:18px">
+      <h3 style="margin:0 0 10px">Integrations</h3>
+      <div class="logos">
+        <div class="logo-pill">Gmail</div>
+        <div class="logo-pill">Google Sheets</div>
+        <div class="logo-pill">HubSpot</div>
+        <div class="logo-pill">Notion</div>
+        <div class="logo-pill">Stripe</div>
+        <div class="logo-pill">Slack</div>
+      </div>
+    </section>
+
+    <!-- SECURITY & CTA -->
+    <section class="grid" style="margin-top:18px">
+      <div class="glass card span6">
+        <h3 style="margin:0 0 6px">Security & Control</h3>
+        <div class="list">
+          <div class="item"><div class="dot"></div><p>Least‑privilege access, scoped credentials.</p></div>
+          <div class="item"><div class="dot"></div><p>Audit logs and approvals for critical steps.</p></div>
+          <div class="item"><div class="dot"></div><p>SSO/roles, data residency options.</p></div>
         </div>
-
-        <div class="hint">Tip: drag blocks on the canvas. Select a block to edit its title, font, radius and color.</div>
-      </aside>
-
-      <!-- Canvas -->
-      <section class="glass panel">
-        <div class="canvas-head">
-          <h3 class="section-title">Business Process</h3>
-          <div class="tag" id="status">ready</div>
+      </div>
+      <div class="glass card span6">
+        <h3 style="margin:0 0 6px">Ready to try?</h3>
+        <p class="lead" style="font-size:15px">Tell us your process — we’ll convert it to an autonomous agent.</p>
+        <div class="cta">
+          <a class="btn primary" href="project/pages/register.html">Create account</a>
+          <a class="btn" href="mailto:hivioinfo@mail.ru?subject=Hivio%20—%20Contact">Contact sales</a>
         </div>
+      </div>
+    </section>
 
-        <div id="canvas">
-          <svg id="edges"></svg>
-          <!-- nodes rendered by JS -->
-        </div>
-      </section>
-    </main>
-
-    <footer class="foot">
-      © Hivio LTD · The future runs on AI agents
+    <footer style="margin-top:22px">
+      <div>© Hivio LTD · 2025</div>
+      <div><a href="#">Privacy</a> · <a href="#">Terms</a></div>
     </footer>
   </div>
 
-  <script src="js/crm.js" defer></script>
+  <script>
+    // smooth scroll for internal anchors (optional)
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const id=a.getAttribute('href').slice(1);
+        const el=document.getElementById(id);
+        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+      });
+    });
+  </script>
 </body>
 </html>
