@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign in — Hivio LTD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <script defer src="../js/auth.js"></script>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <span class="logo-dot"></span>
+        <span>Hivio LTD</span>
+      </div>
+      <a class="btn-pill" href="./login.html">Client Area</a>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container" style="max-width:520px">
+      <div class="panel neon reveal" data-reveal>
+        <h1 class="tight">Sign in</h1>
+        <p class="muted">Invite‑only. Registration is disabled.</p>
+        <form id="loginForm" class="form-grid">
+          <label class="field">
+            <span>Email</span>
+            <input id="email" type="email" required placeholder="you@company.com" />
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <input id="password" type="password" required placeholder="••••••••" />
+          </label>
+          <button type="submit" class="btn-primary">Sign in</button>
+        </form>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
