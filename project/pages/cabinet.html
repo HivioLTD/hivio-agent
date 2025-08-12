@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio — Hivio LTD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script defer src="../js/cabinet.js"></script>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <span class="logo-dot"></span>
+        <span>Hivio LTD</span>
+      </div>
+      <a class="btn-pill" href="./login.html" id="logoutBtn">Sign out</a>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <h1 class="tight reveal" data-reveal>Portfolio</h1>
+
+      <div class="grid-2">
+        <div class="card neon reveal" data-reveal>
+          <h3>Equity Curve</h3>
+          <canvas id="equityChart" height="120"></canvas>
+        </div>
+        <div class="card neon reveal" data-reveal data-reveal-delay="100">
+          <h3>Sector Allocation</h3>
+          <canvas id="sectorsChart" height="120"></canvas>
+        </div>
+      </div>
+
+      <div class="panel outline reveal" data-reveal>
+        <h3>Positions</h3>
+        <table class="table">
+          <thead>
+            <tr><th>Ticker</th><th>Name</th><th>Weight</th><th>P/L</th></tr>
+          </thead>
+          <tbody id="positionsTable"></tbody>
+        </table>
+        <small class="muted">Demo data — connect your broker later.</small>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
