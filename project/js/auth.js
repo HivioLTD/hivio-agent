@@ -1,10 +1,9 @@
-// Simple local mock auth (replace with real backend later)
+// Hardcoded demo auth: login 5512299, password xxx2000tt
 document.addEventListener('DOMContentLoaded', ()=>{
-  // ensure particles canvas exists
+  // particles background (light)
   if(!document.getElementById('bg')){
     const cv = document.createElement('canvas'); cv.id='bg'; document.body.prepend(cv);
   }
-  // light particles
   (function particles(){
     const c = document.getElementById('bg'); if(!c) return;
     const ctx = c.getContext('2d'); let w,h;
@@ -25,18 +24,22 @@ document.addEventListener('DOMContentLoaded', ()=>{
     })();
   })();
 
+  const VALID_LOGIN = "5512299";
+  const VALID_PASS  = "xxx2000tt";
+
   const form = document.getElementById('loginForm');
   if(!form) return;
 
   form.addEventListener('submit', (e)=>{
     e.preventDefault();
-    const email = document.getElementById('email').value.trim();
+    const login = document.getElementById('login').value.trim();
     const pass  = document.getElementById('password').value.trim();
-    if(email && pass){
-      localStorage.setItem('hivio_auth', JSON.stringify({ email, ts: Date.now() }));
+
+    if(login === VALID_LOGIN && pass === VALID_PASS){
+      localStorage.setItem('hivio_auth', JSON.stringify({ login, ts: Date.now() }));
       window.location.href = './cabinet.html';
     }else{
-      alert('Please enter email and password');
+      alert('Invalid login or password');
     }
   });
 });
