@@ -1,4 +1,4 @@
-/* ===== Hivio — Global Theme ===== */
+/* ===== Hivio — Global Theme (restored) ===== */
 :root{
   --bg:#070b14;
   --panel:#0b0f1a;
@@ -8,29 +8,31 @@
   --accent1:#7df0ff;
   --accent2:#7b61ff;
 
-  /* Dashboard layout (пересчитывается JS-ом на cabinet.html) */
-  --block:160px;                 /* размер квадрата */
-  --gap:40px;                    /* дефолт, JS заменит на block/4 */
+  /* dashboard sizing (для cabinet.html; JS может менять) */
+  --block:160px;
+  --gap:40px;
 }
 
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
-  margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  color:var(--text);
   background:
     radial-gradient(80vw 60vh at 10% 0%, rgba(125,240,255,.08), transparent 60%),
     radial-gradient(80vw 60vh at 90% 100%, rgba(123,97,255,.08), transparent 60%),
     var(--bg);
-  color:var(--text);
-  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 
-/* Containers */
-.section{padding:16px}
 .container{max-width:1100px;margin:0 auto;padding:0 12px}
+.section{padding:16px}
 .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:12px 0}
 
-/* Brand */
+/* ===== Header / Brand / Account (как на cabinet) ===== */
+.nav{position:relative;z-index:50}
 .brand-link{
   display:inline-flex;align-items:center;gap:10px;
   padding:8px 14px;border-radius:12px;text-decoration:none;
@@ -43,7 +45,6 @@ body{
   border-color:transparent;
   box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
   transform:translateY(-1px);
-  color:var(--text);
 }
 .logo-dot{
   width:12px;height:12px;border-radius:50%;
@@ -52,8 +53,6 @@ body{
   display:inline-block;
 }
 
-/* Account dropdown */
-.nav{position:relative;z-index:50}
 .usermenu{position:relative;display:inline-flex;align-items:center;z-index:60}
 .usermenu-toggle{
   display:inline-flex;align-items:center;gap:10px;
@@ -81,8 +80,8 @@ body{
 }
 .userpanel.open{opacity:1;visibility:visible;transform:translateY(0)}
 .userpanel a{
-  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;text-decoration:none;color:var(--text);
-  transition:background .2s,box-shadow .2s;
+  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;
+  text-decoration:none;color:var(--text);transition:background .2s,box-shadow .2s;
 }
 .userpanel a:hover{
   background:linear-gradient(90deg, rgba(125,240,255,.18), rgba(123,97,255,.18));
@@ -102,7 +101,60 @@ body{
 .usercard .title{font-weight:800;line-height:1.1}
 .usercard .sub{font-size:12.5px;color:var(--muted);margin-top:2px}
 
-/* ===== Dashboard grid (5 squares) ===== */
+/* ===== Background canvas (не ловит клики) ===== */
+#bg{position:fixed;inset:0;z-index:-1;pointer-events:none}
+
+/* ===== Forms (login, account) ===== */
+form{margin:0}
+.form{
+  display:grid;gap:12px;align-items:center;
+  grid-template-columns:max-content 1fr; /* Лейбл | поле */
+}
+.form .full{grid-column:1/-1}
+label{font-weight:600}
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+select, textarea{
+  width:100%; max-width:460px;
+  padding:8px 10px;border-radius:8px;border:1px solid var(--border);
+  background:#0d1422;color:var(--text);
+  outline:none; transition:box-shadow .2s,border-color .2s,background .2s;
+}
+textarea{min-height:96px;resize:vertical}
+input:focus, select:focus, textarea:focus{
+  border-color:transparent;
+  box-shadow:0 0 0 3px rgba(125,240,255,.35), 0 0 20px rgba(125,240,255,.25);
+}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 14px;border-radius:12px;border:1px solid var(--border);
+  background:var(--panel);color:var(--text);cursor:pointer;font-weight:700;
+  transition:background .25s,box-shadow .25s,transform .2s,border-color .25s;
+}
+.btn:hover{
+  background:linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
+  border-color:transparent;transform:translateY(-1px);
+  box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
+}
+
+/* маленькие статусы/пилы */
+.pill{ @apply btn; } /* если PostCSS отсутствует, правила выше btn достаточно */
+
+/* ===== Card / Page scaffold ===== */
+.page-wrap{min-height:100dvh;display:grid;place-items:center;padding:72px 16px 24px}
+.card{
+  width:min(980px,94vw);
+  border:1px solid var(--border);border-radius:20px;
+  background:rgba(255,255,255,.02);
+  box-shadow:0 24px 80px -40px rgba(0,0,0,.6);
+  padding:20px;
+}
+.page-title{font-size:clamp(22px,2.6vmax,36px);font-weight:800;margin:0 0 8px}
+.muted{color:var(--muted);font-size:14px}
+
+/* ===== Dashboard (5 blocks) ===== */
 .network{
   position:relative;margin:4px auto 8px;
   width:calc(3 * var(--block) + 2 * var(--gap));
@@ -126,7 +178,6 @@ body{
 .cell[data-id="finance"]   { grid-column:1; grid-row:3 }
 .cell[data-id="portfolio"] { grid-column:3; grid-row:3 }
 
-/* Clickable square (as link) */
 .sq{
   width:var(--block);height:var(--block);
   border-radius:24px;border:1px solid var(--border);
@@ -155,45 +206,16 @@ body{
   box-shadow:0 0 0 3px rgba(125,240,255,.55), 0 0 26px rgba(125,240,255,.25);
   border-color:transparent;
 }
-
 .title{
-  font-weight:800;letter-spacing:.2px;
-  font-size:clamp(18px, 2.3vmin, 28px);
-  position:relative;
+  font-weight:800;letter-spacing:.2px;font-size:clamp(18px, 2.3vmin, 28px);position:relative;
 }
 .title::after{
   content:"";position:absolute;left:50%;bottom:-6px;width:0;height:2px;
   background:linear-gradient(90deg,var(--accent1),var(--accent2));
-  border-radius:2px;transform:translateX(-50%);
-  transition:width .25s ease;
+  border-radius:2px;transform:translateX(-50%);transition:width .25s ease;
 }
 .sq:hover .title::after{width:100%}
 
-/* ===== Shared internal pages UI ===== */
-.top-center{
-  position:fixed;top:12px;left:50%;transform:translateX(-50%);
-  z-index:100;display:flex;align-items:center;gap:8px;
-}
-.pill{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:8px 14px;border-radius:14px;border:1px solid var(--border);
-  background:var(--panel);color:var(--text);text-decoration:none;font-weight:700;
-  transition:background .25s, box-shadow .25s, transform .2s, border-color .25s;
-}
-.pill:hover{
-  background:linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
-  border-color:transparent;
-  box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
-  transform:translateY(-1px);
-}
-.pill:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(125,240,255,.55), 0 0 28px rgba(123,97,255,.35)}
-.page-wrap{min-height:100dvh;display:grid;place-items:center;padding:72px 16px 24px}
-.card{
-  width:min(960px, 92vw);border:1px solid var(--border);border-radius:20px;
-  background:rgba(255,255,255,.02);box-shadow:0 24px 80px -40px rgba(0,0,0,.6);padding:20px;
-}
-.page-title{font-size:clamp(22px,2.4vmax,32px);font-weight:800;margin:0 0 8px}
-.muted{color:var(--muted);font-size:14px}
-
-/* Background canvas (optional) */
-#bg{position:fixed;inset:0;z-index:-1;pointer-events:none}
+/* ===== Centered Dashboard button on inner pages ===== */
+.top-center{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:100}
+.top-center .btn{border-radius:14px}
