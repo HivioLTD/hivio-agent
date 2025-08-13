@@ -7,158 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css" />
   <script defer src="../js/main.js"></script>
-
-  <style>
-    :root{
-      /* Значения ниже пересчитываются JS‑ом, чтобы все 5 блоков всегда помещались */
-      --block: 160px;                 /* размер квадрата */
-      --gap: calc(var(--block)/4);    /* отступ между блоками (ближе, как на твоём скрине) */
-    }
-
-    /* Фон-канвас не перехватывает клики */
-    #bg{ position:fixed; inset:0; z-index:-1; pointer-events:none; }
-
-    /* ---------- ШАПКА + ACCOUNT ---------- */
-    .nav{ position:relative; z-index:50; }
-    .brand-link{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:8px 14px; border-radius:12px; text-decoration:none;
-      color:var(--text); background:#0b0f1a; border:1px solid var(--border);
-      font-weight:800; letter-spacing:.2px;
-      transition: background .25s, box-shadow .25s, transform .2s, border-color .25s;
-    }
-    .brand-link:hover{
-      background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
-      border-color:transparent;
-      box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
-      transform: translateY(-1px);
-      color:var(--text);
-    }
-    .logo-dot{ width:12px;height:12px;border-radius:50%;background:linear-gradient(90deg,#7df0ff,#7b61ff);box-shadow:0 0 16px rgba(125,240,255,.35),0 0 36px rgba(125,240,255,.35);display:inline-block; }
-
-    .usermenu{ position:relative; display:inline-flex; align-items:center; z-index:60; }
-    .usermenu-toggle{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:8px 12px; border-radius:14px; border:1px solid var(--border);
-      background:#0b0f1a; color:var(--text); cursor:pointer;
-      transition: background .25s, box-shadow .25s, transform .2s, border-color .25s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .usermenu-toggle:hover,
-    .usermenu[aria-expanded="true"] .usermenu-toggle{
-      background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
-      border-color:transparent;
-      box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
-      transform: translateY(-1px);
-    }
-    .user-icon{ width:22px;height:22px; }
-    .user-caret{ width:14px;height:14px; opacity:.7; transform: translateY(1px); }
-
-    .userpanel{
-      position:absolute; right:0; top:calc(100% + 8px); width:260px;
-      background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:14px;
-      box-shadow:0 20px 60px -25px rgba(0,0,0,.6);
-      padding:8px; backdrop-filter: blur(6px);
-      opacity:0; visibility:hidden; transform: translateY(-6px); transition: all .18s ease;
-      z-index:70;
-    }
-    .userpanel.open{ opacity:1; visibility:visible; transform: translateY(0); }
-    .userpanel a{
-      display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; text-decoration:none; color:var(--text);
-      transition: background .2s, box-shadow .2s;
-    }
-    .userpanel a:hover{ background: linear-gradient(90deg, rgba(125,240,255,.18), rgba(123,97,255,.18)); box-shadow:0 0 10px rgba(125,240,255,.25); }
-    .userpanel .sep{ height:1px; background:rgba(255,255,255,.08); margin:6px 4px; border-radius:1px; }
-
-    .usercard{
-      display:grid; grid-template-columns:40px 1fr; gap:10px;
-      align-items:center; padding:10px; border-radius:10px;
-      background:rgba(255,255,255,.04); border:1px solid var(--border);
-      margin:2px 2px 6px 2px;
-    }
-    .usercard .ico{
-      width:40px;height:40px;border-radius:10px;display:grid;place-items:center;
-      background:linear-gradient(180deg, rgba(125,240,255,.15), rgba(123,97,255,.15));
-      border:1px solid var(--border);
-    }
-    .usercard .title{ font-weight:800; line-height:1.1; }
-    .usercard .sub{ font-size:12.5px; color:var(--muted); margin-top:2px; }
-
-    /* ---------- СЕТКА 5 КВАДРАТОВ ---------- */
-    .network{
-      position: relative;
-      margin: 4px auto 8px; /* было 18px auto; подняли выше */
-      width: calc(3 * var(--block) + 2 * var(--gap));
-      height: calc(3 * var(--block) + 2 * var(--gap));
-      max-width: 100%;
-    }
-
-    /* Дополнительно: на больших экранах поднимаем ещё чуть выше */
-    @media (min-width: 1024px){
-      .network{ margin: -16px auto 8px; }
-    }
-    @media (min-width: 768px) and (max-width: 1023.98px){
-      .network{ margin: -10px auto 8px; }
-    }
-    @media (max-width: 767.98px){
-      .network{ margin: 0 auto 8px; } /* на мобиле чуть мягче */
-    }
-
-    .grid{
-      position: absolute; inset: 0;
-      display: grid;
-      grid-template-columns: repeat(3, var(--block));
-      grid-template-rows: repeat(3, var(--block));
-      column-gap: var(--gap);
-      row-gap: var(--gap);
-      justify-content: center; align-content: center;
-      z-index:10;
-    }
-    /* Позиции как на макете */
-    .cell[data-id="analytics"] { grid-column: 1; grid-row: 1; }
-    .cell[data-id="broker"]    { grid-column: 3; grid-row: 1; }
-    .cell[data-id="ai"]        { grid-column: 2; grid-row: 2; }
-    .cell[data-id="finance"]   { grid-column: 1; grid-row: 3; }
-    .cell[data-id="portfolio"] { grid-column: 3; grid-row: 3; }
-
-    .sq{
-      width: var(--block); height: var(--block);
-      border-radius: 24px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.02);
-      box-shadow: 0 24px 80px -40px rgba(0,0,0,.6);
-      overflow: hidden;
-      display: grid; place-items: center;
-      transition: transform .25s, box-shadow .25s, border-color .25s, background .25s;
-      position: relative; isolation:isolate;
-    }
-    .sq::after{
-      content:""; position:absolute; inset:0;
-      background: radial-gradient(600px 160px at 12% 0%, rgba(125,240,255,.08), transparent 60%),
-                  radial-gradient(600px 160px at 88% 100%, rgba(123,97,255,.08), transparent 60%);
-      opacity:.8; pointer-events:none; transition: opacity .2s ease;
-    }
-    .sq:hover{
-      transform: translateY(-2px);
-      border-color: transparent;
-      background: linear-gradient(180deg, rgba(125,240,255,.10), rgba(123,97,255,.10));
-      box-shadow:0 0 26px rgba(125,240,255,.25), 0 0 40px rgba(123,97,255,.25);
-    }
-    .sq:hover::after{ opacity:1; }
-
-    .title{
-      font-weight: 800; letter-spacing:.2px;
-      font-size: clamp(18px, 2.3vmin, 28px);
-      position: relative;
-    }
-    .title::after{
-      content:""; position:absolute; left:50%; bottom:-6px; width:0; height:2px;
-      background: linear-gradient(90deg,#7df0ff,#7b61ff);
-      border-radius:2px; transform: translateX(-50%);
-      transition: width .25s ease;
-    }
-    .sq:hover .title::after{ width:100%; }
-  </style>
 </head>
 <body>
   <canvas id="bg"></canvas>
@@ -182,7 +30,6 @@
         </button>
 
         <div class="userpanel" id="userpanel" role="menu">
-          <!-- карточка владельца -->
           <div class="usercard">
             <div class="ico" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -217,14 +64,24 @@
   </header>
 
   <main class="section">
-    <!-- СЕТКА 5 КВАДРАТОВ (без стрелок) -->
+    <!-- СЕТКА 5 КВАДРАТОВ -->
     <section class="network" id="network">
       <div class="grid" id="grid">
-        <div class="cell" data-id="analytics"><div class="sq"><div class="title">Analytics</div></div></div>
-        <div class="cell" data-id="broker"><div class="sq"><div class="title">Broker</div></div></div>
-        <div class="cell" data-id="ai"><div class="sq"><div class="title">Ai</div></div></div>
-        <div class="cell" data-id="finance"><div class="sq"><div class="title">Finance</div></div></div>
-        <div class="cell" data-id="portfolio"><div class="sq"><div class="title">Portfolio</div></div></div>
+        <div class="cell" data-id="analytics">
+          <a class="sq" href="./analytics.html"><div class="title">Analytics</div></a>
+        </div>
+        <div class="cell" data-id="broker">
+          <a class="sq" href="./broker.html"><div class="title">Broker</div></a>
+        </div>
+        <div class="cell" data-id="ai">
+          <a class="sq" href="./ai.html"><div class="title">AI</div></a>
+        </div>
+        <div class="cell" data-id="finance">
+          <a class="sq" href="./finance.html"><div class="title">Finance</div></a>
+        </div>
+        <div class="cell" data-id="portfolio">
+          <a class="sq" href="./portfolio.html"><div class="title">Portfolio</div></a>
+        </div>
       </div>
     </section>
   </main>
@@ -242,7 +99,7 @@
       toggle.addEventListener('click', (e)=>{ e.stopPropagation(); panel.classList.contains('open') ? close() : open(); });
       document.addEventListener('click', (e)=>{ if(!menu.contains(e.target)) close(); });
 
-      // Имя/должность из localStorage, дефолт если нет
+      // Имя/должность из localStorage (дефолты)
       try{
         const prof = JSON.parse(localStorage.getItem('hivio_profile') || 'null');
         const first = prof?.firstName || 'Vsevolod';
@@ -267,12 +124,12 @@
         const availW = vw - 24;            // небольшие поля
         const availH = vh - headerH - 24;  // без шапки
 
-        // Сетка 3*block + 2*gap; gap = block/4 → ширина = 3b + 2*(b/4) = 3.5b
+        // Сетка 3*block + 2*gap; gap = block/4 → ширина = 3.5b
         const b = Math.max(84, Math.min(220, Math.floor(Math.min(availW/3.5, availH/3.5))));
         document.documentElement.style.setProperty('--block', b + 'px');
         document.documentElement.style.setProperty('--gap', (b/4) + 'px');
       }
-      window.addEventListener('resize', fit);
+      window.addEventListener('resize', fit, { passive:true });
       document.addEventListener('DOMContentLoaded', fit);
       fit();
     })();
