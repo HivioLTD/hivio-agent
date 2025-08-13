@@ -7,17 +7,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css" />
   <script defer src="../js/main.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     :root{
-      /* Увеличили квадрат в 2 раза: было clamp(80,16vmin,180) → стало clamp(160,32vmin,360) */
-      --block: clamp(160px, 32vmin, 360px);
-      /* «Ближе к центру в 2 раза»: отступ = 1/2 размера квадрата */
-      --gap: calc(var(--block) / 2);
+      /* Значения перезапишем из JS, чтобы вся сетка влезала на любом экране */
+      --block: 160px;          /* размер квадрата */
+      --gap: calc(var(--block) / 4); /* расстояние между блоками — четверть квадрата */
     }
 
+    /* Фон-канвас никогда не перекрывает клики */
+    #bg{ position:fixed; inset:0; z-index:-1; pointer-events:none; }
+
     /* ---------- ШАПКА + ACCOUNT ---------- */
+    .nav{ position:relative; z-index:50; }
     .brand-link{
       display:inline-flex; align-items:center; gap:10px;
       padding:8px 14px; border-radius:12px; text-decoration:none;
@@ -34,7 +36,7 @@
     }
     .logo-dot{ width:12px;height:12px;border-radius:50%;background:linear-gradient(90deg,#7df0ff,#7b61ff);box-shadow:0 0 16px rgba(125,240,255,.35),0 0 36px rgba(125,240,255,.35);display:inline-block; }
 
-    .usermenu{ position:relative; display:inline-flex; align-items:center; }
+    .usermenu{ position:relative; display:inline-flex; align-items:center; z-index:60; }
     .usermenu-toggle{
       display:inline-flex; align-items:center; gap:10px;
       padding:8px 12px; border-radius:14px; border:1px solid var(--border);
@@ -57,7 +59,8 @@
       background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:14px;
       box-shadow:0 20px 60px -25px rgba(0,0,0,.6);
       padding:8px; backdrop-filter: blur(6px);
-      opacity:0; visibility:hidden; transform: translateY(-6px); transition: all .18s ease; z-index:30;
+      opacity:0; visibility:hidden; transform: translateY(-6px); transition: all .18s ease;
+      z-index:70;
     }
     .userpanel.open{ opacity:1; visibility:visible; transform: translateY(0); }
     .userpanel a{
@@ -81,16 +84,14 @@
     .usercard .title{ font-weight:800; line-height:1.1; }
     .usercard .sub{ font-size:12.5px; color:var(--muted); margin-top:2px; }
 
-    /* ---------- СЕТКА С 5 КВАДРАТАМИ ---------- */
+    /* ---------- СЕТКА 5 КВАДРАТОВ ---------- */
     .network{
       position: relative;
-      margin: 26px auto 18px;
-      /* ширина = 3*block + 2*gap ; высота = 3*block + 2*gap */
+      margin: 18px auto;
       width: calc(3 * var(--block) + 2 * var(--gap));
       height: calc(3 * var(--block) + 2 * var(--gap));
       max-width: 100%;
     }
-
     .grid{
       position: absolute; inset: 0;
       display: grid;
@@ -99,11 +100,12 @@
       column-gap: var(--gap);
       row-gap: var(--gap);
       justify-content: center; align-content: center;
+      z-index:10;
     }
-
+    /* Позиции как на мокапе */
     .cell[data-id="analytics"] { grid-column: 1; grid-row: 1; }
-    .cell[data-id="ai"]        { grid-column: 2; grid-row: 2; }
     .cell[data-id="broker"]    { grid-column: 3; grid-row: 1; }
+    .cell[data-id="ai"]        { grid-column: 2; grid-row: 2; }
     .cell[data-id="finance"]   { grid-column: 1; grid-row: 3; }
     .cell[data-id="portfolio"] { grid-column: 3; grid-row: 3; }
 
@@ -134,7 +136,7 @@
 
     .title{
       font-weight: 800; letter-spacing:.2px;
-      font-size: clamp(18px, 2.6vmin, 28px);
+      font-size: clamp(18px, 2.3vmin, 28px);
       position: relative;
     }
     .title::after{
@@ -143,21 +145,21 @@
       border-radius:2px; transform: translateX(-50%);
       transition: width .25s ease;
     }
-    .sq:hover .title::after{ width: 100%; }
+    .sq:hover .title::after{ width:100%; }
 
     /* ---------- СТРЕЛКИ ---------- */
-    .wires{ position:absolute; inset:0; pointer-events:none; z-index:0; }
+    .wires{ position:absolute; inset:0; pointer-events:none; z-index:5; }
     @keyframes dash { to { stroke-dashoffset: -1000; } }
     .wire{
-      fill:none; stroke:url(#gradBlue); stroke-width:4.5; stroke-linecap:round; stroke-linejoin:round;
+      fill:none; stroke:url(#gradBlue); stroke-width:4.2; stroke-linecap:round; stroke-linejoin:round;
       stroke-dasharray: 9 12; stroke-dashoffset: 0;
       filter: drop-shadow(0 0 8px rgba(125,240,255,.45));
       animation: dash 2.1s linear infinite;
     }
 
-    /* На очень узких экранах немного уменьшим блоки, чтобы всё влезло */
-    @media (max-width: 420px){
-      :root{ --block: clamp(120px, 28vmin, 260px); --gap: calc(var(--block)/2); }
+    /* На очень узких экранах чуть уменьшим квадрат, чтобы вся сетка влезала */
+    @media (max-width: 380px){
+      :root{ --block: 120px; --gap: calc(var(--block)/4); }
     }
   </style>
 </head>
@@ -167,8 +169,7 @@
   <header class="nav">
     <div class="container nav-inner">
       <a class="brand-link" href="https://www.hivio.uk" aria-label="Go to homepage">
-        <span class="logo-dot"></span>
-        <span>Hivio LTD</span>
+        <span class="logo-dot"></span><span>Hivio LTD</span>
       </a>
 
       <div class="usermenu" id="usermenu" aria-expanded="false">
@@ -184,7 +185,6 @@
         </button>
 
         <div class="userpanel" id="userpanel" role="menu">
-          <!-- карточка владельца -->
           <div class="usercard">
             <div class="ico" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -219,55 +219,44 @@
   </header>
 
   <main class="section">
-    <!-- СЕТЬ 5 КВАДРАТНЫХ БЛОКОВ -->
+    <!-- СЕТКА 5 КВАДРАТОВ -->
     <section class="network" id="network">
-      <!-- Стрелки -->
-      <svg class="wires" id="wires" width="100%" height="100%">
+      <!-- Анимированные стрелки -->
+      <svg class="wires" id="wires" width="100%" height="100%" preserveAspectRatio="none">
         <defs>
           <linearGradient id="gradBlue" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%"  stop-color="#7df0ff"/><stop offset="100%" stop-color="#7b61ff"/>
           </linearGradient>
-          <marker id="headBlue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-            <path d="M0,0 L10,5 L0,10 z" fill="#7df0ff" />
+          <marker id="arrowHead" markerWidth="14" markerHeight="14" refX="11" refY="7" orient="auto">
+            <path d="M0,0 L14,7 L0,14 z" fill="#7df0ff" />
           </marker>
         </defs>
       </svg>
 
       <div class="grid" id="grid">
         <div class="cell" data-id="analytics"><div class="sq" id="bAnalytics"><div class="title">Analytics</div></div></div>
-        <div class="cell" data-id="ai"><div class="sq" id="bAI"><div class="title">Ai</div></div></div>
         <div class="cell" data-id="broker"><div class="sq" id="bBroker"><div class="title">Broker</div></div></div>
+        <div class="cell" data-id="ai"><div class="sq" id="bAI"><div class="title">Ai</div></div></div>
         <div class="cell" data-id="finance"><div class="sq" id="bFinance"><div class="title">Finance</div></div></div>
         <div class="cell" data-id="portfolio"><div class="sq" id="bPortfolio"><div class="title">Portfolio</div></div></div>
-      </div>
-    </section>
-
-    <!-- ГРАФИКИ НИЖЕ СЕТИ (оставлены как были) -->
-    <section class="charts container">
-      <div class="grid-2">
-        <div class="card neon reveal" data-reveal>
-          <h3>Equity Curve</h3>
-          <canvas id="equityChart" height="160"></canvas>
-        </div>
-        <div class="card neon reveal" data-reveal data-reveal-delay="80">
-          <h3>Sector Allocation</h3>
-          <canvas id="sectorsChart" height="160"></canvas>
-        </div>
       </div>
     </section>
   </main>
 
   <script>
-    // === Account dropdown + подстановка ФИО/должности ===
+    /* === Account dropdown === */
     (function(){
       const menu = document.getElementById('usermenu');
       const toggle = document.getElementById('usermenuToggle');
       const panel = document.getElementById('userpanel');
+
       function open(){ menu.setAttribute('aria-expanded','true'); toggle.setAttribute('aria-expanded','true'); panel.classList.add('open'); }
       function close(){ menu.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-expanded','false'); panel.classList.remove('open'); }
+
       toggle.addEventListener('click', (e)=>{ e.stopPropagation(); panel.classList.contains('open') ? close() : open(); });
       document.addEventListener('click', (e)=>{ if(!menu.contains(e.target)) close(); });
 
+      // Имя/должность из localStorage, дефолт если нет
       try{
         const prof = JSON.parse(localStorage.getItem('hivio_profile') || 'null');
         const first = prof?.firstName || 'Vsevolod';
@@ -282,63 +271,71 @@
       }, { once:true });
     })();
 
-    // === демо-графики (как было) ===
-    document.addEventListener('DOMContentLoaded', ()=>{
-      const c1 = document.getElementById('equityChart');
-      const c2 = document.getElementById('sectorsChart');
-      if(window.Chart && c1 && c2){
-        new Chart(c1,{type:'line',data:{labels:[...Array(24).keys()],datasets:[{data:[...Array(24)].map((_,i)=>100+Math.sin(i/2)*6+i*0.8+(Math.random()*2-1)),borderWidth:2,fill:false,tension:.25}]} ,options:{plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}});
-        new Chart(c2,{type:'doughnut',data:{labels:['Tech','Health','Finance','Energy','Industrials'],datasets:[{data:[32,18,22,12,16]}]},options:{plugins:{legend:{position:'bottom',labels:{boxWidth:10}}},cutout:'62%'}});
-      }
-    });
-
-    // === стрелки между блоками (с учётом нового gap) ===
+    /* === Размер квадратов так, чтобы все 5 всегда влезали в экран === */
     (function(){
+      function fitBlocks(){
+        const headerH = document.querySelector('.nav')?.getBoundingClientRect().height || 72;
+        const vw = document.documentElement.clientWidth;
+        const vh = document.documentElement.clientHeight;
+
+        const availW = vw - 24;              // маленькие внутренние поля
+        const availH = vh - headerH - 24;    // оставим место под шапку
+
+        // Сетка: ширина = 3b + 2g, а g = b/4  =>  3b + 2*(b/4) = 3.5b
+        // => b <= min(availW/3.5, availH/3.5)
+        const b = Math.max(84, Math.min(220, Math.floor(Math.min(availW/3.5, availH/3.5))));
+
+        document.documentElement.style.setProperty('--block', b + 'px');
+        document.documentElement.style.setProperty('--gap', (b/4) + 'px');
+
+        // Перерисовать стрелки после изменения размеров
+        requestAnimationFrame(redrawWires);
+      }
+      window.addEventListener('resize', fitBlocks);
+      document.addEventListener('DOMContentLoaded', fitBlocks);
+      window.fitBlocks = fitBlocks; // на всякий случай
+    })();
+
+    /* === Стрелки: Analytics → Broker → Portfolio → Finance → Analytics === */
+    function redrawWires(){
       const grid = document.getElementById('grid');
       const svg  = document.getElementById('wires');
-
-      const byId = id => document.getElementById(id);
 
       function center(el){
         const r = el.getBoundingClientRect();
         const g = grid.getBoundingClientRect();
         return { x: r.left - g.left + r.width/2, y: r.top - g.top + r.height/2 };
       }
-
-      function clearWires(){ [...svg.querySelectorAll('.wire')].forEach(n=>n.remove()); }
-
-      function addWire(p1, p2){
-        const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      function path(p1, p2){
+        const el = document.createElementNS('http://www.w3.org/2000/svg','path');
         const mx = (p1.x + p2.x)/2, my = (p1.y + p2.y)/2;
-        path.setAttribute('d', `M ${p1.x},${p1.y} Q ${mx},${my} ${p2.x},${p2.y}`);
-        path.setAttribute('class', 'wire');
-        path.setAttribute('marker-end', 'url(#headBlue)');
-        svg.appendChild(path);
+        el.setAttribute('d', `M ${p1.x},${p1.y} Q ${mx},${my} ${p2.x},${p2.y}`);
+        el.setAttribute('class', 'wire');
+        el.setAttribute('marker-end', 'url(#arrowHead)');
+        return el;
       }
 
-      function draw(){
-        clearWires();
-        const g = grid.getBoundingClientRect();
-        svg.setAttribute('viewBox', `0 0 ${g.width} ${g.height}`);
-        svg.setAttribute('width', g.width);
-        svg.setAttribute('height', g.height);
+      // подгоняем SVG под сетку
+      const g = grid.getBoundingClientRect();
+      svg.setAttribute('viewBox', `0 0 ${g.width} ${g.height}`);
+      svg.setAttribute('width', g.width);
+      svg.setAttribute('height', g.height);
+      [...svg.querySelectorAll('.wire')].forEach(n=>n.remove());
 
-        const A  = center(byId('bAnalytics'));
-        const B  = center(byId('bBroker'));
-        const P  = center(byId('bPortfolio'));
-        const F  = center(byId('bFinance'));
-        // Контур: → ↓ ← ↑
-        addWire(A, B);
-        addWire(B, P);
-        addWire(P, F);
-        addWire(F, A);
-      }
+      const A = center(document.getElementById('bAnalytics'));
+      const B = center(document.getElementById('bBroker'));
+      const P = center(document.getElementById('bPortfolio'));
+      const F = center(document.getElementById('bFinance'));
 
-      window.addEventListener('resize', ()=> requestAnimationFrame(draw));
-      new ResizeObserver(()=> requestAnimationFrame(draw)).observe(grid);
-      document.addEventListener('DOMContentLoaded', draw);
-      setTimeout(draw, 250);
-    })();
+      svg.appendChild(path(A,B)); // →
+      svg.appendChild(path(B,P)); // ↓
+      svg.appendChild(path(P,F)); // ←
+      svg.appendChild(path(F,A)); // ↑
+    }
+
+    document.addEventListener('DOMContentLoaded', ()=> setTimeout(redrawWires, 50));
+    window.addEventListener('resize', ()=> requestAnimationFrame(redrawWires));
+    new ResizeObserver(()=> requestAnimationFrame(redrawWires)).observe(document.getElementById('grid'));
   </script>
 </body>
 </html>
