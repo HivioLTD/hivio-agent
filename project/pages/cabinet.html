@@ -3,21 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hivio — Control Center</title>
+  <title>Hivio LTD — Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css" />
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script defer src="../js/cabinet.js"></script>
+  <style>
+    /* Кнопка‑бренд как на login.html */
+    .brand-link{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 14px; border-radius:12px; text-decoration:none;
+      color:var(--text); background:#0b0f1a; border:1px solid var(--border);
+      font-weight:800; letter-spacing:.2px;
+      transition: background .25s ease, box-shadow .25s ease, transform .2s ease, border-color .25s ease;
+    }
+    .brand-link:hover{
+      background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
+      border-color:transparent;
+      box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
+      transform: translateY(-1px);
+      color:var(--text);
+    }
+    .brand-link .logo-dot{
+      width:12px;height:12px;border-radius:50%;
+      background:linear-gradient(90deg,#7df0ff,#7b61ff);
+      box-shadow:0 0 16px rgba(125,240,255,.35),0 0 36px rgba(125,240,255,.35);
+      display:inline-block;
+    }
+  </style>
 </head>
 <body>
+  <!-- фон частиц рисуется cabinet.js (или вашим общим main.js, если вы его подключаете здесь) -->
   <canvas id="bg"></canvas>
 
   <header class="nav">
     <div class="container nav-inner">
-      <div class="brand">
+      <!-- ССЫЛКА НА ГЛАВНУЮ: https://www.hivio.uk -->
+      <a class="brand-link" href="https://www.hivio.uk" aria-label="Go to homepage">
         <span class="logo-dot"></span>
-        <span>Hivio LTD — Control Center</span>
-      </div>
+        <span>Hivio LTD</span>
+      </a>
+
       <div style="display:flex; gap:10px; align-items:center">
         <a class="btn-pill" href="./account.html" id="accountBtn">My Account</a>
         <a class="btn-pill" href="./login.html" id="logoutBtn">Sign out</a>
@@ -134,5 +160,18 @@
       </div>
     </div>
   </main>
+
+  <!-- небольшой запасной обработчик Sign out, если в cabinet.js его нет -->
+  <script>
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const btn = document.getElementById('logoutBtn');
+      if(btn){
+        btn.addEventListener('click', (e)=>{
+          // если cabinet.js уже делает это сам — этот код не помешает
+          try{ localStorage.removeItem('hivio_auth'); }catch(_){}
+        }, { once:true });
+      }
+    });
+  </script>
 </body>
 </html>
