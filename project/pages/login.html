@@ -7,9 +7,32 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css" />
   <style>
+    /* чтобы форма всегда была поверх фона-канваса */
     main { position: relative; z-index: 1; }
     header.nav { position: sticky; z-index: 2; }
     #bg { z-index: -1; }
+
+    /* Ссылка-бренд со свечением как у Client Area на главной */
+    .brand-link{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 14px; border-radius:12px; text-decoration:none;
+      color:var(--text); background:#0b0f1a; border:1px solid var(--border);
+      transition: background .25s ease, box-shadow .25s ease, transform .2s ease, border-color .25s ease;
+      font-weight:800; letter-spacing:.2px;
+    }
+    .brand-link:hover{
+      background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
+      border-color:transparent;
+      box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
+      transform: translateY(-1px);
+      color:var(--text);
+    }
+    .brand-link .logo-dot{
+      width:12px;height:12px;border-radius:50%;
+      background:linear-gradient(90deg,#7df0ff,#7b61ff);
+      box-shadow:0 0 16px rgba(125,240,255,.35),0 0 36px rgba(125,240,255,.35);
+      display:inline-block;
+    }
   </style>
 </head>
 <body>
@@ -17,11 +40,12 @@
 
   <header class="nav">
     <div class="container nav-inner">
-      <div class="brand">
+      <!-- Делает Hivio LTD ссылкой на главную; относительный путь из /project/pages/ -->
+      <a class="brand-link" href="../../index.html" aria-label="Back to homepage">
         <span class="logo-dot"></span>
         <span>Hivio LTD</span>
-      </div>
-      <a class="btn-pill" href="./login.html">Client Area</a>
+      </a>
+      <!-- Кнопку Client Area на странице логина убрали -->
     </div>
   </header>
 
@@ -31,6 +55,7 @@
         <h1 class="tight">Sign in</h1>
         <p class="muted">Enter your login and password to continue.</p>
 
+        <!-- Форма входа -->
         <form id="loginForm" class="form-grid" autocomplete="off">
           <label class="field">
             <span>Login</span>
@@ -47,6 +72,7 @@
     </div>
   </main>
 
+  <!-- Скрипт авторизации подключаем в самом конце -->
   <script defer src="../js/auth.js"></script>
 </body>
 </html>
