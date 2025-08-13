@@ -3,14 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hivio LTD — AI‑Driven Investment Company</title>
+  <title>Hivio LTD — AI-Driven Investment Company</title>
   <meta name="description" content="Hivio LTD — an AI-driven investment company: business & financial analysis, stock selection, and portfolio management without emotions." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="project/css/style.css" />
+  <style>
+    /* Panel effect for contact block */
+    .panel-hover {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .panel-hover:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 20px rgba(0, 255, 170, 0.3);
+      border-color: rgba(0, 255, 170, 0.4);
+    }
+    /* Animation when in view */
+    .panel-hover.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+  </style>
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script defer src="project/js/main.js"></script>
+  <script>
+    // Intersection Observer for animation
+    document.addEventListener("DOMContentLoaded", () => {
+      const target = document.querySelector(".panel-hover");
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      }, { threshold: 0.2 });
+      if (target) observer.observe(target);
+    });
+  </script>
 </head>
 <body id="top">
   <!-- Animated particle background -->
@@ -39,7 +77,7 @@
         <div class="hero-copy">
           <h1 class="headline">
             Invest without emotions.<br>
-            <span class="accent">Full‑cycle portfolio management by an AI agent.</span>
+            <span class="accent">Full-cycle portfolio management by an AI agent.</span>
           </h1>
           <p class="sub">
             Our AI continuously analyzes business fundamentals, market data, and news, selects companies,
@@ -53,7 +91,7 @@
         <div class="hero-viz card neon reveal" data-reveal data-reveal-delay="120">
           <h3 class="card-title">Strategy Equity (demo)</h3>
           <canvas id="heroEquity" height="140"></canvas>
-          <p class="muted xs">Synthetic example illustrating disciplined, rule‑based behavior.</p>
+          <p class="muted xs">Synthetic example illustrating disciplined, rule-based behavior.</p>
         </div>
       </div>
       <div class="glow-ring"></div>
@@ -64,7 +102,7 @@
       <div class="container grid-3">
         <div class="card neon reveal" data-reveal>
           <h3>Data width & speed</h3>
-          <p>Process thousands of signals and events with minute‑level reaction time.</p>
+          <p>Process thousands of signals and events with minute-level reaction time.</p>
           <div class="pulse-bar"></div>
         </div>
         <div class="card neon reveal" data-reveal data-reveal-delay="100">
@@ -74,7 +112,7 @@
         </div>
         <div class="card neon reveal" data-reveal data-reveal-delay="200">
           <h3>Risk first</h3>
-          <p>Limits, stress scenarios, VaR‑style constraints, drift monitoring & alerts.</p>
+          <p>Limits, stress scenarios, VaR-style constraints, drift monitoring & alerts.</p>
           <div class="pulse-bar"></div>
         </div>
       </div>
@@ -113,17 +151,17 @@
         <div class="cards-4">
           <article class="card hover-up reveal" data-reveal>
             <h3>Qraft AI ETFs</h3>
-            <p class="muted">A suite of AI‑driven ETFs (e.g., QRFT/AMOM) with multifactor models and active rebalancing.</p>
+            <p class="muted">A suite of AI-driven ETFs (e.g., QRFT/AMOM) with multifactor models and active rebalancing.</p>
             <a class="link" href="https://www.qraftaietf.com/" target="_blank" rel="noopener">Website →</a>
           </article>
           <article class="card hover-up reveal" data-reveal data-reveal-delay="80">
             <h3>EquBot / AIEQ</h3>
-            <p class="muted">AI Powered Equity ETF: ML‑driven selection originally leveraging IBM Watson.</p>
+            <p class="muted">AI Powered Equity ETF: ML-driven selection originally leveraging IBM Watson.</p>
             <a class="link" href="https://amplifyetfs.com/aieq/" target="_blank" rel="noopener">Website →</a>
           </article>
           <article class="card hover-up reveal" data-reveal data-reveal-delay="160">
             <h3>Numerai</h3>
-            <p class="muted">Hedge fund aggregating thousands of crowdsourced ML models into a meta‑model.</p>
+            <p class="muted">Hedge fund aggregating thousands of crowdsourced ML models into a meta-model.</p>
             <a class="link" href="https://numer.ai/" target="_blank" rel="noopener">Website →</a>
           </article>
           <article class="card hover-up reveal" data-reveal data-reveal-delay="240">
@@ -143,12 +181,12 @@
       </div>
     </section>
 
-    <!-- CONTACT (updated to company info only) -->
+    <!-- CONTACT (cool hover and mobile animation) -->
     <section id="contact" class="section">
       <div class="container contact">
-        <div class="reveal" data-reveal>
-          <h2>Contact</h2>
-          <p>483 Green Lanes, London, England, N13 4BS · HIVIO LTD · Private limited company · Company number 15099399</p>
+        <div class="panel-hover">
+          <h2>Company Information</h2>
+          <p><strong>HIVIO LTD</strong> · Private limited company · Company number 15099399 · 483 Green Lanes, London, England, N13 4BS</p>
         </div>
       </div>
     </section>
