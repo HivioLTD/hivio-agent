@@ -52,7 +52,7 @@
     .user-caret{ width:14px;height:14px; opacity:.7; transform: translateY(1px); }
 
     .userpanel{
-      position:absolute; right:0; top:calc(100% + 8px); width:220px;
+      position:absolute; right:0; top:calc(100% + 8px); width:260px;
       background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:14px;
       box-shadow:0 20px 60px -25px rgba(0,0,0,.6);
       padding:8px; backdrop-filter: blur(6px);
@@ -66,6 +66,22 @@
     }
     .userpanel.open{ opacity:1; visibility:visible; transform: translateY(0); }
 
+    /* Шапка-владелец внутри дропдауна */
+    .usercard{
+      display:grid; grid-template-columns:40px 1fr; gap:10px;
+      align-items:center; padding:10px; border-radius:10px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--border);
+      margin:2px 2px 6px 2px;
+    }
+    .usercard .ico{
+      width:40px;height:40px;border-radius:10px;display:grid;place-items:center;
+      background:linear-gradient(180deg, rgba(125,240,255,.15), rgba(123,97,255,.15));
+      border:1px solid var(--border);
+    }
+    .usercard .title{ font-weight:800; line-height:1.1; }
+    .usercard .sub{ font-size:12.5px; color:var(--muted); margin-top:2px; }
+
     .userpanel a{
       display:flex; align-items:center; gap:10px;
       padding:10px 12px; border-radius:10px; text-decoration:none; color:var(--text);
@@ -76,9 +92,10 @@
       box-shadow:0 0 10px rgba(125,240,255,.25);
     }
     .userpanel .sep{ height:1px; background:rgba(255,255,255,.08); margin:6px 4px; border-radius:1px; }
+
     @media (max-width:520px){
-      .userpanel{ width:200px; }
-      .usermenu-toggle span.label{ display:none; } /* на очень узких экранах оставим только иконку */
+      .userpanel{ width:230px; }
+      .usermenu-toggle span.label{ display:none; } /* на узких — только иконка */
     }
   </style>
 </head>
@@ -106,7 +123,22 @@
           </svg>
         </button>
 
+        <!-- Выпадающее меню -->
         <div class="userpanel" id="userpanel" role="menu">
+          <!-- Карточка владельца (иконка + ФИО + должность) -->
+          <div class="usercard" id="usercard">
+            <div class="ico" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <div class="title" id="ucName">Kuznetsov Vsevolod</div>
+              <div class="sub" id="ucPos">Director</div>
+            </div>
+          </div>
+
           <a href="./account.html" role="menuitem" id="menuAccount">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.7"/><path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             My Account
@@ -231,10 +263,10 @@
     </div>
   </main>
 
-  <!-- Логика: выпадающее меню + Sign out (очистка localStorage) -->
+  <!-- Логика: выпадающее меню + подстановка ФИО/должности + Sign out -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Dropdown
+      // ====== Dropdown
       const menu = document.getElementById('usermenu');
       const toggle = document.getElementById('usermenuToggle');
       const panel = document.getElementById('userpanel');
@@ -248,9 +280,22 @@
       document.addEventListener('click', (e)=>{ if(!menu.contains(e.target)) closeMenu(); });
       document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
 
-      // Sign out: чистим auth (дополнительно к переходу по ссылке)
-      const signout = document.getElementById('menuSignout');
-      if(signout){ signout.addEventListener('click', ()=>{ try{ localStorage.removeItem('hivio_auth'); }catch(_){ } }, { once:true }); }
+      // ====== Вставляем ФИО и должность в usercard (единый стиль)
+      try{
+        const auth = JSON.parse(localStorage.getItem('hivio_auth') || 'null');
+        const prof = JSON.parse(localStorage.getItem('hivio_profile') || 'null');
+
+        const first = prof?.firstName || 'Vsevolod';
+        const last  = prof?.lastName  || 'Kuznetsov';
+        const pos   = prof?.position  || 'Director';
+
+        document.getElementById('ucName').textContent = `${last} ${first}`.trim();
+        document.getElementById('ucPos').textContent  = pos;
+
+        // очистка auth при выходе (доп. к переходу по ссылке)
+        const signout = document.getElementById('menuSignout');
+        if(signout){ signout.addEventListener('click', ()=>{ try{ localStorage.removeItem('hivio_auth'); }catch(_){ } }, { once:true }); }
+      }catch(e){ console.warn('Usercard init error', e); }
     });
   </script>
 </body>
