@@ -9,6 +9,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="project/css/style.css" />
+  <style>
+    /* Подсветка кнопки Client Area */
+    .client-area-btn {
+      background: linear-gradient(90deg, #00f5ff, #7a5cff);
+      color: #fff !important;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(122, 92, 255, 0.5);
+    }
+    .client-area-btn:hover {
+      box-shadow: 0 0 20px rgba(0, 245, 255, 0.8);
+      transform: scale(1.05);
+    }
+  </style>
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script defer src="project/js/main.js"></script>
 </head>
@@ -27,6 +44,7 @@
         <a href="#how">How It Works</a>
         <a href="#market">Market</a>
         <a href="#contact">Contact</a>
+        <a href="project/pages/login.html" class="client-area-btn">Client Area</a>
       </nav>
     </div>
   </header>
