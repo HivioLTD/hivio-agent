@@ -36,6 +36,7 @@
   </style>
 </head>
 <body>
+  <!-- такой же canvas как на главной -->
   <canvas id="bg"></canvas>
 
   <header class="nav">
@@ -51,8 +52,8 @@
 
   <main class="section">
     <div class="container" style="max-width:520px">
-      <!-- ВАЖНО: без класса .reveal, чтобы не было opacity:0 -->
-      <div class="panel neon">
+      <!-- вернули reveal: теперь он работает через main.js -->
+      <div class="panel neon reveal" data-reveal>
         <h1 class="tight">Sign in</h1>
         <p class="muted">Enter your login and password to continue.</p>
 
@@ -72,7 +73,8 @@
     </div>
   </main>
 
-  <!-- Скрипт авторизации подключён в конце -->
+  <!-- Подключаем общий фон+reveal, затем логин-логику -->
+  <script defer src="../js/main.js"></script>
   <script defer src="../js/auth.js"></script>
 </body>
 </html>
