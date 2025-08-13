@@ -9,46 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="project/css/style.css" />
-  <style>
-    /* Panel effect for contact block */
-    .panel-hover {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    .panel-hover:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 20px rgba(0, 255, 170, 0.3);
-      border-color: rgba(0, 255, 170, 0.4);
-    }
-    /* Animation when in view */
-    .panel-hover.visible {
-      opacity: 1;
-      transform: translateY(0);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-  </style>
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script defer src="project/js/main.js"></script>
-  <script>
-    // Intersection Observer for animation
-    document.addEventListener("DOMContentLoaded", () => {
-      const target = document.querySelector(".panel-hover");
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      }, { threshold: 0.2 });
-      if (target) observer.observe(target);
-    });
-  </script>
 </head>
 <body id="top">
   <!-- Animated particle background -->
@@ -66,7 +28,6 @@
         <a href="#market">Market</a>
         <a href="#contact">Contact</a>
       </nav>
-      <a class="btn-pill" href="./project/pages/login.html" aria-label="Client area">Client Area</a>
     </div>
   </header>
 
@@ -83,10 +44,6 @@
             Our AI continuously analyzes business fundamentals, market data, and news, selects companies,
             and manages risk & rebalancing — humans provide strategic and ethical oversight.
           </p>
-          <div class="hero-cta">
-            <a class="btn-primary" href="#why">Explore the engine</a>
-            <a class="btn-ghost" href="./project/pages/login.html">Open Client Area</a>
-          </div>
         </div>
         <div class="hero-viz card neon reveal" data-reveal data-reveal-delay="120">
           <h3 class="card-title">Strategy Equity (demo)</h3>
@@ -181,12 +138,14 @@
       </div>
     </section>
 
-    <!-- CONTACT (cool hover and mobile animation) -->
+    <!-- CONTACT -->
     <section id="contact" class="section">
-      <div class="container contact">
-        <div class="panel-hover">
-          <h2>Company Information</h2>
-          <p><strong>HIVIO LTD</strong> · Private limited company · Company number 15099399 · 483 Green Lanes, London, England, N13 4BS</p>
+      <div class="container">
+        <div class="panel neon reveal hover-effect" data-reveal>
+          <h3>Contact Information</h3>
+          <p><strong>HIVIO LTD</strong></p>
+          <p>483 Green Lanes, London, England, N13 4BS</p>
+          <p>Private limited company · Company number 15099399</p>
         </div>
       </div>
     </section>
