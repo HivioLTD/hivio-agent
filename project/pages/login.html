@@ -7,18 +7,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css" />
   <style>
-    /* чтобы форма всегда была поверх фона-канваса */
+    /* форма гарантированно поверх фона */
     main { position: relative; z-index: 1; }
     header.nav { position: sticky; z-index: 2; }
     #bg { z-index: -1; }
 
-    /* Ссылка-бренд со свечением как у Client Area на главной */
+    /* Лого-ссылка на главную с тем же эффектом, что и Client Area на первой */
     .brand-link{
       display:inline-flex; align-items:center; gap:10px;
       padding:8px 14px; border-radius:12px; text-decoration:none;
       color:var(--text); background:#0b0f1a; border:1px solid var(--border);
-      transition: background .25s ease, box-shadow .25s ease, transform .2s ease, border-color .25s ease;
       font-weight:800; letter-spacing:.2px;
+      transition: background .25s ease, box-shadow .25s ease, transform .2s ease, border-color .25s ease;
     }
     .brand-link:hover{
       background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
@@ -40,22 +40,22 @@
 
   <header class="nav">
     <div class="container nav-inner">
-      <!-- Делает Hivio LTD ссылкой на главную; относительный путь из /project/pages/ -->
+      <!-- Ссылка "Hivio LTD" ведёт на главную -->
       <a class="brand-link" href="../../index.html" aria-label="Back to homepage">
         <span class="logo-dot"></span>
         <span>Hivio LTD</span>
       </a>
-      <!-- Кнопку Client Area на странице логина убрали -->
+      <!-- Кнопки Client Area здесь нет -->
     </div>
   </header>
 
   <main class="section">
     <div class="container" style="max-width:520px">
-      <div class="panel neon reveal" data-reveal>
+      <!-- ВАЖНО: без класса .reveal, чтобы не было opacity:0 -->
+      <div class="panel neon">
         <h1 class="tight">Sign in</h1>
         <p class="muted">Enter your login and password to continue.</p>
 
-        <!-- Форма входа -->
         <form id="loginForm" class="form-grid" autocomplete="off">
           <label class="field">
             <span>Login</span>
@@ -72,7 +72,7 @@
     </div>
   </main>
 
-  <!-- Скрипт авторизации подключаем в самом конце -->
+  <!-- Скрипт авторизации подключён в конце -->
   <script defer src="../js/auth.js"></script>
 </body>
 </html>
