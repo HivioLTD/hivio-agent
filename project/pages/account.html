@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Account — Hivio LTD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <script defer src="../js/account.js"></script>
+  <style>
+    .account-grid{display:grid;grid-template-columns:320px 1fr;gap:18px}
+    .avatar-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+    .avatar{
+      width:200px;height:200px;border-radius:24px;overflow:hidden;border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(125,240,255,.15), rgba(123,97,255,.15));
+      box-shadow:0 18px 60px -30px rgba(0,0,0,.6);
+      position:relative;
+    }
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    .upload{
+      display:inline-block;padding:8px 12px;border-radius:12px;border:1px solid var(--border);
+      background:rgba(255,255,255,.03);cursor:pointer
+    }
+    .badges{display:flex;gap:8px;flex-wrap:wrap}
+    .badge{
+      font-size:12px;border:1px solid var(--border);border-radius:999px;padding:6px 10px;color:var(--muted);
+      background:rgba(255,255,255,.03)
+    }
+    .form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .danger{border:1px solid #5b1e1e;background:rgba(255,70,70,.08)}
+    @media(max-width:1000px){.account-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <span class="logo-dot"></span>
+        <span>My Account</span>
+      </div>
+      <div style="display:flex;gap:10px">
+        <a class="btn-pill" href="./cabinet.html">Back to Dashboard</a>
+        <a class="btn-pill" href="./login.html" id="signOutTop">Sign out</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container account-grid">
+      <!-- LEFT: Avatar + role -->
+      <div class="card neon reveal" data-reveal>
+        <div class="avatar-wrap">
+          <div class="avatar" id="avatarBox">
+            <img id="avatarImg" src="" alt="Profile photo">
+          </div>
+          <label class="upload">
+            <input type="file" id="avatarInput" accept="image/*" style="display:none">
+            Upload photo
+          </label>
+          <div class="badges">
+            <span class="badge" id="roleBadge">Director · Full rights</span>
+            <span class="badge">ID: <span id="loginId">—</span></span>
+            <span class="badge">Account: Active</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Profile form -->
+      <div class="panel neon reveal" data-reveal data-reveal-delay="60">
+        <h2 class="tight">Profile</h2>
+        <p class="muted">Edit your personal details and responsibilities.</p>
+
+        <form id="profileForm" class="form-grid" autocomplete="off">
+          <div class="form-grid-2">
+            <label class="field">
+              <span>Last name</span>
+              <input id="lastName" type="text" placeholder="Kuznetsov" required />
+            </label>
+            <label class="field">
+              <span>First name</span>
+              <input id="firstName" type="text" placeholder="Vsevolod" required />
+            </label>
+          </div>
+
+          <div class="form-grid-2">
+            <label class="field">
+              <span>Position</span>
+              <input id="position" type="text" placeholder="Director" />
+            </label>
+            <label class="field">
+              <span>Role & permissions</span>
+              <select id="role">
+                <option value="admin">Director (admin, full rights)</option>
+                <option value="manager">Manager (portfolio ops)</option>
+                <option value="analyst">Analyst (read & propose)</option>
+                <option value="viewer">Viewer (read‑only)</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="form-grid-2">
+            <label class="field">
+              <span>Birth date</span>
+              <input id="birth" type="date"/>
+            </label>
+            <label class="field">
+              <span>Work email</span>
+              <input id="email" type="email" placeholder="name@hivio.uk"/>
+            </label>
+          </div>
+
+          <div class="form-grid-2">
+            <label class="field">
+              <span>Phone</span>
+              <input id="phone" type="tel" placeholder="+44 20 0000 0000"/>
+            </label>
+            <label class="field">
+              <span>2FA</span>
+              <select id="twofa">
+                <option value="enabled">Enabled</option>
+                <option value="disabled">Disabled</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="field">
+            <span>Responsibilities</span>
+            <textarea id="resp" rows="4" placeholder="Strategy, team leadership, risk limits, approvals"></textarea>
+          </label>
+
+          <div class="actions">
+            <button type="submit" class="btn-primary">Save changes</button>
+            <button type="button" class="btn-pill" id="resetBtn">Reset</button>
+            <button type="button" class="btn-pill danger" id="signOut">Sign out</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- EMPLOYEES (admin only) -->
+    <div class="container" style="margin-top:18px">
+      <div class="panel outline reveal" data-reveal>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <h3 style="margin:0">Employees</h3>
+          <button class="btn-primary" id="addEmpBtn">Add employee</button>
+        </div>
+        <p class="muted xs" id="empNote">Only Director (login 5512299) can add or remove employees.</p>
+        <table class="table" style="margin-top:8px">
+          <thead><tr><th>Name</th><th>Position</th><th>Role</th><th></th></tr></thead>
+          <tbody id="empTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
