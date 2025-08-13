@@ -10,12 +10,12 @@
 
   <style>
     :root{
-      /* Значения перезапишем из JS, чтобы вся сетка влезала на любом экране */
-      --block: 160px;          /* размер квадрата */
-      --gap: calc(var(--block) / 4); /* расстояние между блоками — четверть квадрата */
+      /* Значения ниже пересчитываются JS‑ом, чтобы все 5 блоков всегда помещались */
+      --block: 160px;                 /* размер квадрата */
+      --gap: calc(var(--block)/4);    /* отступ между блоками (ближе, как на твоём скрине) */
     }
 
-    /* Фон-канвас никогда не перекрывает клики */
+    /* Фон-канвас не перехватывает клики */
     #bg{ position:fixed; inset:0; z-index:-1; pointer-events:none; }
 
     /* ---------- ШАПКА + ACCOUNT ---------- */
@@ -102,7 +102,7 @@
       justify-content: center; align-content: center;
       z-index:10;
     }
-    /* Позиции как на мокапе */
+    /* Позиции как на макете */
     .cell[data-id="analytics"] { grid-column: 1; grid-row: 1; }
     .cell[data-id="broker"]    { grid-column: 3; grid-row: 1; }
     .cell[data-id="ai"]        { grid-column: 2; grid-row: 2; }
@@ -146,21 +146,6 @@
       transition: width .25s ease;
     }
     .sq:hover .title::after{ width:100%; }
-
-    /* ---------- СТРЕЛКИ ---------- */
-    .wires{ position:absolute; inset:0; pointer-events:none; z-index:5; }
-    @keyframes dash { to { stroke-dashoffset: -1000; } }
-    .wire{
-      fill:none; stroke:url(#gradBlue); stroke-width:4.2; stroke-linecap:round; stroke-linejoin:round;
-      stroke-dasharray: 9 12; stroke-dashoffset: 0;
-      filter: drop-shadow(0 0 8px rgba(125,240,255,.45));
-      animation: dash 2.1s linear infinite;
-    }
-
-    /* На очень узких экранах чуть уменьшим квадрат, чтобы вся сетка влезала */
-    @media (max-width: 380px){
-      :root{ --block: 120px; --gap: calc(var(--block)/4); }
-    }
   </style>
 </head>
 <body>
@@ -185,6 +170,7 @@
         </button>
 
         <div class="userpanel" id="userpanel" role="menu">
+          <!-- карточка владельца -->
           <div class="usercard">
             <div class="ico" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -198,11 +184,11 @@
             </div>
           </div>
 
-          <a href="./cabinet.html" role="menuitem" id="menuDashboard">
+          <a href="./account.html" role="menuitem" id="menuAccount">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M4 4h7v7H4zM13 4h7v5h-7zM13 11h7v9h-7zM4 13h7v7H4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+              <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm-8 8a8 8 0 1 1 16 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
             </svg>
-            Dashboard
+            My Account
           </a>
           <div class="sep"></div>
           <a href="./login.html" role="menuitem" id="menuSignout">
@@ -219,26 +205,14 @@
   </header>
 
   <main class="section">
-    <!-- СЕТКА 5 КВАДРАТОВ -->
+    <!-- СЕТКА 5 КВАДРАТОВ (без стрелок) -->
     <section class="network" id="network">
-      <!-- Анимированные стрелки -->
-      <svg class="wires" id="wires" width="100%" height="100%" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="gradBlue" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"  stop-color="#7df0ff"/><stop offset="100%" stop-color="#7b61ff"/>
-          </linearGradient>
-          <marker id="arrowHead" markerWidth="14" markerHeight="14" refX="11" refY="7" orient="auto">
-            <path d="M0,0 L14,7 L0,14 z" fill="#7df0ff" />
-          </marker>
-        </defs>
-      </svg>
-
       <div class="grid" id="grid">
-        <div class="cell" data-id="analytics"><div class="sq" id="bAnalytics"><div class="title">Analytics</div></div></div>
-        <div class="cell" data-id="broker"><div class="sq" id="bBroker"><div class="title">Broker</div></div></div>
-        <div class="cell" data-id="ai"><div class="sq" id="bAI"><div class="title">Ai</div></div></div>
-        <div class="cell" data-id="finance"><div class="sq" id="bFinance"><div class="title">Finance</div></div></div>
-        <div class="cell" data-id="portfolio"><div class="sq" id="bPortfolio"><div class="title">Portfolio</div></div></div>
+        <div class="cell" data-id="analytics"><div class="sq"><div class="title">Analytics</div></div></div>
+        <div class="cell" data-id="broker"><div class="sq"><div class="title">Broker</div></div></div>
+        <div class="cell" data-id="ai"><div class="sq"><div class="title">Ai</div></div></div>
+        <div class="cell" data-id="finance"><div class="sq"><div class="title">Finance</div></div></div>
+        <div class="cell" data-id="portfolio"><div class="sq"><div class="title">Portfolio</div></div></div>
       </div>
     </section>
   </main>
@@ -246,9 +220,9 @@
   <script>
     /* === Account dropdown === */
     (function(){
-      const menu = document.getElementById('usermenu');
+      const menu   = document.getElementById('usermenu');
       const toggle = document.getElementById('usermenuToggle');
-      const panel = document.getElementById('userpanel');
+      const panel  = document.getElementById('userpanel');
 
       function open(){ menu.setAttribute('aria-expanded','true'); toggle.setAttribute('aria-expanded','true'); panel.classList.add('open'); }
       function close(){ menu.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-expanded','false'); panel.classList.remove('open'); }
@@ -271,71 +245,25 @@
       }, { once:true });
     })();
 
-    /* === Размер квадратов так, чтобы все 5 всегда влезали в экран === */
+    /* === Подбор размера блоков, чтобы ВСЕГДА видно все 5 === */
     (function(){
-      function fitBlocks(){
+      function fit(){
         const headerH = document.querySelector('.nav')?.getBoundingClientRect().height || 72;
         const vw = document.documentElement.clientWidth;
         const vh = document.documentElement.clientHeight;
 
-        const availW = vw - 24;              // маленькие внутренние поля
-        const availH = vh - headerH - 24;    // оставим место под шапку
+        const availW = vw - 24;            // небольшие поля
+        const availH = vh - headerH - 24;  // без шапки
 
-        // Сетка: ширина = 3b + 2g, а g = b/4  =>  3b + 2*(b/4) = 3.5b
-        // => b <= min(availW/3.5, availH/3.5)
+        // Сетка 3*block + 2*gap; gap = block/4 → ширина = 3b + 2*(b/4) = 3.5b
         const b = Math.max(84, Math.min(220, Math.floor(Math.min(availW/3.5, availH/3.5))));
-
         document.documentElement.style.setProperty('--block', b + 'px');
         document.documentElement.style.setProperty('--gap', (b/4) + 'px');
-
-        // Перерисовать стрелки после изменения размеров
-        requestAnimationFrame(redrawWires);
       }
-      window.addEventListener('resize', fitBlocks);
-      document.addEventListener('DOMContentLoaded', fitBlocks);
-      window.fitBlocks = fitBlocks; // на всякий случай
+      window.addEventListener('resize', fit);
+      document.addEventListener('DOMContentLoaded', fit);
+      fit();
     })();
-
-    /* === Стрелки: Analytics → Broker → Portfolio → Finance → Analytics === */
-    function redrawWires(){
-      const grid = document.getElementById('grid');
-      const svg  = document.getElementById('wires');
-
-      function center(el){
-        const r = el.getBoundingClientRect();
-        const g = grid.getBoundingClientRect();
-        return { x: r.left - g.left + r.width/2, y: r.top - g.top + r.height/2 };
-      }
-      function path(p1, p2){
-        const el = document.createElementNS('http://www.w3.org/2000/svg','path');
-        const mx = (p1.x + p2.x)/2, my = (p1.y + p2.y)/2;
-        el.setAttribute('d', `M ${p1.x},${p1.y} Q ${mx},${my} ${p2.x},${p2.y}`);
-        el.setAttribute('class', 'wire');
-        el.setAttribute('marker-end', 'url(#arrowHead)');
-        return el;
-      }
-
-      // подгоняем SVG под сетку
-      const g = grid.getBoundingClientRect();
-      svg.setAttribute('viewBox', `0 0 ${g.width} ${g.height}`);
-      svg.setAttribute('width', g.width);
-      svg.setAttribute('height', g.height);
-      [...svg.querySelectorAll('.wire')].forEach(n=>n.remove());
-
-      const A = center(document.getElementById('bAnalytics'));
-      const B = center(document.getElementById('bBroker'));
-      const P = center(document.getElementById('bPortfolio'));
-      const F = center(document.getElementById('bFinance'));
-
-      svg.appendChild(path(A,B)); // →
-      svg.appendChild(path(B,P)); // ↓
-      svg.appendChild(path(P,F)); // ←
-      svg.appendChild(path(F,A)); // ↑
-    }
-
-    document.addEventListener('DOMContentLoaded', ()=> setTimeout(redrawWires, 50));
-    window.addEventListener('resize', ()=> requestAnimationFrame(redrawWires));
-    new ResizeObserver(()=> requestAnimationFrame(redrawWires)).observe(document.getElementById('grid'));
   </script>
 </body>
 </html>
