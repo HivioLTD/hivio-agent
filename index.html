@@ -12,21 +12,21 @@
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script defer src="project/js/main.js"></script>
 
-  <!-- Client Area button in the same neon/hover vibe as "Contact Information" panel -->
+  <!-- Client Area button: text color like brand "Hivio LTD"; neon hover -->
   <style>
-    /* defaults use theme variables from style.css when present */
     :root{
       --btn-border: var(--border, #1a2750);
       --btn-bg: #0b0f1a;
-      --btn-text: #ffffff;
+      --btn-text: var(--text, #e3ebff); /* как у Hivio LTD */
       --hover-glow-a: rgba(125,240,255,.35);
       --hover-glow-b: rgba(123,97,255,.35);
     }
-    /* visible on all devices: placed outside .menu (which hides on mobile) */
+    /* Кнопка видна на всех устройствах: стоит вне .menu */
     .client-area-btn{
       display:inline-flex; align-items:center; justify-content:center;
-      padding:10px 18px; border-radius:14px; font-weight:700; text-decoration:none;
-      background: var(--btn-bg); color: var(--btn-text); border:1px solid var(--btn-border);
+      padding:10px 18px; border-radius:14px; font-weight:800; letter-spacing:.2px;
+      text-decoration:none; background: var(--btn-bg); color: var(--btn-text);
+      border:1px solid var(--btn-border);
       box-shadow:none; transition: background .25s ease, box-shadow .25s ease, transform .2s ease, border-color .25s ease;
       white-space:nowrap;
     }
@@ -35,9 +35,9 @@
       border-color: transparent;
       box-shadow: 0 0 18px var(--hover-glow-a), 0 0 28px var(--hover-glow-b);
       transform: translateY(-1px);
+      color: var(--text);
     }
     .client-area-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
-
     @media (max-width:760px){
       .nav-inner{ gap:10px; }
       .client-area-btn{ margin-left:auto; }
@@ -172,7 +172,7 @@
       </div>
     </section>
 
-    <!-- CONTACT -->
+    <!-- CONTACT / COMPANY -->
     <section id="contact" class="section">
       <div class="container">
         <div class="panel neon reveal hover-effect" data-reveal>
