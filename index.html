@@ -3,184 +3,100 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hivio LTD — AI-Driven Investment Company</title>
-  <meta name="description" content="Hivio LTD — an AI-driven investment company: business & financial analysis, stock selection, and portfolio management without emotions." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <title>Hivio LTD</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="project/css/style.css" />
   <style>
-    /* Client Area button: default black, white text; neon gradient on hover */
-    .client-area-btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:10px 18px; border-radius:14px; font-weight:700; text-decoration:none;
-      background:#0b0f1a; color:#ffffff !important; border:1px solid var(--border);
-      box-shadow:none; transition:background .25s ease, box-shadow .25s ease, transform .2s ease, border-color .25s ease;
-      white-space:nowrap;
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0a0f1c;
+      margin: 0;
+      padding: 0;
+      color: #fff;
     }
-    .client-area-btn:hover{
-      background:linear-gradient(90deg,#00f5ff,#7a5cff);
-      border-color:transparent;
-      box-shadow:0 0 18px rgba(125,240,255,.35),0 0 28px rgba(123,97,255,.35);
-      transform:translateY(-1px);
+    header.nav {
+      position: sticky;
+      top: 0;
+      background: rgba(10, 15, 28, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
     }
-    .client-area-btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
-
-    /* keep visible on phones/tablets (menu hides on small screens in style.css) */
-    @media (max-width:760px){
-      .nav-inner{gap:10px}
-      .client-area-btn{margin-left:auto}
+    .brand {
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+    }
+    .logo-dot {
+      width: 10px;
+      height: 10px;
+      background: linear-gradient(90deg, #2af598, #009efd);
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .btn-pill {
+      display: inline-block;
+      padding: 10px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 999px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    /* Подсветка при наведении — как у Contact Information */
+    .btn-pill:hover {
+      background: linear-gradient(90deg, #2af598, #009efd);
+      color: #0a0f1c;
+      box-shadow: 0 0 20px rgba(0, 255, 200, 0.6);
+      border-color: transparent;
+    }
+    main {
+      padding: 80px 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    @media (max-width: 768px) {
+      .btn-pill {
+        font-size: 14px;
+        padding: 8px 20px;
+      }
+      h1 {
+        font-size: 2rem;
+      }
     }
   </style>
-  <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script defer src="project/js/main.js"></script>
 </head>
-<body id="top">
-  <!-- Animated particle background -->
-  <canvas id="bg"></canvas>
+<body>
 
   <header class="nav">
-    <div class="container nav-inner">
-      <div class="brand">
-        <span class="logo-dot"></span>
-        <span>Hivio LTD</span>
-      </div>
-      <nav class="menu">
-        <a href="#why">Why AI</a>
-        <a href="#how">How It Works</a>
-        <a href="#market">Market</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <!-- Placed OUTSIDE .menu so it's visible on mobile too -->
-      <a href="project/pages/login.html" class="client-area-btn">Client Area</a>
+    <div class="brand">
+      <span class="logo-dot"></span>
+      Hivio LTD
     </div>
+    <a class="btn-pill" href="project/pages/login.html">Client Area</a>
   </header>
 
   <main>
-    <!-- HERO -->
-    <section class="hero reveal" data-reveal>
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <h1 class="headline">
-            Invest without emotions.<br>
-            <span class="accent">Full-cycle portfolio management by an AI agent.</span>
-          </h1>
-          <p class="sub">
-            Our AI continuously analyzes business fundamentals, market data, and news, selects companies,
-            and manages risk & rebalancing — humans provide strategic and ethical oversight.
-          </p>
-        </div>
-        <div class="hero-viz card neon reveal" data-reveal data-reveal-delay="120">
-          <h3 class="card-title">Strategy Equity (demo)</h3>
-          <canvas id="heroEquity" height="140"></canvas>
-          <p class="muted xs">Synthetic example illustrating disciplined, rule-based behavior.</p>
-        </div>
-      </div>
-      <div class="glow-ring"></div>
-    </section>
-
-    <!-- WHY AI -->
-    <section id="why" class="section alt">
-      <div class="container grid-3">
-        <div class="card neon reveal" data-reveal>
-          <h3>Data width & speed</h3>
-          <p>Process thousands of signals and events with minute-level reaction time.</p>
-          <div class="pulse-bar"></div>
-        </div>
-        <div class="card neon reveal" data-reveal data-reveal-delay="100">
-          <h3>Replicable discipline</h3>
-          <p>Same inputs → same rules → same outputs. No mood, no fear, no FOMO.</p>
-          <div class="pulse-bar"></div>
-        </div>
-        <div class="card neon reveal" data-reveal data-reveal-delay="200">
-          <h3>Risk first</h3>
-          <p>Limits, stress scenarios, VaR-style constraints, drift monitoring & alerts.</p>
-          <div class="pulse-bar"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- HOW IT WORKS -->
-    <section id="how" class="section">
-      <div class="container steps">
-        <div class="step card outline reveal" data-reveal>
-          <span class="tag">01</span>
-          <h4>Signals</h4>
-          <p>Fundamentals, pricing, news, corporate actions, alternative datasets.</p>
-        </div>
-        <div class="step card outline reveal" data-reveal data-reveal-delay="80">
-          <span class="tag">02</span>
-          <h4>Models</h4>
-          <p>Factor & ML models with scheduled retraining and drift monitoring.</p>
-        </div>
-        <div class="step card outline reveal" data-reveal data-reveal-delay="160">
-          <span class="tag">03</span>
-          <h4>Execution</h4>
-          <p>Automated orders, rebalancing, exposure control and guardrails.</p>
-        </div>
-        <div class="step card outline reveal" data-reveal data-reveal-delay="240">
-          <span class="tag">04</span>
-          <h4>Oversight</h4>
-          <p>Alerts, reporting, compliance checks and auditability.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- MARKET -->
-    <section id="market" class="section alt">
-      <div class="container">
-        <h2 class="reveal" data-reveal>Market landscape (AI investments)</h2>
-        <div class="cards-4">
-          <article class="card hover-up reveal" data-reveal>
-            <h3>Qraft AI ETFs</h3>
-            <p class="muted">A suite of AI-driven ETFs (e.g., QRFT/AMOM) with multifactor models and active rebalancing.</p>
-            <a class="link" href="https://www.qraftaietf.com/" target="_blank" rel="noopener">Website →</a>
-          </article>
-          <article class="card hover-up reveal" data-reveal data-reveal-delay="80">
-            <h3>EquBot / AIEQ</h3>
-            <p class="muted">AI Powered Equity ETF: ML-driven selection originally leveraging IBM Watson.</p>
-            <a class="link" href="https://amplifyetfs.com/aieq/" target="_blank" rel="noopener">Website →</a>
-          </article>
-          <article class="card hover-up reveal" data-reveal data-reveal-delay="160">
-            <h3>Numerai</h3>
-            <p class="muted">Hedge fund aggregating thousands of crowdsourced ML models into a meta-model.</p>
-            <a class="link" href="https://numer.ai/" target="_blank" rel="noopener">Website →</a>
-          </article>
-          <article class="card hover-up reveal" data-reveal data-reveal-delay="240">
-            <h3>Kavout / Danelfin</h3>
-            <p class="muted">AI scoring/insights platforms (Kai Score, AI Score) as analytical reference points.</p>
-            <div class="links-inline">
-              <a class="link" href="https://kavout.com/" target="_blank" rel="noopener">Kavout →</a>
-              <a class="link" href="https://danelfin.com/" target="_blank" rel="noopener">Danelfin →</a>
-            </div>
-          </article>
-        </div>
-
-        <div class="panel neon reveal" data-reveal>
-          <h3>Hivio positioning</h3>
-          <p>We are an <b>investment company</b>, not a public SaaS or ETF: a closed loop of proprietary data pipelines and models focused purely on capital management.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="section">
-      <div class="container">
-        <div class="panel neon reveal hover-effect" data-reveal>
-          <h3>Contact Information</h3>
-          <p><strong>HIVIO LTD</strong></p>
-          <p>483 Green Lanes, London, England, N13 4BS</p>
-          <p>Private limited company · Company number 15099399</p>
-        </div>
-      </div>
-    </section>
+    <h1>Invest without emotions.<br>Full-cycle portfolio management by an AI agent.</h1>
+    <p>Our AI continuously analyzes business fundamentals, market data, and news, selects companies, and manages risk & rebalancing — humans provide strategic and ethical oversight.</p>
   </main>
 
-  <footer class="footer">
-    <div class="container">
-      <span>© <span id="year"></span> Hivio LTD</span>
-      <a href="#top" class="btn-pill" aria-label="Back to top">↑</a>
-    </div>
-  </footer>
 </body>
 </html>
