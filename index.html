@@ -8,39 +8,65 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Глобальные стили проекта -->
   <link rel="stylesheet" href="project/css/style.css" />
+  <!-- Графики в герое -->
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Сценарии проекта (анимации, подсветка, year и т.п.) -->
   <script defer src="project/js/main.js"></script>
 
-  <!-- Client Area button: text color like brand "Hivio LTD"; neon hover -->
+  <!-- Небольшие правки под кнопку Client Area и панель компании -->
   <style>
-    :root{
-      --btn-border: var(--border, #1a2750);
-      --btn-bg: #0b0f1a;
-      --btn-text: var(--text, #e3ebff); /* как у Hivio LTD */
-      --hover-glow-a: rgba(125,240,255,.35);
-      --hover-glow-b: rgba(123,97,255,.35);
-    }
-    /* Кнопка видна на всех устройствах: стоит вне .menu */
-    .client-area-btn{
+    /* Кнопка Client Area — базово “чёрная с белым”, при ховере — такая же подсветка как у неон‑панелей */
+    .btn-client {
       display:inline-flex; align-items:center; justify-content:center;
-      padding:10px 18px; border-radius:14px; font-weight:800; letter-spacing:.2px;
-      text-decoration:none; background: var(--btn-bg); color: var(--btn-text);
-      border:1px solid var(--btn-border);
-      box-shadow:none; transition: background .25s ease, box-shadow .25s ease, transform .2s ease, border-color .25s ease;
-      white-space:nowrap;
+      padding:10px 16px; border-radius:14px; text-decoration:none;
+      background:#0b0f1a; color:#fff; border:1px solid var(--border, rgba(255,255,255,.12));
+      font-weight:700; letter-spacing:.2px;
+      transition: background .25s, box-shadow .25s, transform .2s, border-color .25s, color .2s;
+      min-height:40px;
     }
-    .client-area-btn:hover{
+    .btn-client:hover {
       background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
-      border-color: transparent;
-      box-shadow: 0 0 18px var(--hover-glow-a), 0 0 28px var(--hover-glow-b);
+      border-color:transparent;
+      box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
       transform: translateY(-1px);
-      color: var(--text);
+      color:#fff;
     }
-    .client-area-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
-    @media (max-width:760px){
-      .nav-inner{ gap:10px; }
-      .client-area-btn{ margin-left:auto; }
+    /* На мобильных кнопка не пропадает — переносится вправо, но всегда видна */
+    .nav .menu { gap:16px; }
+    @media (max-width: 840px){
+      .nav .menu { display:none; } /* ссылки якорей можно скрыть, оставляя Client Area */
+    }
+
+    /* Карточка в герое: заголовок изменён */
+    .hero-viz .card-title small {
+      display:block; font-weight:600; opacity:.8; margin-top:4px; font-size:.9rem;
+    }
+
+    /* Блок Company Information — как “Hivio positioning”, но с новыми данными и приятным hover */
+    .panel.company {
+      display:block; padding:18px; border-radius:16px;
+      border:1px solid var(--border, rgba(255,255,255,.12));
+      background:rgba(255,255,255,.03);
+      transition: background .25s, box-shadow .25s, border-color .25s, transform .2s;
+    }
+    .panel.company:hover {
+      background: linear-gradient(90deg, rgba(125,240,255,.18), rgba(123,97,255,.18));
+      border-color:transparent;
+      box-shadow:0 0 22px rgba(125,240,255,.28), 0 0 36px rgba(123,97,255,.28);
+      transform: translateY(-2px);
+    }
+    .company .rows { display:grid; gap:6px; }
+    .company .name { font-weight:800; font-size:1.05rem; letter-spacing:.2px; }
+    .company .muted { opacity:.8; }
+
+    /* Немного ужмём отступы героя, чтобы всё красиво помещалось на небольших ноутбуках */
+    @media (min-width: 1024px){
+      .hero .container.hero-grid { align-items: center; }
+    }
+    @media (max-width: 420px){
+      .hero .headline { font-size: clamp(24px, 6.5vw, 36px); }
     }
   </style>
 </head>
@@ -50,18 +76,19 @@
 
   <header class="nav">
     <div class="container nav-inner">
-      <div class="brand">
+      <a class="brand" href="#top" aria-label="Hivio LTD — homepage">
         <span class="logo-dot"></span>
         <span>Hivio LTD</span>
-      </div>
+      </a>
+
       <nav class="menu">
         <a href="#why">Why AI</a>
         <a href="#how">How It Works</a>
         <a href="#market">Market</a>
-        <a href="#contact">Contact</a>
+        <a href="#company">Company</a>
       </nav>
-      <!-- outside .menu so it shows on phones too -->
-      <a class="client-area-btn" href="project/pages/login.html" aria-label="Client area">Client Area</a>
+
+      <a class="btn-client" href="project/pages/login.html" aria-label="Client area">Client Area</a>
     </div>
   </header>
 
@@ -78,9 +105,11 @@
             Our AI continuously analyzes business fundamentals, market data, and news, selects companies,
             and manages risk & rebalancing — humans provide strategic and ethical oversight.
           </p>
+          <!-- Кнопки в герое удалены по вашему запросу -->
         </div>
+
         <div class="hero-viz card neon reveal" data-reveal data-reveal-delay="120">
-          <h3 class="card-title">Hivio LTD portfolio — AI‑managed</h3>
+          <h3 class="card-title">Hivio LTD portfolio <small>managed by an AI agent</small></h3>
           <canvas id="heroEquity" height="140"></canvas>
           <p class="muted xs">Synthetic illustration of disciplined, rule‑based behavior.</p>
         </div>
@@ -172,14 +201,18 @@
       </div>
     </section>
 
-    <!-- CONTACT / COMPANY -->
-    <section id="contact" class="section">
+    <!-- COMPANY -->
+    <section id="company" class="section">
       <div class="container">
-        <div class="panel neon reveal hover-effect" data-reveal>
-          <h3>Contact Information</h3>
-          <p><strong>HIVIO LTD</strong></p>
-          <p>483 Green Lanes, London, England, N13 4BS</p>
-          <p>Private limited company · Company number 15099399</p>
+        <h2 class="reveal" data-reveal>Company information</h2>
+
+        <div class="panel company reveal" data-reveal data-reveal-delay="60">
+          <div class="rows">
+            <div class="name">HIVIO LTD</div>
+            <div class="muted">Private limited company</div>
+            <div>Company number: <b>15099399</b></div>
+            <div>Address: <b>483 Green Lanes, London, England, N13 4BS</b></div>
+          </div>
         </div>
       </div>
     </section>
@@ -191,5 +224,29 @@
       <a href="#top" class="btn-pill" aria-label="Back to top">↑</a>
     </div>
   </footer>
+
+  <script>
+    // Мини-график в герое (синтетические данные, как раньше)
+    document.addEventListener('DOMContentLoaded', () => {
+      const ctx = document.getElementById('heroEquity');
+      if (!window.Chart || !ctx) return;
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: Array.from({length: 48}, (_, i) => i),
+          datasets: [{
+            data: Array.from({length: 48}, (_, i) => 100 + Math.sin(i/2)*4 + i*0.5 + (Math.random()*2-1)),
+            borderWidth: 2,
+            fill: false,
+            tension: 0.25
+          }]
+        },
+        options: {
+          plugins: { legend: { display: false } },
+          scales: { x: { display: false }, y: { display: false } }
+        }
+      });
+    });
+  </script>
 </body>
 </html>
