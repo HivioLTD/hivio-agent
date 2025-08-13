@@ -3,20 +3,91 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hivio LTD — AI</title>
+  <title>Hivio LTD — Broker</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css" />
+  <script defer src="../js/main.js"></script>
+  <style>
+    /* стили шапки/меню такие же, как в analytics.html (для краткости не повторяю тут комментарии) */
+    .nav{ position:relative; z-index:50; }
+    .brand-link{ display:inline-flex; align-items:center; gap:10px; padding:8px 14px; border-radius:12px; text-decoration:none; color:var(--text); background:#0b0f1a; border:1px solid var(--border); font-weight:800; letter-spacing:.2px; transition: background .25s, box-shadow .25s, transform .2s, border-color .25s; }
+    .brand-link:hover{ background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28)); border-color:transparent; box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35); transform: translateY(-1px); color:var(--text); }
+    .logo-dot{ width:12px;height:12px;border-radius:50%;background:linear-gradient(90deg,#7df0ff,#7b61ff);box-shadow:0 0 16px rgba(125,240,255,.35),0 0 36px rgba(125,240,255,.35);display:inline-block; }
+    .usermenu{ position:relative; display:inline-flex; align-items:center; z-index:60; }
+    .usermenu-toggle{ display:inline-flex; align-items:center; gap:10px; padding:8px 12px; border-radius:14px; border:1px solid var(--border); background:#0b0f1a; color:var(--text); cursor:pointer; transition: background .25s, box-shadow .25s, transform .2s, border-color .25s; -webkit-tap-highlight-color: transparent; }
+    .usermenu-toggle:hover, .usermenu[aria-expanded="true"] .usermenu-toggle{ background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28)); border-color:transparent; box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35); transform: translateY(-1px); }
+    .user-icon{ width:22px;height:22px; } .user-caret{ width:14px;height:14px; opacity:.7; transform: translateY(1px); }
+    .userpanel{ position:absolute; right:0; top:calc(100% + 8px); width:260px; background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:14px; box-shadow:0 20px 60px -25px rgba(0,0,0,.6); padding:8px; backdrop-filter: blur(6px); opacity:0; visibility:hidden; transform: translateY(-6px); transition: all .18s ease; z-index:70; }
+    .userpanel.open{ opacity:1; visibility:visible; transform: translateY(0); }
+    .userpanel a{ display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; text-decoration:none; color:var(--text); transition: background .2s, box-shadow .2s; }
+    .userpanel a:hover{ background: linear-gradient(90deg, rgba(125,240,255,.18), rgba(123,97,255,.18)); box-shadow:0 0 10px rgba(125,240,255,.25); }
+    .userpanel .sep{ height:1px; background:rgba(255,255,255,.08); margin:6px 4px; border-radius:1px; }
+    .usercard{ display:grid; grid-template-columns:40px 1fr; gap:10px; align-items:center; padding:10px; border-radius:10px; background:rgba(255,255,255,.04); border:1px solid var(--border); margin:2px 2px 6px 2px; }
+    .usercard .ico{ width:40px;height:40px;border-radius:10px;display:grid;place-items:center; background:linear-gradient(180deg, rgba(125,240,255,.15), rgba(123,97,255,.15)); border:1px solid var(--border); }
+    .usercard .title{ font-weight:800; line-height:1.1; } .usercard .sub{ font-size:12.5px; color:var(--muted); margin-top:2px; }
+
+    .top-center{ position:fixed; top:12px; left:50%; transform:translateX(-50%); z-index:100; }
+    .pill{ display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:14px; border:1px solid var(--border); background:#0b0f1a; color:var(--text); text-decoration:none; font-weight:800; transition: background .25s, box-shadow .25s, transform .2s, border-color .25s; }
+    .pill:hover{ background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28)); border-color:transparent; box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35); transform: translateY(-1px); }
+
+    .page-wrap{ min-height:100dvh; display:grid; place-items:center; padding:72px 16px 24px; }
+    .card{ width:min(960px, 92vw); border:1px solid var(--border); border-radius:20px; background:rgba(255,255,255,.02); box-shadow:0 24px 80px -40px rgba(0,0,0,.6); padding:20px; }
+    .page-title{ font-size:clamp(22px,2.4vmax,32px); font-weight:800; margin:0 0 8px; }
+    .muted{ color:var(--muted); font-size:14px; }
+    #bg{ position:fixed; inset:0; z-index:-1; pointer-events:none; }
+  </style>
 </head>
 <body>
-  <div class="top-center">
-    <a class="pill" href="./cabinet.html">Dashboard</a>
-  </div>
+  <canvas id="bg"></canvas>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand-link" href="https://www.hivio.uk"><span class="logo-dot"></span><span>Hivio LTD</span></a>
+      <div class="usermenu" id="usermenu" aria-expanded="false">
+        <button type="button" class="usermenu-toggle" id="usermenuToggle" aria-haspopup="true" aria-controls="userpanel" aria-expanded="false">
+          <svg class="user-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span class="label">Account</span>
+          <svg class="user-caret" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="userpanel" id="userpanel" role="menu">
+          <div class="usercard">
+            <div class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+            <div><div class="title" id="ucName">Kuznetsov Vsevolod</div><div class="sub" id="ucPos">Director</div></div>
+          </div>
+          <a href="./account.html" role="menuitem" id="menuAccount">My Account</a>
+          <div class="sep"></div>
+          <a href="./login.html" role="menuitem" id="menuSignout">Sign out</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="top-center"><a class="pill" href="./cabinet.html">Dashboard</a></div>
 
   <main class="page-wrap">
     <section class="card">
-      <h1 class="page-title">AI</h1>
-      <p class="muted">Раздел AI‑агента: сигналы, сценарии, логи действий.</p>
+      <h1 class="page-title">Broker</h1>
+      <p class="muted">Секция интеграции с брокером (IBKR API, статусы подключений, ордера).</p>
     </section>
   </main>
+
+  <script>
+    (function(){
+      const menu=document.getElementById('usermenu');
+      const toggle=document.getElementById('usermenuToggle');
+      const panel=document.getElementById('userpanel');
+      function open(){ menu.setAttribute('aria-expanded','true'); toggle.setAttribute('aria-expanded','true'); panel.classList.add('open'); }
+      function close(){ menu.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-expanded','false'); panel.classList.remove('open'); }
+      toggle.addEventListener('click',(e)=>{ e.stopPropagation(); panel.classList.contains('open')?close():open(); });
+      document.addEventListener('click',(e)=>{ if(!menu.contains(e.target)) close(); });
+      try{
+        const prof=JSON.parse(localStorage.getItem('hivio_profile')||'null');
+        const first=prof?.firstName||'Vsevolod'; const last=prof?.lastName||'Kuznetsov'; const pos=prof?.position||'Director';
+        document.getElementById('ucName').textContent=`${last} ${first}`.trim();
+        document.getElementById('ucPos').textContent=pos;
+      }catch(e){}
+      document.getElementById('menuSignout').addEventListener('click',()=>{ try{ localStorage.removeItem('hivio_auth'); }catch(_){ } },{ once:true });
+    })();
+  </script>
 </body>
 </html>
