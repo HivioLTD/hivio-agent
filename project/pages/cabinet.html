@@ -87,11 +87,23 @@
     /* ---------- СЕТКА 5 КВАДРАТОВ ---------- */
     .network{
       position: relative;
-      margin: 18px auto;
+      margin: 4px auto 8px; /* было 18px auto; подняли выше */
       width: calc(3 * var(--block) + 2 * var(--gap));
       height: calc(3 * var(--block) + 2 * var(--gap));
       max-width: 100%;
     }
+
+    /* Дополнительно: на больших экранах поднимаем ещё чуть выше */
+    @media (min-width: 1024px){
+      .network{ margin: -16px auto 8px; }
+    }
+    @media (min-width: 768px) and (max-width: 1023.98px){
+      .network{ margin: -10px auto 8px; }
+    }
+    @media (max-width: 767.98px){
+      .network{ margin: 0 auto 8px; } /* на мобиле чуть мягче */
+    }
+
     .grid{
       position: absolute; inset: 0;
       display: grid;
