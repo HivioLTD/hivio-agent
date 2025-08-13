@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Portfolio — Hivio LTD</title>
+  <title>Hivio — Control Center</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css" />
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -16,24 +16,89 @@
     <div class="container nav-inner">
       <div class="brand">
         <span class="logo-dot"></span>
-        <span>Hivio LTD</span>
+        <span>Hivio LTD — Control Center</span>
       </div>
-      <a class="btn-pill" href="./login.html" id="logoutBtn">Sign out</a>
+      <div style="display:flex; gap:10px; align-items:center">
+        <a class="btn-pill" href="./account.html" id="accountBtn">My Account</a>
+        <a class="btn-pill" href="./login.html" id="logoutBtn">Sign out</a>
+      </div>
     </div>
   </header>
 
   <main class="section">
     <div class="container">
-      <h1 class="tight reveal" data-reveal>Portfolio</h1>
+      <h1 class="tight reveal" data-reveal>Company & Portfolio Overview</h1>
 
+      <!-- KPI STRIP -->
+      <div class="kpi-strip">
+        <div class="kpi card neon reveal" data-reveal>
+          <div class="kpi-label">AUM</div>
+          <div class="kpi-value" id="kpiAum">$125.6M</div>
+          <div class="kpi-note muted xs">Assets under management</div>
+        </div>
+        <div class="kpi card neon reveal" data-reveal data-reveal-delay="60">
+          <div class="kpi-label">YTD Return</div>
+          <div class="kpi-value" id="kpiYtd">+8.4%</div>
+          <div class="kpi-note muted xs">vs. benchmark +5.1%</div>
+        </div>
+        <div class="kpi card neon reveal" data-reveal data-reveal-delay="120">
+          <div class="kpi-label">Sharpe</div>
+          <div class="kpi-value" id="kpiSharpe">1.21</div>
+          <div class="kpi-note muted xs">rolling 12m</div>
+        </div>
+        <div class="kpi card neon reveal" data-reveal data-reveal-delay="180">
+          <div class="kpi-label">Active Risk</div>
+          <div class="kpi-value" id="kpiRisk">3.7%</div>
+          <div class="kpi-note muted xs">tracking error</div>
+        </div>
+      </div>
+
+      <!-- MAIN GRID -->
       <div class="grid-2">
         <div class="card neon reveal" data-reveal>
           <h3>Equity Curve</h3>
-          <canvas id="equityChart" height="120"></canvas>
+          <canvas id="equityChart" height="140"></canvas>
         </div>
-        <div class="card neon reveal" data-reveal data-reveal-delay="100">
+        <div class="card neon reveal" data-reveal data-reveal-delay="80">
           <h3>Sector Allocation</h3>
-          <canvas id="sectorsChart" height="120"></canvas>
+          <canvas id="sectorsChart" height="140"></canvas>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card neon reveal" data-reveal>
+          <h3>Cashflow & Expenses</h3>
+          <canvas id="cashflowChart" height="140"></canvas>
+        </div>
+        <div class="panel outline reveal" data-reveal data-reveal-delay="80">
+          <h3>Strategy Controls</h3>
+          <div class="controls">
+            <label class="switch">
+              <input type="checkbox" id="toggleMomentum" checked />
+              <span>Momentum Signals</span>
+            </label>
+            <label class="switch">
+              <input type="checkbox" id="toggleQuality" checked />
+              <span>Quality Factor</span>
+            </label>
+            <label class="switch">
+              <input type="checkbox" id="toggleValue" />
+              <span>Value Factor</span>
+            </label>
+            <label class="switch">
+              <input type="checkbox" id="toggleNews" checked />
+              <span>News Sentiment</span>
+            </label>
+          </div>
+          <div class="sliders">
+            <label>Max Single Position
+              <input type="range" min="2" max="20" value="10" id="maxPos" />
+            </label>
+            <label>Gross Exposure
+              <input type="range" min="50" max="150" value="100" id="grossExp" />
+            </label>
+          </div>
+          <p class="muted xs">UI only. Hook to backend to persist.</p>
         </div>
       </div>
 
@@ -45,7 +110,27 @@
           </thead>
           <tbody id="positionsTable"></tbody>
         </table>
-        <small class="muted">Demo data — connect your broker later.</small>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel outline reveal" data-reveal>
+          <h3>Operations Pipeline</h3>
+          <ul id="tasks" class="tasklist"></ul>
+          <div class="controls-row">
+            <input id="taskInput" type="text" placeholder="Add new task…" />
+            <button id="addTask" class="btn-primary">Add</button>
+          </div>
+          <p class="muted xs">Examples: compliance check, rebalance review, model retrain, broker sync.</p>
+        </div>
+        <div class="panel outline reveal" data-reveal data-reveal-delay="80">
+          <h3>Company Snapshot — HIVIO LTD</h3>
+          <ul class="list">
+            <li><b>Type:</b> Private limited company</li>
+            <li><b>Number:</b> 15099399</li>
+            <li><b>Address:</b> 483 Green Lanes, London, England, N13 4BS</li>
+          </ul>
+          <p class="muted xs">This is a visual dashboard. Replace demo values via API later.</p>
+        </div>
       </div>
     </div>
   </main>
