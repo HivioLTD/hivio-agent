@@ -11,12 +11,13 @@
 
   <style>
     :root{
-      /* размер квадрата и ОДИНАКОВЫЙ с ним отступ */
-      --block: clamp(80px, 16vmin, 180px);
-      --gap: var(--block);
+      /* Увеличили квадрат в 2 раза: было clamp(80,16vmin,180) → стало clamp(160,32vmin,360) */
+      --block: clamp(160px, 32vmin, 360px);
+      /* «Ближе к центру в 2 раза»: отступ = 1/2 размера квадрата */
+      --gap: calc(var(--block) / 2);
     }
 
-    /* Бренд / Account (как раньше) */
+    /* ---------- ШАПКА + ACCOUNT ---------- */
     .brand-link{
       display:inline-flex; align-items:center; gap:10px;
       padding:8px 14px; border-radius:12px; text-decoration:none;
@@ -66,12 +67,10 @@
     .userpanel a:hover{ background: linear-gradient(90deg, rgba(125,240,255,.18), rgba(123,97,255,.18)); box-shadow:0 0 10px rgba(125,240,255,.25); }
     .userpanel .sep{ height:1px; background:rgba(255,255,255,.08); margin:6px 4px; border-radius:1px; }
 
-    /* карточка юзера вверху меню */
     .usercard{
       display:grid; grid-template-columns:40px 1fr; gap:10px;
       align-items:center; padding:10px; border-radius:10px;
-      background:rgba(255,255,255,.04);
-      border:1px solid var(--border);
+      background:rgba(255,255,255,.04); border:1px solid var(--border);
       margin:2px 2px 6px 2px;
     }
     .usercard .ico{
@@ -86,9 +85,9 @@
     .network{
       position: relative;
       margin: 26px auto 18px;
-      width: calc(5 * var(--block)); /* 3 блока + 2 зазора (=5 блоков по ширине) */
-      /* высота: 3 ряда (2 блока + центр + 2 блока) и 2 отступа между рядами: итого 5 блоков */
-      height: calc(5 * var(--block));
+      /* ширина = 3*block + 2*gap ; высота = 3*block + 2*gap */
+      width: calc(3 * var(--block) + 2 * var(--gap));
+      height: calc(3 * var(--block) + 2 * var(--gap));
       max-width: 100%;
     }
 
@@ -102,7 +101,6 @@
       justify-content: center; align-content: center;
     }
 
-    /* Позиции в сетке: */
     .cell[data-id="analytics"] { grid-column: 1; grid-row: 1; }
     .cell[data-id="ai"]        { grid-column: 2; grid-row: 2; }
     .cell[data-id="broker"]    { grid-column: 3; grid-row: 1; }
@@ -110,9 +108,8 @@
     .cell[data-id="portfolio"] { grid-column: 3; grid-row: 3; }
 
     .sq{
-      width: var(--block);
-      height: var(--block);
-      border-radius: 18px;
+      width: var(--block); height: var(--block);
+      border-radius: 24px;
       border: 1px solid var(--border);
       background: rgba(255,255,255,.02);
       box-shadow: 0 24px 80px -40px rgba(0,0,0,.6);
@@ -137,7 +134,7 @@
 
     .title{
       font-weight: 800; letter-spacing:.2px;
-      font-size: clamp(18px, 2.4vmin, 24px);
+      font-size: clamp(18px, 2.6vmin, 28px);
       position: relative;
     }
     .title::after{
@@ -148,28 +145,19 @@
     }
     .sq:hover .title::after{ width: 100%; }
 
-    /* SVG со стрелками — поверх сетки */
-    .wires{
-      position:absolute; inset:0; pointer-events:none; z-index:0;
-    }
+    /* ---------- СТРЕЛКИ ---------- */
+    .wires{ position:absolute; inset:0; pointer-events:none; z-index:0; }
     @keyframes dash { to { stroke-dashoffset: -1000; } }
     .wire{
-      fill:none; stroke:url(#gradBlue); stroke-width:3; stroke-linecap:round; stroke-linejoin:round;
-      stroke-dasharray: 8 10; stroke-dashoffset: 0;
-      filter: drop-shadow(0 0 6px rgba(125,240,255,.35));
-      animation: dash 2.4s linear infinite;
+      fill:none; stroke:url(#gradBlue); stroke-width:4.5; stroke-linecap:round; stroke-linejoin:round;
+      stroke-dasharray: 9 12; stroke-dashoffset: 0;
+      filter: drop-shadow(0 0 8px rgba(125,240,255,.45));
+      animation: dash 2.1s linear infinite;
     }
-    .wire.orange{ stroke:url(#gradOrange); }
-    .wire.green { stroke:url(#gradGreen); }
 
-    /* Графики ниже сети */
-    .charts{ max-width: 1100px; margin: 18px auto; padding: 0 8px; }
-    .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
-    @media (max-width: 900px){ .grid-2{ grid-template-columns:1fr; } }
-
-    /* Адаптив: уменьшаем блок, чтобы сеть помещалась на телефонах */
-    @media (max-width: 480px){
-      :root{ --block: clamp(64px, 22vw, 120px); }
+    /* На очень узких экранах немного уменьшим блоки, чтобы всё влезло */
+    @media (max-width: 420px){
+      :root{ --block: clamp(120px, 28vmin, 260px); --gap: calc(var(--block)/2); }
     }
   </style>
 </head>
@@ -239,20 +227,8 @@
           <linearGradient id="gradBlue" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%"  stop-color="#7df0ff"/><stop offset="100%" stop-color="#7b61ff"/>
           </linearGradient>
-          <linearGradient id="gradOrange" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"  stop-color="#ffb07a"/><stop offset="100%" stop-color="#ff7a7a"/>
-          </linearGradient>
-          <linearGradient id="gradGreen" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"  stop-color="#9dfc95"/><stop offset="100%" stop-color="#42e1a5"/>
-          </linearGradient>
           <marker id="headBlue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
             <path d="M0,0 L10,5 L0,10 z" fill="#7df0ff" />
-          </marker>
-          <marker id="headOrange" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-            <path d="M0,0 L10,5 L0,10 z" fill="#ffb07a" />
-          </marker>
-          <marker id="headGreen" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-            <path d="M0,0 L10,5 L0,10 z" fill="#6df7ba" />
           </marker>
         </defs>
       </svg>
@@ -266,7 +242,7 @@
       </div>
     </section>
 
-    <!-- ГРАФИКИ НИЖЕ СЕТИ (если нужны) -->
+    <!-- ГРАФИКИ НИЖЕ СЕТИ (оставлены как были) -->
     <section class="charts container">
       <div class="grid-2">
         <div class="card neon reveal" data-reveal>
@@ -282,7 +258,7 @@
   </main>
 
   <script>
-    // === dropdown ===
+    // === Account dropdown + подстановка ФИО/должности ===
     (function(){
       const menu = document.getElementById('usermenu');
       const toggle = document.getElementById('usermenuToggle');
@@ -290,11 +266,8 @@
       function open(){ menu.setAttribute('aria-expanded','true'); toggle.setAttribute('aria-expanded','true'); panel.classList.add('open'); }
       function close(){ menu.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-expanded','false'); panel.classList.remove('open'); }
       toggle.addEventListener('click', (e)=>{ e.stopPropagation(); panel.classList.contains('open') ? close() : open(); });
-      menu.addEventListener('mouseenter', open);
-      menu.addEventListener('mouseleave', close);
       document.addEventListener('click', (e)=>{ if(!menu.contains(e.target)) close(); });
 
-      // Подставляем ФИО и должность в карточку
       try{
         const prof = JSON.parse(localStorage.getItem('hivio_profile') || 'null');
         const first = prof?.firstName || 'Vsevolod';
@@ -302,15 +275,14 @@
         const pos   = prof?.position  || 'Director';
         document.getElementById('ucName').textContent = `${last} ${first}`.trim();
         document.getElementById('ucPos').textContent  = pos;
-      }catch(e){ console.warn('Usercard init error', e); }
+      }catch(e){}
 
-      // Sign out
       document.getElementById('menuSignout').addEventListener('click', ()=>{
         try{ localStorage.removeItem('hivio_auth'); }catch(_){}
       }, { once:true });
     })();
 
-    // === графики (демо) ===
+    // === демо-графики (как было) ===
     document.addEventListener('DOMContentLoaded', ()=>{
       const c1 = document.getElementById('equityChart');
       const c2 = document.getElementById('sectorsChart');
@@ -320,7 +292,7 @@
       }
     });
 
-    // === стрелки между блоками с равными отступами ===
+    // === стрелки между блоками (с учётом нового gap) ===
     (function(){
       const grid = document.getElementById('grid');
       const svg  = document.getElementById('wires');
@@ -333,16 +305,14 @@
         return { x: r.left - g.left + r.width/2, y: r.top - g.top + r.height/2 };
       }
 
-      function clearWires(){
-        [...svg.querySelectorAll('.wire')].forEach(n=>n.remove());
-      }
+      function clearWires(){ [...svg.querySelectorAll('.wire')].forEach(n=>n.remove()); }
 
-      function addWire(p1, p2, cls, head){
+      function addWire(p1, p2){
         const path = document.createElementNS('http://www.w3.org/2000/svg','path');
-        const mx = (p1.x + p2.x)/2, my = (p1.y + p2.y)/2; // лёгкая кривизна
+        const mx = (p1.x + p2.x)/2, my = (p1.y + p2.y)/2;
         path.setAttribute('d', `M ${p1.x},${p1.y} Q ${mx},${my} ${p2.x},${p2.y}`);
-        path.setAttribute('class', `wire ${cls||''}`);
-        path.setAttribute('marker-end', `url(#${head||'headBlue'})`);
+        path.setAttribute('class', 'wire');
+        path.setAttribute('marker-end', 'url(#headBlue)');
         svg.appendChild(path);
       }
 
@@ -357,19 +327,11 @@
         const B  = center(byId('bBroker'));
         const P  = center(byId('bPortfolio'));
         const F  = center(byId('bFinance'));
-        const AI = center(byId('bAI'));
-
-        // Контур: Analytics → Broker → Portfolio → Finance → Analytics
-        addWire(A, B, 'blue', 'headBlue');
-        addWire(B, P, 'orange', 'headOrange');
-        addWire(P, F, 'green', 'headGreen');
-        addWire(F, A, 'blue', 'headBlue');
-
-        // Связи AI ко всем
-        addWire(AI, A, 'blue', 'headBlue');
-        addWire(AI, B, 'blue', 'headBlue');
-        addWire(AI, P, 'blue', 'headBlue');
-        addWire(AI, F, 'blue', 'headBlue');
+        // Контур: → ↓ ← ↑
+        addWire(A, B);
+        addWire(B, P);
+        addWire(P, F);
+        addWire(F, A);
       }
 
       window.addEventListener('resize', ()=> requestAnimationFrame(draw));
