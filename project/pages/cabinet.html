@@ -6,12 +6,14 @@
   <title>Hivio LTD — Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css" />
+
+  <!-- Графики -->
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- фон + анимации как на других страницах -->
+  <!-- Общий фон/анимации (как на других страницах) -->
   <script defer src="../js/main.js"></script>
 
   <style>
-    /* Бренд-кнопка как на login.html */
+    /* ---------- ШАПКА (как раньше) ---------- */
     .brand-link{
       display:inline-flex; align-items:center; gap:10px;
       padding:8px 14px; border-radius:12px; text-decoration:none;
@@ -32,8 +34,6 @@
       box-shadow:0 0 16px rgba(125,240,255,.35),0 0 36px rgba(125,240,255,.35);
       display:inline-block;
     }
-
-    /* ====== USER MENU (одна кнопка с иконкой + дропдаун) ====== */
     .usermenu{ position:relative; display:inline-flex; align-items:center; }
     .usermenu-toggle{
       display:inline-flex; align-items:center; gap:10px;
@@ -51,65 +51,120 @@
     }
     .user-icon{ width:22px;height:22px; display:inline-block; }
     .user-caret{ width:14px;height:14px; opacity:.7; transform: translateY(1px); }
-
     .userpanel{
       position:absolute; right:0; top:calc(100% + 8px); width:260px;
       background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:14px;
       box-shadow:0 20px 60px -25px rgba(0,0,0,.6);
       padding:8px; backdrop-filter: blur(6px);
-      opacity:0; visibility:hidden; transform: translateY(-6px); transition: all .18s ease;
-      z-index:30;
-    }
-    .userpanel::before{
-      content:""; position:absolute; right:18px; top:-8px; width:14px; height:14px;
-      background:inherit; border-left:1px solid var(--border); border-top:1px solid var(--border);
-      transform: rotate(45deg);
+      opacity:0; visibility:hidden; transform: translateY(-6px); transition: all .18s ease; z-index:30;
     }
     .userpanel.open{ opacity:1; visibility:visible; transform: translateY(0); }
-
-    .usercard{
-      display:grid; grid-template-columns:40px 1fr; gap:10px;
-      align-items:center; padding:10px; border-radius:10px;
-      background:rgba(255,255,255,.04);
-      border:1px solid var(--border);
-      margin:2px 2px 6px 2px;
-    }
-    .usercard .ico{
-      width:40px;height:40px;border-radius:10px;display:grid;place-items:center;
-      background:linear-gradient(180deg, rgba(125,240,255,.15), rgba(123,97,255,.15));
-      border:1px solid var(--border);
-    }
-    .usercard .title{ font-weight:800; line-height:1.1; }
-    .usercard .sub{ font-size:12.5px; color:var(--muted); margin-top:2px; }
-
     .userpanel a{
-      display:flex; align-items:center; gap:10px;
-      padding:10px 12px; border-radius:10px; text-decoration:none; color:var(--text);
-      transition: background .2s ease, box-shadow .2s ease;
+      display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px;
+      text-decoration:none; color:var(--text); transition: background .2s ease, box-shadow .2s ease;
     }
     .userpanel a:hover{
       background: linear-gradient(90deg, rgba(125,240,255,.18), rgba(123,97,255,.18));
       box-shadow:0 0 10px rgba(125,240,255,.25);
     }
-    .userpanel .sep{ height:1px; background:rgba(255,255,255,.08); margin:6px 4px; border-radius:1px; }
 
-    /* Сетка для двух карточек графиков */
+    /* ---------- СЕТЬ ИЗ 5 КВАДРАТОВ ---------- */
+    .network{
+      position: relative;
+      margin: 24px auto 18px;
+      max-width: 1100px;
+      padding: 8px;
+    }
+    .network-grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 18px;
+    }
+    /* области: верхние два, центр, нижние два */
+    .cell{ position: relative; }
+    .sq{
+      position: relative;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.02);
+      box-shadow: 0 24px 80px -40px rgba(0,0,0,.6);
+      overflow: hidden;
+      aspect-ratio: 1/1;           /* квадрат */
+      display: grid; place-items: center;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
+      isolation:isolate;
+    }
+    .sq::after{
+      content:""; position:absolute; inset:0;
+      background: radial-gradient(600px 160px at 12% 0%, rgba(125,240,255,.08), transparent 60%),
+                  radial-gradient(600px 160px at 88% 100%, rgba(123,97,255,.08), transparent 60%);
+      opacity:.8; pointer-events:none; transition: opacity .2s ease;
+    }
+    .sq:hover{
+      transform: translateY(-2px);
+      border-color: transparent;
+      background: linear-gradient(180deg, rgba(125,240,255,.10), rgba(123,97,255,.10));
+      box-shadow:0 0 26px rgba(125,240,255,.25), 0 0 40px rgba(123,97,255,.25);
+    }
+    .sq:hover::after{ opacity:1; }
+
+    .sq .title{
+      font-weight: 800; letter-spacing:.2px;
+      font-size: clamp(18px, 2.4vw, 24px);
+      position: relative;
+    }
+    .sq .title::after{
+      content:""; position:absolute; left:50%; bottom:-6px; width:0; height:2px;
+      background: linear-gradient(90deg,#7df0ff,#7b61ff);
+      border-radius:2px; transform: translateX(-50%);
+      transition: width .25s ease;
+    }
+    .sq:hover .title::after{ width: 100%; }
+
+    /* Контейнер для стрелок поверх сетки */
+    .net-arrows{
+      position:absolute; inset:8px; pointer-events:none; z-index:0;
+    }
+    /* Анимация бегущего штриха */
+    @keyframes dash {
+      to { stroke-dashoffset: -1000; }
+    }
+    .arrow{
+      fill:none; stroke:url(#grad); stroke-width:3;
+      stroke-linecap:round; stroke-linejoin:round;
+      stroke-dasharray: 8 10; stroke-dashoffset: 0;
+      filter: drop-shadow(0 0 6px rgba(125,240,255,.35));
+      animation: dash 2.4s linear infinite;
+    }
+    .arrow.orange{ stroke:url(#grad2); }
+    .arrow.green{ stroke:url(#grad3); }
+
+    /* ---------- НИЖНИЕ ГРАФИКИ ---------- */
     .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
-    @media (max-width:980px){ .grid-2{ grid-template-columns:1fr; } }
+    @media (max-width:980px){
+      .network-grid{ grid-template-columns: 1fr 1fr; grid-template-rows: auto auto auto; }
+      /* перестроение: 2 сверху, центр отдельной строкой, 2 снизу */
+      .cell[data-area="analytics"]{ grid-column:1; grid-row:1; }
+      .cell[data-area="broker"]{ grid-column:2; grid-row:1; }
+      .cell[data-area="ai"]{ grid-column:1 / span 2; grid-row:2; }
+      .cell[data-area="finance"]{ grid-column:1; grid-row:3; }
+      .cell[data-area="portfolio"]{ grid-column:2; grid-row:3; }
+      .grid-2{ grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body>
   <canvas id="bg"></canvas>
 
+  <!-- ШАПКА -->
   <header class="nav">
     <div class="container nav-inner">
-      <!-- Левый бренд — ссылка на главную -->
       <a class="brand-link" href="https://www.hivio.uk" aria-label="Go to homepage">
         <span class="logo-dot"></span>
         <span>Hivio LTD</span>
       </a>
 
-      <!-- Правая часть — одна профиль‑кнопка с карточкой владельца и пунктами -->
       <div class="usermenu" id="usermenu" aria-expanded="false">
         <button type="button" class="usermenu-toggle" id="usermenuToggle" aria-haspopup="true" aria-controls="userpanel" aria-expanded="false">
           <svg class="user-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -123,29 +178,8 @@
         </button>
 
         <div class="userpanel" id="userpanel" role="menu">
-          <!-- Карточка владельца -->
-          <div class="usercard">
-            <div class="ico" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/>
-                <path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div>
-              <div class="title" id="ucName">Kuznetsov Vsevolod</div>
-              <div class="sub" id="ucPos">Director</div>
-            </div>
-          </div>
-
-          <a href="./account.html" role="menuitem" id="menuAccount">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.7"/><path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-            My Account
-          </a>
-          <div class="sep"></div>
-          <a href="./login.html" role="menuitem" id="menuSignout">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 12H4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M11 8l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 4h2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3h-2" stroke="currentColor" stroke-width="1.7"/></svg>
-            Sign out
-          </a>
+          <a href="./account.html" role="menuitem" id="menuAccount">My Account</a>
+          <a href="./login.html" role="menuitem" id="menuSignout">Sign out</a>
         </div>
       </div>
     </div>
@@ -153,7 +187,44 @@
 
   <main class="section">
     <div class="container">
-      <!-- ОСТАВЛЕНЫ ТОЛЬКО ЭТИ ДВА БЛОКА -->
+      <!-- СЕТЬ 5 БЛОКОВ -->
+      <section class="network">
+        <!-- SVG со стрелками поверх сетки -->
+        <svg class="net-arrows" id="netSVG" viewBox="0 0 1000 600" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#7df0ff"/><stop offset="100%" stop-color="#7b61ff"/>
+            </linearGradient>
+            <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ffbf74"/><stop offset="100%" stop-color="#ff7a7a"/>
+            </linearGradient>
+            <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#9dfc95"/><stop offset="100%" stop-color="#42e1a5"/>
+            </linearGradient>
+            <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="#7df0ff" />
+            </marker>
+            <marker id="arrowHead2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="#ffb07a" />
+            </marker>
+            <marker id="arrowHead3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="#6df7ba" />
+            </marker>
+          </defs>
+          <!-- пути добавим из JS -->
+        </svg>
+
+        <div class="network-grid" id="netGrid">
+          <div class="cell" data-area="analytics"><div class="sq" id="bAnalytics"><div class="title">Analytics</div></div></div>
+          <div class="cell" data-area="ai"><div class="sq" id="bAI"><div class="title">Ai</div></div></div>
+          <div class="cell" data-area="broker"><div class="sq" id="bBroker"><div class="title">Broker</div></div></div>
+
+          <div class="cell" data-area="finance"><div class="sq" id="bFinance"><div class="title">Finance</div></div></div>
+          <div class="cell" data-area="portfolio"><div class="sq" id="bPortfolio"><div class="title">Portfolio</div></div></div>
+        </div>
+      </section>
+
+      <!-- НИЖНИЕ ГРАФИКИ -->
       <div class="grid-2">
         <div class="card neon reveal" data-reveal>
           <h3>Equity Curve</h3>
@@ -167,13 +238,106 @@
     </div>
   </main>
 
-  <!-- Логика: выпадающее меню + подстановка имени/должности + рисование 2 графиков -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      /* ===== Dropdown ===== */
+    // ===== Account dropdown
+    (function(){
       const menu = document.getElementById('usermenu');
       const toggle = document.getElementById('usermenuToggle');
       const panel = document.getElementById('userpanel');
+      function open(){ menu.setAttribute('aria-expanded','true'); toggle.setAttribute('aria-expanded','true'); panel.classList.add('open'); }
+      function close(){ menu.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-expanded','false'); panel.classList.remove('open'); }
+      toggle.addEventListener('click', (e)=>{ e.stopPropagation(); panel.classList.contains('open') ? close() : open(); });
+      menu.addEventListener('mouseenter', open);
+      menu.addEventListener('mouseleave', close);
+      document.addEventListener('click', (e)=>{ if(!menu.contains(e.target)) close(); });
+      document.getElementById('menuSignout').addEventListener('click', ()=>{ try{ localStorage.removeItem('hivio_auth'); }catch(_){ } }, { once:true });
+    })();
 
-      function openMenu(){ menu.setAttribute('aria-expanded','true'); toggle.setAttribute('aria-expanded','true'); panel.classList.add('open'); }
-      function closeMenu(){ menu.setAttribute('aria-expanded','false'); toggle.setAttribute
+    // ===== Графики (демо-данные)
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const ctx1 = document.getElementById('equityChart');
+      const ctx2 = document.getElementById('sectorsChart');
+
+      if (window.Chart && ctx1 && ctx2){
+        new Chart(ctx1, {
+          type: 'line',
+          data: {
+            labels: Array.from({length: 24}, (_,i)=> i),
+            datasets: [{
+              data: Array.from({length:24}, (_,i)=> 100 + Math.sin(i/2)*6 + i*0.8 + (Math.random()*2-1)),
+              borderWidth: 2, fill:false, tension:.25
+            }]
+          },
+          options:{ plugins:{legend:{display:false}}, scales:{x:{display:false}, y:{display:false}} }
+        });
+
+        new Chart(ctx2, {
+          type: 'doughnut',
+          data: {
+            labels: ['Tech','Health','Finance','Energy','Industrials'],
+            datasets: [{ data: [32,18,22,12,16] }]
+          },
+          options:{ plugins:{legend:{position:'bottom', labels:{boxWidth:10}}}, cutout:'62%' }
+        });
+      }
+    });
+
+    // ===== Стрелки между блоками (анимированный штрих)
+    (function(){
+      const svg = document.getElementById('netSVG');
+      const ids = {
+        analytics: 'bAnalytics',
+        broker: 'bBroker',
+        portfolio: 'bPortfolio',
+        finance: 'bFinance',
+        ai: 'bAI'
+      };
+
+      function center(el){
+        const r = el.getBoundingClientRect();
+        const c = svg.getBoundingClientRect();
+        // координаты в системе SVG viewBox (0..1000 x 0..600)
+        const x = ((r.left + r.width/2) - c.left) / c.width * 1000;
+        const y = ((r.top + r.height/2) - c.top) / c.height * 600;
+        return {x,y};
+      }
+
+      function draw(){
+        if(!svg) return;
+        svg.innerHTML = svg.innerHTML.split('<defs>')[0] + svg.innerHTML.split('</defs>')[1]; // не трогаем <defs>
+
+        const A = center(document.getElementById(ids.analytics));
+        const B = center(document.getElementById(ids.broker));
+        const P = center(document.getElementById(ids.portfolio));
+        const F = center(document.getElementById(ids.finance));
+
+        // Analytics -> Broker
+        addPath(A, B, 'arrow');
+        // Broker -> Portfolio
+        addPath(B, P, 'arrow orange', 'arrowHead2');
+        // Portfolio -> Finance
+        addPath(P, F, 'arrow green', 'arrowHead3');
+        // Finance -> Analytics (обратная связь вверх)
+        addPath(F, A, 'arrow', 'arrowHead');
+
+        function addPath(p1, p2, cls, head='arrowHead'){
+          const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+          const dx = (p2.x - p1.x), dy = (p2.y - p1.y);
+          const mx = p1.x + dx*0.5, my = p1.y + dy*0.5;
+          // небольшой изгиб — сглаженная кривая
+          const d = `M ${p1.x},${p1.y} Q ${mx},${my} ${p2.x},${p2.y}`;
+          path.setAttribute('d', d);
+          path.setAttribute('class', cls);
+          path.setAttribute('marker-end', `url(#${head})`);
+          svg.appendChild(path);
+        }
+      }
+
+      window.addEventListener('resize', () => requestAnimationFrame(draw));
+      document.addEventListener('DOMContentLoaded', () => requestAnimationFrame(draw));
+      // также подождём, когда шрифты/стили применятся
+      setTimeout(draw, 300);
+    })();
+  </script>
+</body>
+</html>
