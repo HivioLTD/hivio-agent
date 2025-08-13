@@ -64,6 +64,23 @@
       transition: background .2s, box-shadow .2s;
     }
     .userpanel a:hover{ background: linear-gradient(90deg, rgba(125,240,255,.18), rgba(123,97,255,.18)); box-shadow:0 0 10px rgba(125,240,255,.25); }
+    .userpanel .sep{ height:1px; background:rgba(255,255,255,.08); margin:6px 4px; border-radius:1px; }
+
+    /* карточка юзера вверху меню */
+    .usercard{
+      display:grid; grid-template-columns:40px 1fr; gap:10px;
+      align-items:center; padding:10px; border-radius:10px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--border);
+      margin:2px 2px 6px 2px;
+    }
+    .usercard .ico{
+      width:40px;height:40px;border-radius:10px;display:grid;place-items:center;
+      background:linear-gradient(180deg, rgba(125,240,255,.15), rgba(123,97,255,.15));
+      border:1px solid var(--border);
+    }
+    .usercard .title{ font-weight:800; line-height:1.1; }
+    .usercard .sub{ font-size:12.5px; color:var(--muted); margin-top:2px; }
 
     /* ---------- СЕТКА С 5 КВАДРАТАМИ ---------- */
     .network{
@@ -179,8 +196,35 @@
         </button>
 
         <div class="userpanel" id="userpanel" role="menu">
-          <a href="./account.html" role="menuitem">My Account</a>
-          <a href="./login.html" role="menuitem" id="menuSignout">Sign out</a>
+          <!-- карточка владельца -->
+          <div class="usercard">
+            <div class="ico" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <div class="title" id="ucName">Kuznetsov Vsevolod</div>
+              <div class="sub" id="ucPos">Director</div>
+            </div>
+          </div>
+
+          <a href="./cabinet.html" role="menuitem" id="menuDashboard">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 4h7v7H4zM13 4h7v5h-7zM13 11h7v9h-7zM4 13h7v7H4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+            </svg>
+            Dashboard
+          </a>
+          <div class="sep"></div>
+          <a href="./login.html" role="menuitem" id="menuSignout">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M15 12H4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+              <path d="M11 8l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15 4h2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3h-2" stroke="currentColor" stroke-width="1.7"/>
+            </svg>
+            Sign out
+          </a>
         </div>
       </div>
     </div>
@@ -249,7 +293,21 @@
       menu.addEventListener('mouseenter', open);
       menu.addEventListener('mouseleave', close);
       document.addEventListener('click', (e)=>{ if(!menu.contains(e.target)) close(); });
-      document.getElementById('menuSignout').addEventListener('click', ()=>{ try{ localStorage.removeItem('hivio_auth'); }catch(_){ } }, { once:true });
+
+      // Подставляем ФИО и должность в карточку
+      try{
+        const prof = JSON.parse(localStorage.getItem('hivio_profile') || 'null');
+        const first = prof?.firstName || 'Vsevolod';
+        const last  = prof?.lastName  || 'Kuznetsov';
+        const pos   = prof?.position  || 'Director';
+        document.getElementById('ucName').textContent = `${last} ${first}`.trim();
+        document.getElementById('ucPos').textContent  = pos;
+      }catch(e){ console.warn('Usercard init error', e); }
+
+      // Sign out
+      document.getElementById('menuSignout').addEventListener('click', ()=>{
+        try{ localStorage.removeItem('hivio_auth'); }catch(_){}
+      }, { once:true });
     })();
 
     // === графики (демо) ===
@@ -281,8 +339,7 @@
 
       function addWire(p1, p2, cls, head){
         const path = document.createElementNS('http://www.w3.org/2000/svg','path');
-        // лёгкая кривизна (красиво на равных отступах)
-        const mx = (p1.x + p2.x)/2, my = (p1.y + p2.y)/2;
+        const mx = (p1.x + p2.x)/2, my = (p1.y + p2.y)/2; // лёгкая кривизна
         path.setAttribute('d', `M ${p1.x},${p1.y} Q ${mx},${my} ${p2.x},${p2.y}`);
         path.setAttribute('class', `wire ${cls||''}`);
         path.setAttribute('marker-end', `url(#${head||'headBlue'})`);
@@ -291,7 +348,6 @@
 
       function draw(){
         clearWires();
-        // Подогнать SVG к сетке
         const g = grid.getBoundingClientRect();
         svg.setAttribute('viewBox', `0 0 ${g.width} ${g.height}`);
         svg.setAttribute('width', g.width);
@@ -303,13 +359,13 @@
         const F  = center(byId('bFinance'));
         const AI = center(byId('bAI'));
 
-        // Квадратный контур (все блоки соединены): Analytics → Broker → Portfolio → Finance → Analytics
+        // Контур: Analytics → Broker → Portfolio → Finance → Analytics
         addWire(A, B, 'blue', 'headBlue');
         addWire(B, P, 'orange', 'headOrange');
         addWire(P, F, 'green', 'headGreen');
         addWire(F, A, 'blue', 'headBlue');
 
-        // Связи AI со всеми четырьмя
+        // Связи AI ко всем
         addWire(AI, A, 'blue', 'headBlue');
         addWire(AI, B, 'blue', 'headBlue');
         addWire(AI, P, 'blue', 'headBlue');
