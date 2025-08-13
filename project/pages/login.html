@@ -6,7 +6,11 @@
   <title>Sign in — Hivio LTD</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css" />
-  <script defer src="../js/auth.js"></script>
+  <style>
+    main { position: relative; z-index: 1; }
+    header.nav { position: sticky; z-index: 2; }
+    #bg { z-index: -1; }
+  </style>
 </head>
 <body>
   <canvas id="bg"></canvas>
@@ -25,10 +29,9 @@
     <div class="container" style="max-width:520px">
       <div class="panel neon reveal" data-reveal>
         <h1 class="tight">Sign in</h1>
-        <p class="muted">Invite‑only. Registration is disabled.</p>
+        <p class="muted">Enter your login and password to continue.</p>
 
-        <!-- UPDATED: login instead of email -->
-        <form id="loginForm" class="form-grid">
+        <form id="loginForm" class="form-grid" autocomplete="off">
           <label class="field">
             <span>Login</span>
             <input id="login" type="text" required placeholder="Enter your login" />
@@ -38,10 +41,12 @@
             <input id="password" type="password" required placeholder="••••••••" />
           </label>
           <button type="submit" class="btn-primary">Sign in</button>
+          <div id="err" class="muted" style="display:none;color:#ffadad">Invalid login or password</div>
         </form>
-
       </div>
     </div>
   </main>
+
+  <script defer src="../js/auth.js"></script>
 </body>
 </html>
