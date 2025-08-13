@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hivio LTD — Dashboard</title>
+  <title>Hivio LTD — Flow</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css" />
   <script defer src="../js/main.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     :root{
-      /* размер квадрата и ОДИНАКОВЫЙ с ним отступ */
-      --block: clamp(80px, 16vmin, 180px);
+      /* Размер КВАДРАТА и ТАКОЙ ЖЕ отступ между ними.
+         Масштабируется от телефона до десктопа, сохраняя пропорции макета. */
+      --block: clamp(92px, 18vmin, 220px);
       --gap: var(--block);
     }
 
-    /* Бренд / Account (как раньше) */
+    /* ---------- ШАПКА ---------- */
     .brand-link{
       display:inline-flex; align-items:center; gap:10px;
       padding:8px 14px; border-radius:12px; text-decoration:none;
@@ -52,7 +52,7 @@
     .user-caret{ width:14px;height:14px; opacity:.7; transform: translateY(1px); }
 
     .userpanel{
-      position:absolute; right:0; top:calc(100% + 8px); width:260px;
+      position:absolute; right:0; top:calc(100% + 8px); width:240px;
       background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:14px;
       box-shadow:0 20px 60px -25px rgba(0,0,0,.6);
       padding:8px; backdrop-filter: blur(6px);
@@ -65,16 +65,14 @@
     }
     .userpanel a:hover{ background: linear-gradient(90deg, rgba(125,240,255,.18), rgba(123,97,255,.18)); box-shadow:0 0 10px rgba(125,240,255,.25); }
 
-    /* ---------- СЕТКА С 5 КВАДРАТАМИ ---------- */
+    /* ---------- СЕТКА 5 КВАДРАТОВ (как на макете) ---------- */
     .network{
       position: relative;
       margin: 26px auto 18px;
-      width: calc(5 * var(--block)); /* 3 блока + 2 зазора (=5 блоков по ширине) */
-      /* высота: 3 ряда (2 блока + центр + 2 блока) и 2 отступа между рядами: итого 5 блоков */
-      height: calc(5 * var(--block));
+      width: calc(5 * var(--block));   /* 3 колонки + 2 зазора = 5 блоков по ширине */
+      height: calc(5 * var(--block));  /* 3 ряда + 2 зазора = 5 блоков по высоте */
       max-width: 100%;
     }
-
     .grid{
       position: absolute; inset: 0;
       display: grid;
@@ -84,18 +82,16 @@
       row-gap: var(--gap);
       justify-content: center; align-content: center;
     }
-
-    /* Позиции в сетке: */
+    /* Позиции 1:1 с картинкой */
     .cell[data-id="analytics"] { grid-column: 1; grid-row: 1; }
-    .cell[data-id="ai"]        { grid-column: 2; grid-row: 2; }
     .cell[data-id="broker"]    { grid-column: 3; grid-row: 1; }
+    .cell[data-id="ai"]        { grid-column: 2; grid-row: 2; }
     .cell[data-id="finance"]   { grid-column: 1; grid-row: 3; }
     .cell[data-id="portfolio"] { grid-column: 3; grid-row: 3; }
 
     .sq{
-      width: var(--block);
-      height: var(--block);
-      border-radius: 18px;
+      width: var(--block); height: var(--block);
+      border-radius: 24px;
       border: 1px solid var(--border);
       background: rgba(255,255,255,.02);
       box-shadow: 0 24px 80px -40px rgba(0,0,0,.6);
@@ -120,7 +116,7 @@
 
     .title{
       font-weight: 800; letter-spacing:.2px;
-      font-size: clamp(18px, 2.4vmin, 24px);
+      font-size: clamp(18px, 2.6vmin, 28px);
       position: relative;
     }
     .title::after{
@@ -131,28 +127,18 @@
     }
     .sq:hover .title::after{ width: 100%; }
 
-    /* SVG со стрелками — поверх сетки */
-    .wires{
-      position:absolute; inset:0; pointer-events:none; z-index:0;
-    }
+    /* ---------- СТРЕЛКИ ---------- */
+    .wires{ position:absolute; inset:0; pointer-events:none; z-index:0; }
     @keyframes dash { to { stroke-dashoffset: -1000; } }
     .wire{
-      fill:none; stroke:url(#gradBlue); stroke-width:3; stroke-linecap:round; stroke-linejoin:round;
-      stroke-dasharray: 8 10; stroke-dashoffset: 0;
-      filter: drop-shadow(0 0 6px rgba(125,240,255,.35));
-      animation: dash 2.4s linear infinite;
+      fill:none; stroke:url(#gradBlue); stroke-width:4.5; stroke-linecap:round; stroke-linejoin:round;
+      stroke-dasharray: 9 12; stroke-dashoffset: 0;
+      filter: drop-shadow(0 0 8px rgba(125,240,255,.45));
+      animation: dash 2.1s linear infinite;
     }
-    .wire.orange{ stroke:url(#gradOrange); }
-    .wire.green { stroke:url(#gradGreen); }
-
-    /* Графики ниже сети */
-    .charts{ max-width: 1100px; margin: 18px auto; padding: 0 8px; }
-    .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
-    @media (max-width: 900px){ .grid-2{ grid-template-columns:1fr; } }
-
-    /* Адаптив: уменьшаем блок, чтобы сеть помещалась на телефонах */
-    @media (max-width: 480px){
-      :root{ --block: clamp(64px, 22vw, 120px); }
+    /* Адаптив — уменьшим блок на очень узких экранах, пропорции сохранятся */
+    @media (max-width: 420px){
+      :root{ --block: clamp(80px, 22vmin, 160px); }
     }
   </style>
 </head>
@@ -162,8 +148,7 @@
   <header class="nav">
     <div class="container nav-inner">
       <a class="brand-link" href="https://www.hivio.uk" aria-label="Go to homepage">
-        <span class="logo-dot"></span>
-        <span>Hivio LTD</span>
+        <span class="logo-dot"></span><span>Hivio LTD</span>
       </a>
 
       <div class="usermenu" id="usermenu" aria-expanded="false">
@@ -187,58 +172,32 @@
   </header>
 
   <main class="section">
-    <!-- СЕТЬ 5 КВАДРАТНЫХ БЛОКОВ -->
+    <!-- СЕТКА 5 БЛОКОВ -->
     <section class="network" id="network">
-      <!-- Стрелки -->
-      <svg class="wires" id="wires" width="100%" height="100%">
+      <!-- Анимированные стрелки -->
+      <svg class="wires" id="wires" width="100%" height="100%" preserveAspectRatio="none">
         <defs>
           <linearGradient id="gradBlue" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"  stop-color="#7df0ff"/><stop offset="100%" stop-color="#7b61ff"/>
+            <stop offset="0%" stop-color="#7df0ff"/><stop offset="100%" stop-color="#7b61ff"/>
           </linearGradient>
-          <linearGradient id="gradOrange" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"  stop-color="#ffb07a"/><stop offset="100%" stop-color="#ff7a7a"/>
-          </linearGradient>
-          <linearGradient id="gradGreen" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"  stop-color="#9dfc95"/><stop offset="100%" stop-color="#42e1a5"/>
-          </linearGradient>
-          <marker id="headBlue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-            <path d="M0,0 L10,5 L0,10 z" fill="#7df0ff" />
-          </marker>
-          <marker id="headOrange" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-            <path d="M0,0 L10,5 L0,10 z" fill="#ffb07a" />
-          </marker>
-          <marker id="headGreen" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-            <path d="M0,0 L10,5 L0,10 z" fill="#6df7ba" />
+          <marker id="arrowHead" markerWidth="14" markerHeight="14" refX="11" refY="7" orient="auto">
+            <path d="M0,0 L14,7 L0,14 z" fill="#7df0ff" />
           </marker>
         </defs>
       </svg>
 
       <div class="grid" id="grid">
         <div class="cell" data-id="analytics"><div class="sq" id="bAnalytics"><div class="title">Analytics</div></div></div>
-        <div class="cell" data-id="ai"><div class="sq" id="bAI"><div class="title">Ai</div></div></div>
         <div class="cell" data-id="broker"><div class="sq" id="bBroker"><div class="title">Broker</div></div></div>
+        <div class="cell" data-id="ai"><div class="sq" id="bAI"><div class="title">Ai</div></div></div>
         <div class="cell" data-id="finance"><div class="sq" id="bFinance"><div class="title">Finance</div></div></div>
         <div class="cell" data-id="portfolio"><div class="sq" id="bPortfolio"><div class="title">Portfolio</div></div></div>
-      </div>
-    </section>
-
-    <!-- ГРАФИКИ НИЖЕ СЕТИ (если нужны) -->
-    <section class="charts container">
-      <div class="grid-2">
-        <div class="card neon reveal" data-reveal>
-          <h3>Equity Curve</h3>
-          <canvas id="equityChart" height="160"></canvas>
-        </div>
-        <div class="card neon reveal" data-reveal data-reveal-delay="80">
-          <h3>Sector Allocation</h3>
-          <canvas id="sectorsChart" height="160"></canvas>
-        </div>
       </div>
     </section>
   </main>
 
   <script>
-    // === dropdown ===
+    /* === Account dropdown === */
     (function(){
       const menu = document.getElementById('usermenu');
       const toggle = document.getElementById('usermenuToggle');
@@ -252,22 +211,10 @@
       document.getElementById('menuSignout').addEventListener('click', ()=>{ try{ localStorage.removeItem('hivio_auth'); }catch(_){ } }, { once:true });
     })();
 
-    // === графики (демо) ===
-    document.addEventListener('DOMContentLoaded', ()=>{
-      const c1 = document.getElementById('equityChart');
-      const c2 = document.getElementById('sectorsChart');
-      if(window.Chart && c1 && c2){
-        new Chart(c1,{type:'line',data:{labels:[...Array(24).keys()],datasets:[{data:[...Array(24)].map((_,i)=>100+Math.sin(i/2)*6+i*0.8+(Math.random()*2-1)),borderWidth:2,fill:false,tension:.25}]} ,options:{plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}});
-        new Chart(c2,{type:'doughnut',data:{labels:['Tech','Health','Finance','Energy','Industrials'],datasets:[{data:[32,18,22,12,16]}]},options:{plugins:{legend:{position:'bottom',labels:{boxWidth:10}}},cutout:'62%'}});
-      }
-    });
-
-    // === стрелки между блоками с равными отступами ===
+    /* === Стрелки: Analytics → Broker → Portfolio → Finance → Analytics (AI без связей) === */
     (function(){
       const grid = document.getElementById('grid');
       const svg  = document.getElementById('wires');
-
-      const byId = id => document.getElementById(id);
 
       function center(el){
         const r = el.getBoundingClientRect();
@@ -275,51 +222,40 @@
         return { x: r.left - g.left + r.width/2, y: r.top - g.top + r.height/2 };
       }
 
-      function clearWires(){
-        [...svg.querySelectorAll('.wire')].forEach(n=>n.remove());
-      }
-
-      function addWire(p1, p2, cls, head){
+      function line(p1, p2){
         const path = document.createElementNS('http://www.w3.org/2000/svg','path');
-        // лёгкая кривизна (красиво на равных отступах)
+        // слегка сглаженная траектория, как на примере
         const mx = (p1.x + p2.x)/2, my = (p1.y + p2.y)/2;
         path.setAttribute('d', `M ${p1.x},${p1.y} Q ${mx},${my} ${p2.x},${p2.y}`);
-        path.setAttribute('class', `wire ${cls||''}`);
-        path.setAttribute('marker-end', `url(#${head||'headBlue'})`);
+        path.setAttribute('class', 'wire');
+        path.setAttribute('marker-end', 'url(#arrowHead)');
         svg.appendChild(path);
       }
 
-      function draw(){
-        clearWires();
-        // Подогнать SVG к сетке
+      function redraw(){
+        // подгоняем SVG под сетку
         const g = grid.getBoundingClientRect();
         svg.setAttribute('viewBox', `0 0 ${g.width} ${g.height}`);
         svg.setAttribute('width', g.width);
         svg.setAttribute('height', g.height);
+        // очищаем старые линии
+        [...svg.querySelectorAll('.wire')].forEach(n=>n.remove());
 
-        const A  = center(byId('bAnalytics'));
-        const B  = center(byId('bBroker'));
-        const P  = center(byId('bPortfolio'));
-        const F  = center(byId('bFinance'));
-        const AI = center(byId('bAI'));
-
-        // Квадратный контур (все блоки соединены): Analytics → Broker → Portfolio → Finance → Analytics
-        addWire(A, B, 'blue', 'headBlue');
-        addWire(B, P, 'orange', 'headOrange');
-        addWire(P, F, 'green', 'headGreen');
-        addWire(F, A, 'blue', 'headBlue');
-
-        // Связи AI со всеми четырьмя
-        addWire(AI, A, 'blue', 'headBlue');
-        addWire(AI, B, 'blue', 'headBlue');
-        addWire(AI, P, 'blue', 'headBlue');
-        addWire(AI, F, 'blue', 'headBlue');
+        const A = center(document.getElementById('bAnalytics'));
+        const B = center(document.getElementById('bBroker'));
+        const P = center(document.getElementById('bPortfolio'));
+        const F = center(document.getElementById('bFinance'));
+        // Рисуем по часовой стрелке, как на твоём макете:
+        line(A, B); // →
+        line(B, P); // ↓
+        line(P, F); // ←
+        line(F, A); // ↑
       }
 
-      window.addEventListener('resize', ()=> requestAnimationFrame(draw));
-      new ResizeObserver(()=> requestAnimationFrame(draw)).observe(grid);
-      document.addEventListener('DOMContentLoaded', draw);
-      setTimeout(draw, 250);
+      window.addEventListener('resize', ()=> requestAnimationFrame(redraw));
+      new ResizeObserver(()=> requestAnimationFrame(redraw)).observe(grid);
+      document.addEventListener('DOMContentLoaded', redraw);
+      setTimeout(redraw, 250);
     })();
   </script>
 </body>
