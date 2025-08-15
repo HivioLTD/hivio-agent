@@ -77,7 +77,7 @@
     .usercard .title{ font-weight:800; line-height:1.1; }
     .usercard .sub{ font-size:12.5px; color:var(--muted); margin-top:2px; }
 
-    /* кнопка Dashboard (как в cabinet) */
+    /* таблетка Dashboard */
     .pill{
       display:inline-flex; align-items:center; gap:8px;
       padding:8px 14px; border-radius:14px; border:1px solid var(--border);
@@ -91,17 +91,19 @@
       transform: translateY(-1px);
     }
 
-    /* НОВОЕ: полоса под меню и «немигающая» кнопка Analytics */
+    /* подменю с активной «нажатой» Analytics */
     .subbar{ position:relative; z-index:45; }
     .subbar .subbar-inner{ display:flex; justify-content:center; padding:8px 0 0; }
-    .pill-static{
-      pointer-events:none; user-select:none;
-    }
-    .pill-static,
-    .pill-static:hover{
-      /* те же размеры, но без эффектов */
-      background:#0b0f1a; border:1px solid var(--border);
-      box-shadow:none; transform:none;
+
+    .pill-static{ pointer-events:none; user-select:none; }
+    .pill-current,
+    .pill-current:hover{
+      background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
+      border-color: transparent;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,.35),
+                  0 0 18px rgba(125,240,255,.35),
+                  0 0 28px rgba(123,97,255,.35);
+      transform: none; /* без «всплытия», выглядит как нажатая */
     }
 
     /* фон-канвас */
@@ -117,7 +119,6 @@
         <span class="logo-dot"></span><span>Hivio LTD</span>
       </a>
 
-      <!-- центр шапки: закреплённая кнопка -->
       <div class="nav-center">
         <a class="pill" href="./cabinet.html">Dashboard</a>
       </div>
@@ -168,17 +169,16 @@
     </div>
   </header>
 
-  <!-- НОВАЯ строка под меню: статичная (не кликабельная) кнопка Analytics -->
+  <!-- подменю под шапкой: активная (нажатая) кнопка Analytics -->
   <div class="subbar">
     <div class="container subbar-inner">
-      <span class="pill pill-static" aria-current="page">Analytics</span>
+      <span class="pill pill-static pill-current" aria-current="page">Analytics</span>
     </div>
   </div>
 
-  <!-- только меню, новая кнопка и фон -->
+  <!-- только меню, активная кнопка и фон -->
 
   <script>
-    /* === Account dropdown — без изменений === */
     (function(){
       const menu   = document.getElementById('usermenu');
       const toggle = document.getElementById('usermenuToggle');
