@@ -37,11 +37,11 @@
     /* ===== Ровная трёхстрочная форма на всех устройствах ===== */
     :root{
       --labelW: clamp(96px, 24vw, 140px);  /* ширина колонки с меткой */
-      --ctlH: 44px;                        /* ЕДИНАЯ высота полей и кнопки (чуть меньше) */
+      --ctlH: 44px;                        /* единая высота полей и кнопки */
       --ctlR: 12px;                        /* скругление */
     }
     @media (max-width: 420px){
-      :root{ --ctlH: 42px; }               /* на очень узких экранах — чуть ниже */
+      :root{ --ctlH: 42px; }
     }
 
     #loginForm{ display:grid; gap:12px; grid-template-columns:1fr !important; }
@@ -55,7 +55,7 @@
     }
     #loginForm .field > span{ white-space:nowrap; font-weight:600; letter-spacing:.2px; }
 
-    /* поля: скругление + одинаковая высота с кнопкой */
+    /* ПОЛЯ: белый фон, тёмный текст (включая iOS autofill) */
     #loginForm .field input{
       width:100%;
       height: var(--ctlH);
@@ -63,7 +63,24 @@
       border-radius: var(--ctlR);
       padding: 0 12px;
       border: 1px solid var(--border);
-      background: rgba(255,255,255,.05);
+      background: #ffffff !important; /* фикс: всегда белые на мобильных */
+      color: #0b0f1a !important;      /* тёмный текст */
+      caret-color: #0b0f1a;
+      -webkit-appearance: none;
+      appearance: none;
+      background-clip: padding-box;
+    }
+    #loginForm .field input::placeholder{
+      color:#9aa3af; opacity:1;
+    }
+    /* iOS/Chrome autofill перекрашиваем тоже в белый с тёмным текстом */
+    #loginForm .field input:-webkit-autofill,
+    #loginForm .field input:-webkit-autofill:hover,
+    #loginForm .field input:-webkit-autofill:focus{
+      -webkit-text-fill-color:#0b0f1a;
+      -webkit-box-shadow:0 0 0 1000px #ffffff inset;
+      box-shadow:0 0 0 1000px #ffffff inset;
+      transition: background-color 9999s ease-out 0s;
     }
 
     /* кнопка идёт под колонкой инпутов, выровнена по их началу */
