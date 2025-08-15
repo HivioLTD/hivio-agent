@@ -8,10 +8,12 @@
   <link rel="stylesheet" href="../css/style.css" />
   <script defer src="../js/main.js"></script>
   <style>
+    /* ======== ШАПКА ======== */
     .nav{ position:relative; z-index:50; }
-    .nav .nav-inner{ display:flex; align-items:center; gap:12px; justify-content:space-between; }
+    .nav .nav-inner{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
     .nav-center{ flex:1; display:flex; justify-content:center; }
 
+    /* Бренд-ссылка */
     .brand-link{
       display:inline-flex; align-items:center; gap:10px;
       padding:8px 14px; border-radius:12px; text-decoration:none;
@@ -26,8 +28,27 @@
       transform: translateY(-1px);
       color:var(--text);
     }
-    .logo-dot{ width:12px;height:12px;border-radius:50%;background:linear-gradient(90deg,#7df0ff,#7b61ff);box-shadow:0 0 16px rgba(125,240,255,.35),0 0 36px rgba(125,240,255,.35);display:inline-block; }
+    .logo-dot{ width:12px;height:12px;border-radius:50%;
+      background:linear-gradient(90deg,#7df0ff,#7b61ff);
+      box-shadow:0 0 16px rgba(125,240,255,.35),0 0 36px rgba(125,240,255,.35);
+      display:inline-block;
+    }
 
+    /* Кнопка-«таблетка» (общий стиль как Dashboard) */
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 14px; border-radius:14px; border:1px solid var(--border);
+      background:#0b0f1a; color:var(--text); text-decoration:none; font-weight:800;
+      transition: background .25s, box-shadow .25s, transform .2s, border-color .25s;
+    }
+    .pill:hover{
+      background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
+      border-color:transparent;
+      box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
+      transform: translateY(-1px);
+    }
+
+    /* Правое меню пользователя */
     .usermenu{ position:relative; display:inline-flex; align-items:center; z-index:60; }
     .usermenu-toggle{
       display:inline-flex; align-items:center; gap:10px;
@@ -55,15 +76,15 @@
       z-index:70;
     }
     .userpanel.open{ opacity:1; visibility:visible; transform: translateY(0); }
-    .userpanel a{ display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; text-decoration:none; color:var(--text); transition: background .2s, box-shadow .2s; }
+    .userpanel a{
+      display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; text-decoration:none; color:var(--text);
+      transition: background .2s, box-shadow .2s;
+    }
     .userpanel a:hover{ background: linear-gradient(90deg, rgba(125,240,255,.18), rgba(123,97,255,.18)); box-shadow:0 0 10px rgba(125,240,255,.25); }
     .userpanel .sep{ height:1px; background:rgba(255,255,255,.08); margin:6px 4px; border-radius:1px; }
-
     .usercard{
-      display:grid; grid-template-columns:40px 1fr; gap:10px;
-      align-items:center; padding:10px; border-radius:10px;
-      background:rgba(255,255,255,.04); border:1px solid var(--border);
-      margin:2px 2px 6px 2px;
+      display:grid; grid-template-columns:40px 1fr; gap:10px; align-items:center; padding:10px; border-radius:10px;
+      background:rgba(255,255,255,.04); border:1px solid var(--border); margin:2px 2px 6px 2px;
     }
     .usercard .ico{
       width:40px;height:40px;border-radius:10px;display:grid;place-items:center;
@@ -73,61 +94,40 @@
     .usercard .title{ font-weight:800; line-height:1.1; }
     .usercard .sub{ font-size:12.5px; color:var(--muted); margin-top:2px; }
 
-    /* таблетка Dashboard */
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 14px; border-radius:14px; border:1px solid var(--border);
-      background:#0b0f1a; color:var(--text); text-decoration:none; font-weight:800;
-      transition: background .25s, box-shadow .25s, transform .2s, border-color .25s;
-    }
-    .pill:hover{
-      background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
-      border-color:transparent;
-      box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
-      transform: translateY(-1px);
-    }
-
-    /* ПОДМЕНЮ: липкая «Analytics» */
-    .subbar{
-      position: sticky;     /* липнет при прокрутке */
-      top: 0;               /* к самому верху окна */
-      z-index: 55;          /* выше контента, ниже дропдаунов */
-      background: rgba(11,15,26,.7);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      border-bottom: 1px solid var(--border);
-    }
-    .subbar .subbar-inner{ display:flex; justify-content:center; padding:8px 0; }
-
-    /* не кликабельная активная «нажатая» таблетка */
-    .pill-static{ pointer-events:none; user-select:none; }
-    .pill-current,
-    .pill-current:hover{
+    /* ======== Плавающая «Analytics» (НЕ новая строка в вёрстке) ======== */
+    .pill-analytics{
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      top: var(--pill-top, 72px); /* вычисляется скриптом, чтобы быть сразу под шапкой */
+      z-index: 55;                /* ниже дропдауна (70), выше контента */
+      pointer-events: none;       /* не кликается (индикатор текущей страницы) */
+      /* эффект «как будто нажата» (как hover у Dashboard) */
       background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
       border-color: transparent;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,.35),
-                  0 0 18px rgba(125,240,255,.35),
-                  0 0 28px rgba(123,97,255,.35);
-      transform: none;
+      box-shadow: 0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
     }
 
-    /* фон */
+    /* фон-канвас */
     #bg{ position:fixed; inset:0; z-index:-1; pointer-events:none; }
   </style>
 </head>
 <body>
   <canvas id="bg"></canvas>
 
+  <!-- ======== HEADER ======== -->
   <header class="nav">
     <div class="container nav-inner">
       <a class="brand-link" href="https://www.hivio.uk" aria-label="Go to homepage">
         <span class="logo-dot"></span><span>Hivio LTD</span>
       </a>
 
+      <!-- Центр: закреплённая кнопка Dashboard -->
       <div class="nav-center">
         <a class="pill" href="./cabinet.html">Dashboard</a>
       </div>
 
+      <!-- Право: Account -->
       <div class="usermenu" id="usermenu" aria-expanded="false">
         <button type="button" class="usermenu-toggle" id="usermenuToggle" aria-haspopup="true" aria-controls="userpanel" aria-expanded="false">
           <svg class="user-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -162,16 +162,13 @@
     </div>
   </header>
 
-  <!-- Липкая подшапка с активной кнопкой -->
-  <div class="subbar">
-    <div class="container subbar-inner">
-      <span class="pill pill-static pill-current" aria-current="page">Analytics</span>
-    </div>
-  </div>
+  <!-- ======== Плавающая кнопка-ИНДИКАТОР текущей страницы (НЕ в меню) ======== -->
+  <span class="pill pill-analytics" role="status" aria-current="page">Analytics</span>
 
-  <!-- дальше — твой контент страницы (если нужен) -->
+  <!-- Никакого дополнительного контента — только фон и меню -->
 
   <script>
+    /* === Account dropdown === */
     (function(){
       const menu   = document.getElementById('usermenu');
       const toggle = document.getElementById('usermenuToggle');
@@ -191,6 +188,24 @@
         document.getElementById('ucName').textContent = `${last} ${first}`.trim();
         document.getElementById('ucPos').textContent  = pos;
       }catch(e){}
+
+      document.getElementById('menuSignout').addEventListener('click', ()=>{
+        try{ localStorage.removeItem('hivio_auth'); }catch(_){}
+      }, { once:true });
+    })();
+
+    /* === Держим «Analytics» ровно под шапкой и прижимаем к верху при скролле === */
+    (function(){
+      const nav = document.querySelector('.nav');
+      function setPillTop(){
+        const r = nav?.getBoundingClientRect();
+        const top = Math.max(8, (r?.bottom ?? 0) + 8); // пока шапка видна — под ней; иначе 8px от верха
+        document.documentElement.style.setProperty('--pill-top', top + 'px');
+      }
+      window.addEventListener('scroll', setPillTop, { passive:true });
+      window.addEventListener('resize', setPillTop);
+      document.addEventListener('DOMContentLoaded', setPillTop);
+      setPillTop();
     })();
   </script>
 </body>
