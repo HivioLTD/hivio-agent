@@ -7,17 +7,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css" />
   <style>
-    /* Всегда поверх фона */
-    #bg { position:fixed; inset:0; z-index:-1; pointer-events:none; }
-    header.nav { position:relative; z-index:2; }
+    /* форма гарантированно поверх фона */
+    main { position: relative; z-index: 1; }
+    header.nav { position: sticky; z-index: 2; }
+    #bg { z-index: -1; }
 
-    /* Ссылка-бренд слева (как на всех внутренних страницах) */
+    /* Лого-ссылка на главную с тем же эффектом, что и Client Area на первой */
     .brand-link{
       display:inline-flex; align-items:center; gap:10px;
       padding:8px 14px; border-radius:12px; text-decoration:none;
       color:var(--text); background:#0b0f1a; border:1px solid var(--border);
       font-weight:800; letter-spacing:.2px;
-      transition: background .25s, box-shadow .25s, transform .2s, border-color .25s;
+      transition: background .25s ease, box-shadow .25s ease, transform .2s ease, border-color .25s ease;
     }
     .brand-link:hover{
       background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
@@ -26,95 +27,54 @@
       transform: translateY(-1px);
       color:var(--text);
     }
-    .logo-dot{
+    .brand-link .logo-dot{
       width:12px;height:12px;border-radius:50%;
       background:linear-gradient(90deg,#7df0ff,#7b61ff);
       box-shadow:0 0 16px rgba(125,240,255,.35),0 0 36px rgba(125,240,255,.35);
       display:inline-block;
     }
-
-    /* ===== Страница авторизации (унифицированно на всех экранах) ===== */
-    .auth-wrap{
-      min-height:100dvh;
-      display:grid; place-items:center;
-      padding:72px 16px 28px;
-    }
-    .auth-card{
-      width:min(700px, 94vw);
-      border:1px solid var(--border);
-      border-radius:22px;
-      background:rgba(255,255,255,.03);
-      box-shadow:0 24px 80px -40px rgba(0,0,0,.6);
-      padding: clamp(18px, 3.2vmin, 28px);
-    }
-    .auth-title{ margin:0 0 6px; font-weight:800; font-size:clamp(26px, 4.6vmin, 42px); }
-    .auth-sub{ color:var(--muted); margin:0 0 14px; font-size:clamp(14px, 1.9vmin, 20px); }
-
-    /* Форма всегда в одну колонку */
-    .login-form{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 8px;
-    }
-    /* Поля крупные — не вызывают зум в iOS и выглядят одинаково */
-    .login-form input{
-      font-size:16px;                  /* >=16px — без зума на iOS */
-      height:48px;
-    }
-    /* Кнопка на всю ширину */
-    .login-form .btn-primary{
-      width:100%;
-      height:48px;
-      border-radius:16px;
-      font-weight:800;
-    }
-
-    /* Мелкая приписка об ошибке */
-    #err{ display:none; color:#ffadad; font-size:14px; margin-top:4px; }
-
-    /* На очень широких — аккуратно увеличиваем отступы */
-    @media (min-width: 1200px){
-      .auth-card{ padding: 36px; }
-    }
   </style>
 </head>
 <body>
+  <!-- такой же canvas как на главной -->
   <canvas id="bg"></canvas>
 
   <header class="nav">
     <div class="container nav-inner">
-      <a class="brand-link" href="https://www.hivio.uk" aria-label="Back to homepage">
-        <span class="logo-dot"></span><span>Hivio LTD</span>
+      <!-- Ссылка "Hivio LTD" ведёт на главную -->
+      <a class="brand-link" href="../../index.html" aria-label="Back to homepage">
+        <span class="logo-dot"></span>
+        <span>Hivio LTD</span>
       </a>
+      <!-- Кнопки Client Area здесь нет -->
     </div>
   </header>
 
   <main class="section">
-    <div class="auth-wrap">
-      <section class="auth-card neon reveal" data-reveal>
-        <h1 class="auth-title">Sign in</h1>
-        <p class="auth-sub">Enter your login and password to continue.</p>
+    <div class="container" style="max-width:520px">
+      <!-- вернули reveal: теперь он работает через main.js -->
+      <div class="panel neon reveal" data-reveal>
+        <h1 class="tight">Sign in</h1>
+        <p class="muted">Enter your login and password to continue.</p>
 
-        <form id="loginForm" class="login-form" autocomplete="off">
+        <form id="loginForm" class="form-grid" autocomplete="off">
           <label class="field">
             <span>Login</span>
-            <input id="login" type="text" inputmode="numeric" placeholder="Enter your login" required />
+            <input id="login" type="text" required placeholder="Enter your login" />
           </label>
           <label class="field">
             <span>Password</span>
-            <input id="password" type="password" placeholder="••••••••" required />
+            <input id="password" type="password" required placeholder="••••••••" />
           </label>
           <button type="submit" class="btn-primary">Sign in</button>
-          <div id="err">Invalid login or password</div>
+          <div id="err" class="muted" style="display:none;color:#ffadad">Invalid login or password</div>
         </form>
-      </section>
+      </div>
     </div>
   </main>
 
-  <!-- общий фон + reveal -->
+  <!-- Подключаем общий фон+reveal, затем логин-логику -->
   <script defer src="../js/main.js"></script>
-  <!-- логика авторизации (как была) -->
   <script defer src="../js/auth.js"></script>
 </body>
 </html>
