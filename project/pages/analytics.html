@@ -8,11 +8,9 @@
   <link rel="stylesheet" href="../css/style.css" />
   <script defer src="../js/main.js"></script>
   <style>
-    /* шапка и эффекты — как в cabinet */
+    /* шапка — как было */
     .nav{ position:relative; z-index:50; }
-    .nav .nav-inner{
-      display:flex; align-items:center; gap:12px; justify-content:space-between;
-    }
+    .nav .nav-inner{ display:flex; align-items:center; gap:12px; justify-content:space-between; }
     .nav-center{ flex:1; display:flex; justify-content:center; }
 
     .brand-link{
@@ -29,12 +27,7 @@
       transform: translateY(-1px);
       color:var(--text);
     }
-    .logo-dot{
-      width:12px;height:12px;border-radius:50%;
-      background:linear-gradient(90deg,#7df0ff,#7b61ff);
-      box-shadow:0 0 16px rgba(125,240,255,.35),0 0 36px rgba(125,240,255,.35);
-      display:inline-block;
-    }
+    .logo-dot{ width:12px;height:12px;border-radius:50%;background:linear-gradient(90deg,#7df0ff,#7b61ff);box-shadow:0 0 16px rgba(125,240,255,.35),0 0 36px rgba(125,240,255,.35);display:inline-block; }
 
     .usermenu{ position:relative; display:inline-flex; align-items:center; z-index:60; }
     .usermenu-toggle{
@@ -96,6 +89,19 @@
       border-color:transparent;
       box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
       transform: translateY(-1px);
+    }
+
+    /* НОВОЕ: полоса под меню и «немигающая» кнопка Analytics */
+    .subbar{ position:relative; z-index:45; }
+    .subbar .subbar-inner{ display:flex; justify-content:center; padding:8px 0 0; }
+    .pill-static{
+      pointer-events:none; user-select:none;
+    }
+    .pill-static,
+    .pill-static:hover{
+      /* те же размеры, но без эффектов */
+      background:#0b0f1a; border:1px solid var(--border);
+      box-shadow:none; transform:none;
     }
 
     /* фон-канвас */
@@ -162,10 +168,17 @@
     </div>
   </header>
 
-  <!-- только меню и фон -->
+  <!-- НОВАЯ строка под меню: статичная (не кликабельная) кнопка Analytics -->
+  <div class="subbar">
+    <div class="container subbar-inner">
+      <span class="pill pill-static" aria-current="page">Analytics</span>
+    </div>
+  </div>
+
+  <!-- только меню, новая кнопка и фон -->
 
   <script>
-    /* === Account dropdown === */
+    /* === Account dropdown — без изменений === */
     (function(){
       const menu   = document.getElementById('usermenu');
       const toggle = document.getElementById('usermenuToggle');
