@@ -28,7 +28,8 @@
       transform: translateY(-1px);
       color:var(--text);
     }
-    .logo-dot{ width:12px;height:12px;border-radius:50%;
+    .logo-dot{
+      width:12px;height:12px;border-radius:50%;
       background:linear-gradient(90deg,#7df0ff,#7b61ff);
       box-shadow:0 0 16px rgba(125,240,255,.35),0 0 36px rgba(125,240,255,.35);
       display:inline-block;
@@ -82,6 +83,7 @@
     }
     .userpanel a:hover{ background: linear-gradient(90deg, rgba(125,240,255,.18), rgba(123,97,255,.18)); box-shadow:0 0 10px rgba(125,240,255,.25); }
     .userpanel .sep{ height:1px; background:rgba(255,255,255,.08); margin:6px 4px; border-radius:1px; }
+
     .usercard{
       display:grid; grid-template-columns:40px 1fr; gap:10px; align-items:center; padding:10px; border-radius:10px;
       background:rgba(255,255,255,.04); border:1px solid var(--border); margin:2px 2px 6px 2px;
@@ -93,20 +95,6 @@
     }
     .usercard .title{ font-weight:800; line-height:1.1; }
     .usercard .sub{ font-size:12.5px; color:var(--muted); margin-top:2px; }
-
-    /* ======== Плавающая «Analytics» (НЕ новая строка в вёрстке) ======== */
-    .pill-analytics{
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      top: var(--pill-top, 72px); /* вычисляется скриптом, чтобы быть сразу под шапкой */
-      z-index: 55;                /* ниже дропдауна (70), выше контента */
-      pointer-events: none;       /* не кликается (индикатор текущей страницы) */
-      /* эффект «как будто нажата» (как hover у Dashboard) */
-      background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
-      border-color: transparent;
-      box-shadow: 0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
-    }
 
     /* фон-канвас */
     #bg{ position:fixed; inset:0; z-index:-1; pointer-events:none; }
@@ -122,7 +110,7 @@
         <span class="logo-dot"></span><span>Hivio LTD</span>
       </a>
 
-      <!-- Центр: закреплённая кнопка Dashboard -->
+      <!-- Центр: кнопка Dashboard -->
       <div class="nav-center">
         <a class="pill" href="./cabinet.html">Dashboard</a>
       </div>
@@ -162,10 +150,7 @@
     </div>
   </header>
 
-  <!-- ======== Плавающая кнопка-ИНДИКАТОР текущей страницы (НЕ в меню) ======== -->
-  <span class="pill pill-analytics" role="status" aria-current="page">Analytics</span>
-
-  <!-- Никакого дополнительного контента — только фон и меню -->
+  <!-- Только меню и фон -->
 
   <script>
     /* === Account dropdown === */
@@ -192,20 +177,6 @@
       document.getElementById('menuSignout').addEventListener('click', ()=>{
         try{ localStorage.removeItem('hivio_auth'); }catch(_){}
       }, { once:true });
-    })();
-
-    /* === Держим «Analytics» ровно под шапкой и прижимаем к верху при скролле === */
-    (function(){
-      const nav = document.querySelector('.nav');
-      function setPillTop(){
-        const r = nav?.getBoundingClientRect();
-        const top = Math.max(8, (r?.bottom ?? 0) + 8); // пока шапка видна — под ней; иначе 8px от верха
-        document.documentElement.style.setProperty('--pill-top', top + 'px');
-      }
-      window.addEventListener('scroll', setPillTop, { passive:true });
-      window.addEventListener('resize', setPillTop);
-      document.addEventListener('DOMContentLoaded', setPillTop);
-      setPillTop();
     })();
   </script>
 </body>
