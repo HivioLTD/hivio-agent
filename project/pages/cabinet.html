@@ -10,7 +10,7 @@
 
   <style>
     :root{
-      /* Значения ниже пересчитываются JS‑ом, чтобы все 5 блоков всегда помещались */
+      /* Значения ниже пересчитываются JS-ом, чтобы все 5 блоков всегда помещались */
       --block: 160px;                 /* размер квадрата */
       --gap: calc(var(--block)/4);    /* отступ между блоками (ближе, как на твоём скрине) */
     }
@@ -165,6 +165,35 @@
       transition: width .25s ease;
     }
     .sq:hover .title::after{ width:100%; }
+
+    /* === ДОБАВЛЕННО: кнопка Dashboard как в broker.html === */
+    .top-center{
+      position: fixed;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+    }
+    .pill{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #0b0f1a;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 800;
+      transition: background .25s, box-shadow .25s, transform .2s, border-color .25s;
+    }
+    .pill:hover{
+      background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
+      border-color: transparent;
+      box-shadow: 0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
+      transform: translateY(-1px);
+    }
+    /* === КОНЕЦ ДОБАВЛЕННОГО === */
   </style>
 </head>
 <body>
@@ -222,6 +251,10 @@
       </div>
     </div>
   </header>
+
+  <!-- ДОБАВЛЕНО: сама кнопка -->
+  <div class="top-center"><a class="pill" href="./cabinet.html">Dashboard</a></div>
+  <!-- /ДОБАВЛЕНО -->
 
   <main class="section">
     <!-- СЕТКА 5 КВАДРАТОВ (без стрелок) -->
