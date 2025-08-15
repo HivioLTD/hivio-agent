@@ -29,7 +29,7 @@
       display:inline-block;
     }
 
-    /* ===== USER MENU: одна кнопка + дропдаун со шапкой владельца ===== */
+    /* ===== USER MENU ===== */
     .usermenu{ position:relative; display:inline-flex; align-items:center; }
     .usermenu-toggle{
       display:inline-flex; align-items:center; gap:10px;
@@ -113,10 +113,10 @@
     .danger{border:1px solid #5b1e1e;background:rgba(255,70,70,.08)}
     @media(max-width:1000px){.account-grid{grid-template-columns:1fr}}
 
-    /* === Dashboard button (как на broker.html) === */
+    /* === Кнопка Dashboard по центру (как на broker.html) === */
     .top-center{
       position: fixed;
-      top: 12px;            /* при необходимости увеличь до 16–20px */
+      top: 12px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 100;
@@ -147,13 +147,11 @@
 
   <header class="nav">
     <div class="container nav-inner">
-      <!-- Слева: ссылка на главную -->
       <a class="brand-link" href="https://www.hivio.uk" aria-label="Go to homepage">
         <span class="logo-dot"></span>
         <span>Hivio LTD</span>
       </a>
 
-      <!-- Справа: одна кнопка Account с карточкой владельца и пунктами My Account / Sign out -->
       <div class="usermenu" id="usermenu" aria-expanded="false">
         <button type="button" class="usermenu-toggle" id="usermenuToggle" aria-haspopup="true" aria-controls="userpanel" aria-expanded="false">
           <svg class="user-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -180,7 +178,7 @@
             </div>
           </div>
 
-          <!-- ЗАМЕНЕНО: вместо Dashboard — My Account (как в cabinet.html) -->
+          <!-- My Account (как в cabinet.html) -->
           <a href="./account.html" role="menuitem" id="menuAccount">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm-8 8a8 8 0 1 1 16 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
@@ -201,7 +199,7 @@
     </div>
   </header>
 
-  <!-- ДОБАВЛЕННАЯ КНОПКА DASHBOARD (оставил как было по твоей прошлой просьбе) -->
+  <!-- Кнопка Dashboard по центру -->
   <div class="top-center">
     <a class="pill" href="./cabinet.html">Dashboard</a>
   </div>
@@ -317,22 +315,44 @@
   <!-- Скрипты: фон+reveal и логика аккаунта -->
   <script defer src="../js/main.js"></script>
   <script>
-    // Dropdown меню (как в cabinet.html)
+    // Dropdown меню: КЛИК для открытия/закрытия (как на cabinet.html)
     document.addEventListener('DOMContentLoaded', ()=>{
-      const menu = document.getElementById('usermenu');
+      const menu   = document.getElementById('usermenu');
       const toggle = document.getElementById('usermenuToggle');
-      const panel = document.getElementById('userpanel');
+      const panel  = document.getElementById('userpanel');
 
-      function openMenu(){ menu.setAttribute('aria-expanded','true'); toggle.setAttribute('aria-expanded','true'); panel.classList.add('open'); }
-      function closeMenu(){ menu.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-expanded','false'); panel.classList.remove('open'); }
+      function openMenu(){
+        menu.setAttribute('aria-expanded','true');
+        toggle.setAttribute('aria-expanded','true');
+        panel.classList.add('open');
+      }
+      function closeMenu(){
+        menu.setAttribute('aria-expanded','false');
+        toggle.setAttribute('aria-expanded','false');
+        panel.classList.remove('open');
+      }
+      function toggleMenu(){
+        panel.classList.contains('open') ? closeMenu() : openMenu();
+      }
 
-      toggle.addEventListener('click', (e)=>{ e.stopPropagation(); panel.classList.contains('open') ? closeMenu() : openMenu(); });
-      menu.addEventListener('mouseenter', openMenu);
-      menu.addEventListener('mouseleave', closeMenu);
+      // Открытие/закрытие по клику на кнопку
+      toggle.addEventListener('click', (e)=>{ e.stopPropagation(); toggleMenu(); });
+
+      // Клавиатурная доступность (Enter/Space на кнопке)
+      toggle.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          toggleMenu();
+        }
+      });
+
+      // Клик вне меню — закрыть
       document.addEventListener('click', (e)=>{ if(!menu.contains(e.target)) closeMenu(); });
+
+      // Esc — закрыть
       document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
 
-      // Подставляем ФИО и должность в карточку дропдауна
+      // Данные карточки из localStorage
       try{
         const prof = JSON.parse(localStorage.getItem('hivio_profile') || 'null');
         const first = prof?.firstName || 'Vsevolod';
