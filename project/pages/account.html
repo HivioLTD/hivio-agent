@@ -112,6 +112,34 @@
     .actions{display:flex;gap:10px;flex-wrap:wrap}
     .danger{border:1px solid #5b1e1e;background:rgba(255,70,70,.08)}
     @media(max-width:1000px){.account-grid{grid-template-columns:1fr}}
+
+    /* === Dashboard button (как на broker.html) === */
+    .top-center{
+      position: fixed;
+      top: 12px;            /* при необходимости увеличь до 16–20px */
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+    }
+    .pill{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #0b0f1a;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 800;
+      transition: background .25s, box-shadow .25s, transform .2s, border-color .25s;
+    }
+    .pill:hover{
+      background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
+      border-color: transparent;
+      box-shadow: 0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
+      transform: translateY(-1px);
+    }
   </style>
 </head>
 <body>
@@ -169,6 +197,12 @@
     </div>
   </header>
 
+  <!-- ДОБАВЛЕННАЯ КНОПКА DASHBOARD -->
+  <div class="top-center">
+    <a class="pill" href="./cabinet.html">Dashboard</a>
+  </div>
+  <!-- /ДОБАВЛЕННАЯ КНОПКА -->
+
   <main class="section">
     <div class="container account-grid">
       <!-- LEFT: Avatar + role -->
@@ -217,7 +251,7 @@
                 <option value="admin">Director (admin, full rights)</option>
                 <option value="manager">Manager (portfolio ops)</option>
                 <option value="analyst">Analyst (read & propose)</option>
-                <option value="viewer">Viewer (read‑only)</option>
+                <option value="viewer">Viewer (read-only)</option>
               </select>
             </label>
           </div>
