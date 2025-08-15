@@ -29,6 +29,10 @@
       display:inline-block;
     }
 
+    /* Центровщик для закреплённой кнопки Dashboard в шапке */
+    .nav .nav-inner{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .nav-center{ flex:1; display:flex; justify-content:center; }
+
     /* ===== USER MENU ===== */
     .usermenu{ position:relative; display:inline-flex; align-items:center; }
     .usermenu-toggle{
@@ -113,14 +117,7 @@
     .danger{border:1px solid #5b1e1e;background:rgba(255,70,70,.08)}
     @media(max-width:1000px){.account-grid{grid-template-columns:1fr}}
 
-    /* === Кнопка Dashboard по центру (как на broker.html) === */
-    .top-center{
-      position: fixed;
-      top: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 100;
-    }
+    /* Стиль для кнопки Dashboard (используем в шапке) */
     .pill{
       display: inline-flex;
       align-items: center;
@@ -151,6 +148,11 @@
         <span class="logo-dot"></span>
         <span>Hivio LTD</span>
       </a>
+
+      <!-- Центр шапки: закреплённая кнопка Dashboard -->
+      <div class="nav-center">
+        <a class="pill" href="./cabinet.html">Dashboard</a>
+      </div>
 
       <div class="usermenu" id="usermenu" aria-expanded="false">
         <button type="button" class="usermenu-toggle" id="usermenuToggle" aria-haspopup="true" aria-controls="userpanel" aria-expanded="false">
@@ -199,10 +201,7 @@
     </div>
   </header>
 
-  <!-- Кнопка Dashboard по центру -->
-  <div class="top-center">
-    <a class="pill" href="./cabinet.html">Dashboard</a>
-  </div>
+  <!-- УБРАН старый плавающий .top-center, чтобы Dashboard не «ездил» -->
 
   <main class="section">
     <div class="container account-grid">
@@ -335,24 +334,16 @@
         panel.classList.contains('open') ? closeMenu() : openMenu();
       }
 
-      // Открытие/закрытие по клику на кнопку
       toggle.addEventListener('click', (e)=>{ e.stopPropagation(); toggleMenu(); });
-
-      // Клавиатурная доступность (Enter/Space на кнопке)
       toggle.addEventListener('keydown', (e)=>{
         if(e.key === 'Enter' || e.key === ' '){
           e.preventDefault();
           toggleMenu();
         }
       });
-
-      // Клик вне меню — закрыть
       document.addEventListener('click', (e)=>{ if(!menu.contains(e.target)) closeMenu(); });
-
-      // Esc — закрыть
       document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
 
-      // Данные карточки из localStorage
       try{
         const prof = JSON.parse(localStorage.getItem('hivio_profile') || 'null');
         const first = prof?.firstName || 'Vsevolod';
