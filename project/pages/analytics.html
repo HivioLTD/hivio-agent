@@ -29,7 +29,12 @@
       transform: translateY(-1px);
       color:var(--text);
     }
-    .logo-dot{ width:12px;height:12px;border-radius:50%;background:linear-gradient(90deg,#7df0ff,#7b61ff);box-shadow:0 0 16px rgba(125,240,255,.35),0 0 36px rgba(125,240,255,.35);display:inline-block; }
+    .logo-dot{
+      width:12px;height:12px;border-radius:50%;
+      background:linear-gradient(90deg,#7df0ff,#7b61ff);
+      box-shadow:0 0 16px rgba(125,240,255,.35),0 0 36px rgba(125,240,255,.35);
+      display:inline-block;
+    }
 
     .usermenu{ position:relative; display:inline-flex; align-items:center; z-index:60; }
     .usermenu-toggle{
@@ -92,18 +97,6 @@
       box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
       transform: translateY(-1px);
     }
-
-    /* каркас контента */
-    .page-wrap{ min-height:100dvh; display:grid; place-items:center; padding:72px 16px 24px; }
-    .card{
-      width:min(960px, 92vw);
-      border:1px solid var(--border); border-radius:20px;
-      background:rgba(255,255,255,.02);
-      box-shadow:0 24px 80px -40px rgba(0,0,0,.6);
-      padding:20px;
-    }
-    .page-title{ font-size:clamp(22px,2.4vmax,32px); font-weight:800; margin:0 0 8px; }
-    .muted{ color:var(--muted); font-size:14px; }
 
     /* фон-канвас */
     #bg{ position:fixed; inset:0; z-index:-1; pointer-events:none; }
@@ -169,12 +162,7 @@
     </div>
   </header>
 
-  <main class="page-wrap">
-    <section class="card">
-      <h1 class="page-title">Analytics</h1>
-      <p class="muted">Здесь будет аналитика (графики, таблицы, фильтры).</p>
-    </section>
-  </main>
+  <!-- Нет основного контента: оставили только меню и фон -->
 
   <script>
     /* === Account dropdown === */
