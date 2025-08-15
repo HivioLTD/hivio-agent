@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="../css/style.css" />
   <script defer src="../js/main.js"></script>
   <style>
-    /* шапка — как было */
     .nav{ position:relative; z-index:50; }
     .nav .nav-inner{ display:flex; align-items:center; gap:12px; justify-content:space-between; }
     .nav-center{ flex:1; display:flex; justify-content:center; }
@@ -56,10 +55,7 @@
       z-index:70;
     }
     .userpanel.open{ opacity:1; visibility:visible; transform: translateY(0); }
-    .userpanel a{
-      display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; text-decoration:none; color:var(--text);
-      transition: background .2s, box-shadow .2s;
-    }
+    .userpanel a{ display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; text-decoration:none; color:var(--text); transition: background .2s, box-shadow .2s; }
     .userpanel a:hover{ background: linear-gradient(90deg, rgba(125,240,255,.18), rgba(123,97,255,.18)); box-shadow:0 0 10px rgba(125,240,255,.25); }
     .userpanel .sep{ height:1px; background:rgba(255,255,255,.08); margin:6px 4px; border-radius:1px; }
 
@@ -91,10 +87,19 @@
       transform: translateY(-1px);
     }
 
-    /* подменю с активной «нажатой» Analytics */
-    .subbar{ position:relative; z-index:45; }
-    .subbar .subbar-inner{ display:flex; justify-content:center; padding:8px 0 0; }
+    /* ПОДМЕНЮ: липкая «Analytics» */
+    .subbar{
+      position: sticky;     /* липнет при прокрутке */
+      top: 0;               /* к самому верху окна */
+      z-index: 55;          /* выше контента, ниже дропдаунов */
+      background: rgba(11,15,26,.7);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--border);
+    }
+    .subbar .subbar-inner{ display:flex; justify-content:center; padding:8px 0; }
 
+    /* не кликабельная активная «нажатая» таблетка */
     .pill-static{ pointer-events:none; user-select:none; }
     .pill-current,
     .pill-current:hover{
@@ -103,10 +108,10 @@
       box-shadow: inset 0 2px 6px rgba(0,0,0,.35),
                   0 0 18px rgba(125,240,255,.35),
                   0 0 28px rgba(123,97,255,.35);
-      transform: none; /* без «всплытия», выглядит как нажатая */
+      transform: none;
     }
 
-    /* фон-канвас */
+    /* фон */
     #bg{ position:fixed; inset:0; z-index:-1; pointer-events:none; }
   </style>
 </head>
@@ -149,34 +154,22 @@
             </div>
           </div>
 
-          <a href="./account.html" role="menuitem" id="menuAccount">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm-8 8a8 8 0 1 1 16 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-            </svg>
-            My Account
-          </a>
+          <a href="./account.html" role="menuitem" id="menuAccount">My Account</a>
           <div class="sep"></div>
-          <a href="./login.html" role="menuitem" id="menuSignout">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M15 12H4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-              <path d="M11 8l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M15 4h2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3h-2" stroke="currentColor" stroke-width="1.7"/>
-            </svg>
-            Sign out
-          </a>
+          <a href="./login.html" role="menuitem" id="menuSignout">Sign out</a>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- подменю под шапкой: активная (нажатая) кнопка Analytics -->
+  <!-- Липкая подшапка с активной кнопкой -->
   <div class="subbar">
     <div class="container subbar-inner">
       <span class="pill pill-static pill-current" aria-current="page">Analytics</span>
     </div>
   </div>
 
-  <!-- только меню, активная кнопка и фон -->
+  <!-- дальше — твой контент страницы (если нужен) -->
 
   <script>
     (function(){
@@ -198,10 +191,6 @@
         document.getElementById('ucName').textContent = `${last} ${first}`.trim();
         document.getElementById('ucPos').textContent  = pos;
       }catch(e){}
-
-      document.getElementById('menuSignout').addEventListener('click', ()=>{
-        try{ localStorage.removeItem('hivio_auth'); }catch(_){}
-      }, { once:true });
     })();
   </script>
 </body>
