@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,12 +9,12 @@
   <link rel="stylesheet" href="../css/style.css" />
   <script defer src="../js/main.js"></script>
   <style>
-    /* ======== ШАПКА ======== */
+    /* ======= ШАПКА ======= */
     .nav{ position:relative; z-index:50; }
     .nav .nav-inner{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
     .nav-center{ flex:1; display:flex; justify-content:center; }
 
-    /* Бренд-ссылка */
+    /* Лого-кнопка */
     .brand-link{
       display:inline-flex; align-items:center; gap:10px;
       padding:8px 14px; border-radius:12px; text-decoration:none;
@@ -28,13 +29,14 @@
       transform: translateY(-1px);
       color:var(--text);
     }
-    .logo-dot{ width:12px;height:12px;border-radius:50%;
+    .logo-dot{
+      width:12px;height:12px;border-radius:50%;
       background:linear-gradient(90deg,#7df0ff,#7b61ff);
       box-shadow:0 0 16px rgba(125,240,255,.35),0 0 36px rgba(125,240,255,.35);
       display:inline-block;
     }
 
-    /* Кнопка-«таблетка» (общий стиль как Dashboard) */
+    /* Таблетка (общий стиль — как Dashboard) */
     .pill{
       display:inline-flex; align-items:center; gap:8px;
       padding:8px 14px; border-radius:14px; border:1px solid var(--border);
@@ -76,58 +78,48 @@
       z-index:70;
     }
     .userpanel.open{ opacity:1; visibility:visible; transform: translateY(0); }
-    .userpanel a{
-      display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; text-decoration:none; color:var(--text);
-      transition: background .2s, box-shadow .2s;
-    }
+    .userpanel a{ display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; text-decoration:none; color:var(--text); transition: background .2s, box-shadow .2s; }
     .userpanel a:hover{ background: linear-gradient(90deg, rgba(125,240,255,.18), rgba(123,97,255,.18)); box-shadow:0 0 10px rgba(125,240,255,.25); }
     .userpanel .sep{ height:1px; background:rgba(255,255,255,.08); margin:6px 4px; border-radius:1px; }
-    .usercard{
-      display:grid; grid-template-columns:40px 1fr; gap:10px; align-items:center; padding:10px; border-radius:10px;
-      background:rgba(255,255,255,.04); border:1px solid var(--border); margin:2px 2px 6px 2px;
-    }
-    .usercard .ico{
-      width:40px;height:40px;border-radius:10px;display:grid;place-items:center;
-      background:linear-gradient(180deg, rgba(125,240,255,.15), rgba(123,97,255,.15));
-      border:1px solid var(--border);
-    }
+    .usercard{ display:grid; grid-template-columns:40px 1fr; gap:10px; align-items:center; padding:10px; border-radius:10px; background:rgba(255,255,255,.04); border:1px solid var(--border); margin:2px 2px 6px 2px; }
+    .usercard .ico{ width:40px;height:40px;border-radius:10px;display:grid;place-items:center; background:linear-gradient(180deg, rgba(125,240,255,.15), rgba(123,97,255,.15)); border:1px solid var(--border); }
     .usercard .title{ font-weight:800; line-height:1.1; }
     .usercard .sub{ font-size:12.5px; color:var(--muted); margin-top:2px; }
 
-    /* ======== Плавающая «Analytics» (НЕ новая строка в вёрстке) ======== */
+    /* ======= Плавающая Analytics (НЕ добавляем новую строку в вёрстку) ======= */
     .pill-analytics{
       position: fixed;
       left: 50%;
       transform: translateX(-50%);
-      top: var(--pill-top, 72px); /* вычисляется скриптом, чтобы быть сразу под шапкой */
-      z-index: 55;                /* ниже дропдауна (70), выше контента */
-      pointer-events: none;       /* не кликается (индикатор текущей страницы) */
-      /* эффект «как будто нажата» (как hover у Dashboard) */
+      top: var(--pill-top, 72px);      /* управляется скриптом */
+      z-index: 65;                      /* выше шапки, ниже выпадашки */
+      pointer-events: none;             /* это индикатор, не кликается */
+      /* «как нажата» — тот же эффект, что hover у Dashboard */
       background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
       border-color: transparent;
       box-shadow: 0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
     }
 
-    /* фон-канвас */
+    /* Фон-канвас */
     #bg{ position:fixed; inset:0; z-index:-1; pointer-events:none; }
   </style>
 </head>
 <body>
   <canvas id="bg"></canvas>
 
-  <!-- ======== HEADER ======== -->
+  <!-- ======= HEADER ======= -->
   <header class="nav">
     <div class="container nav-inner">
       <a class="brand-link" href="https://www.hivio.uk" aria-label="Go to homepage">
         <span class="logo-dot"></span><span>Hivio LTD</span>
       </a>
 
-      <!-- Центр: закреплённая кнопка Dashboard -->
+      <!-- Центр шапки: Dashboard -->
       <div class="nav-center">
         <a class="pill" href="./cabinet.html">Dashboard</a>
       </div>
 
-      <!-- Право: Account -->
+      <!-- Аккаунт -->
       <div class="usermenu" id="usermenu" aria-expanded="false">
         <button type="button" class="usermenu-toggle" id="usermenuToggle" aria-haspopup="true" aria-controls="userpanel" aria-expanded="false">
           <svg class="user-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -162,10 +154,10 @@
     </div>
   </header>
 
-  <!-- ======== Плавающая кнопка-ИНДИКАТОР текущей страницы (НЕ в меню) ======== -->
+  <!-- Плавающая «Analytics» (индикатор текущей страницы) -->
   <span class="pill pill-analytics" role="status" aria-current="page">Analytics</span>
 
-  <!-- Никакого дополнительного контента — только фон и меню -->
+  <!-- Только меню + фон -->
 
   <script>
     /* === Account dropdown === */
@@ -194,19 +186,43 @@
       }, { once:true });
     })();
 
-    /* === Держим «Analytics» ровно под шапкой и прижимаем к верху при скролле === */
+    /* === «Analytics» должна:
+       1) Быть прямо под шапкой при загрузке.
+       2) На скролле прижиматься к самому верху (или попадать ровно в центр шапки, если шапка sticky).
+       Решение: вычисляем позицию в каждый scroll/resize и центрируем её по высоте шапки, если она в зоне вьюпорта,
+       иначе фиксируем на 8px от верхнего края. Работает одинаково на десктопе и мобайле. */
     (function(){
-      const nav = document.querySelector('.nav');
+      const nav  = document.querySelector('.nav');
+      const pill = document.querySelector('.pill-analytics');
+
       function setPillTop(){
-        const r = nav?.getBoundingClientRect();
-        const top = Math.max(8, (r?.bottom ?? 0) + 8); // пока шапка видна — под ней; иначе 8px от верха
-        document.documentElement.style.setProperty('--pill-top', top + 'px');
+        if(!nav || !pill) return;
+        const r = nav.getBoundingClientRect();
+        const pillH = pill.offsetHeight || 0;
+
+        let topPx;
+        if (r.bottom <= 0) {
+          // шапка ушла вверх → прижимаем кнопку к самому верху
+          topPx = 8;
+        } else if (r.top < window.innerHeight) {
+          // шапка видна → центрируем кнопку по высоте шапки (чтобы казалось, что она «вместо Dashboard»)
+          topPx = Math.max(8, r.top + Math.max(0, (r.height - pillH)/2));
+        } else {
+          // на всякий случай (редкий кейс)
+          topPx = 8;
+        }
+        document.documentElement.style.setProperty('--pill-top', topPx + 'px');
       }
-      window.addEventListener('scroll', setPillTop, { passive:true });
-      window.addEventListener('resize', setPillTop);
+
+      // Инициализация и события
+      const opts = { passive: true };
+      window.addEventListener('scroll', setPillTop, opts);
+      window.addEventListener('resize', setPillTop, opts);
       document.addEventListener('DOMContentLoaded', setPillTop);
+      window.addEventListener('load', setPillTop);
       setPillTop();
     })();
   </script>
 </body>
 </html>
+```
