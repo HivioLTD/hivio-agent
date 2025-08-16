@@ -8,190 +8,235 @@
   <link rel="stylesheet" href="../css/style.css" />
   <script defer src="../js/main.js"></script>
   <style>
-    /* ======== ШАПКА ======== */
+    /* ===== шапка (как в cabinet) ===== */
     .nav{ position:relative; z-index:50; }
-    .nav .nav-inner{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
-    .brand-link{ display:flex; align-items:center; gap:10px; padding:8px 14px; border-radius:12px;
-      text-decoration:none; color:var(--text); background:#0b0f1a; border:1px solid var(--border);
-      font-weight:800; letter-spacing:.2px; transition:0.25s; }
-    .brand-link:hover{ background:linear-gradient(90deg,rgba(125,240,255,.28),rgba(123,97,255,.28));
-      border-color:transparent; box-shadow:0 0 18px rgba(125,240,255,.35); transform:translateY(-1px);}
-    .logo-dot{ width:12px;height:12px;border-radius:50%;background:linear-gradient(90deg,#7df0ff,#7b61ff);
-      box-shadow:0 0 16px rgba(125,240,255,.35); }
+    .nav .nav-inner{ display:flex; align-items:center; gap:12px; justify-content:space-between; }
+    .nav-center{ flex:1; display:flex; justify-content:center; }
 
-    .pill{ display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:14px;
-      border:1px solid var(--border); background:#0b0f1a; color:var(--text); font-weight:800;
-      text-decoration:none; transition:0.25s; }
-    .pill:hover{ background:linear-gradient(90deg,rgba(125,240,255,.28),rgba(123,97,255,.28));
-      border-color:transparent; box-shadow:0 0 18px rgba(125,240,255,.35); transform:translateY(-1px); }
+    .brand-link{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 14px; border-radius:12px; text-decoration:none;
+      color:var(--text); background:#0b0f1a; border:1px solid var(--border);
+      font-weight:800; letter-spacing:.2px;
+      transition: background .25s, box-shadow .25s, transform .2s, border-color .25s;
+    }
+    .brand-link:hover{
+      background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
+      border-color:transparent;
+      box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
+      transform: translateY(-1px);
+      color:var(--text);
+    }
+    .logo-dot{
+      width:12px;height:12px;border-radius:50%;
+      background:linear-gradient(90deg,#7df0ff,#7b61ff);
+      box-shadow:0 0 16px rgba(125,240,255,.35),0 0 36px rgba(125,240,255,.35);
+      display:inline-block;
+    }
 
-    /* ======== ОСНОВНОЙ МАКЕТ ======== */
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 14px; border-radius:14px; border:1px solid var(--border);
+      background:#0b0f1a; color:var(--text); text-decoration:none; font-weight:800;
+      transition: background .25s, box-shadow .25s, transform .2s, border-color .25s;
+    }
+    .pill:hover{
+      background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
+      border-color:transparent;
+      box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
+      transform: translateY(-1px);
+    }
+
+    /* ===== фон-канвас ===== */
     #bg{ position:fixed; inset:0; z-index:-1; pointer-events:none; }
-    .wrap{ max-width:1300px; margin:28px auto 80px; padding:0 16px; }
-    .page-title{ font-size:28px; font-weight:800; margin:8px 0 18px; }
+
+    /* ===== layout страницы ===== */
+    .wrap{ max-width:1200px; margin:28px auto 80px; padding:0 16px; }
+    .page-title{ font-size:28px; font-weight:800; letter-spacing:.2px; margin:8px 0 18px; }
     .muted{ color:var(--muted); }
 
-    /* ======== ФИЛЬТРЫ ======== */
-    .filters{ display:grid; grid-template-columns: repeat(12, 1fr); gap:12px; margin:20px 0; }
-    .card{ background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:14px;
-      padding:14px; backdrop-filter:blur(6px); box-shadow:0 20px 60px -25px rgba(0,0,0,.6); }
+    /* панель фильтров */
+    .filters{
+      display:grid; grid-template-columns: repeat(12, 1fr);
+      gap:12px; margin:16px 0 14px;
+    }
+    .card{
+      background:rgba(255,255,255,.03); border:1px solid var(--border);
+      border-radius:14px; padding:14px; backdrop-filter: blur(6px);
+      box-shadow:0 20px 60px -25px rgba(0,0,0,.6);
+    }
     .control{ display:flex; flex-direction:column; gap:6px; }
     .control label{ font-size:12.5px; color:var(--muted); }
-    .control input, .control select{ width:100%; padding:10px 12px; border-radius:10px;
-      border:1px solid var(--border); background:#0b0f1a; color:var(--text); transition:0.2s; }
-    .control input:focus, .control select:focus{ border-color:transparent; box-shadow:0 0 0 2px rgba(125,240,255,.35); }
-
+    .control input, .control select{
+      width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--border);
+      background:#0b0f1a; color:var(--text);
+      outline:none; transition:border-color .2s, box-shadow .2s;
+    }
+    .control input:focus, .control select:focus{
+      border-color:transparent;
+      box-shadow:0 0 0 2px rgba(125,240,255,.35);
+    }
     .actions{ display:flex; gap:10px; align-items:end; }
-    .btn{ padding:10px 16px; border-radius:12px; border:1px solid var(--border);
-      background:#0b0f1a; color:var(--text); font-weight:700; cursor:pointer; transition:0.25s; }
-    .btn:hover{ background:linear-gradient(90deg,rgba(125,240,255,.28),rgba(123,97,255,.28));
-      border-color:transparent; box-shadow:0 0 18px rgba(125,240,255,.35); transform:translateY(-1px); }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      padding:10px 14px; border-radius:12px; border:1px solid var(--border);
+      background:#0b0f1a; color:var(--text); font-weight:700; cursor:pointer;
+      transition: background .25s, box-shadow .25s, transform .2s, border-color .25s;
+    }
+    .btn:hover{
+      background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
+      border-color:transparent;
+      box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
+      transform: translateY(-1px);
+    }
 
-    /* ======== SUMMARY ======== */
-    .summary{ display:flex; flex-wrap:wrap; gap:10px; margin:6px 0 16px; }
-    .chip{ padding:8px 12px; border-radius:999px; border:1px solid var(--border);
-      background:rgba(255,255,255,.03); color:var(--text); font-weight:700; font-size:12.8px; }
+    /* summary */
+    .summary{
+      display:flex; flex-wrap:wrap; gap:10px; margin:6px 0 16px;
+    }
+    .chip{
+      padding:8px 12px; border-radius:999px; border:1px solid var(--border);
+      background:rgba(255,255,255,.03); color:var(--text); font-weight:700; font-size:12.8px;
+    }
+    .chip.url{ max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
-    /* ======== ТАБЛИЦА ======== */
+    /* таблица */
     .table-wrap{ overflow:auto; border-radius:14px; }
-    table{ width:100%; border-collapse:separate; border-spacing:0;
-      background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:14px; }
-    thead th{ position:sticky; top:0; background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
-      backdrop-filter:blur(4px); }
-    th, td{ padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.06); white-space:nowrap; }
-    th{ font-size:13px; color:var(--muted); cursor:pointer; }
+    table{
+      width:100%; border-collapse:separate; border-spacing:0;
+      background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:14px;
+    }
+    thead th{
+      position:sticky; top:0; z-index:1;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      backdrop-filter: blur(4px);
+    }
+    th, td{ padding:12px 14px; text-align:left; border-bottom:1px solid rgba(255,255,255,.06); white-space:nowrap; }
+    th{ font-size:13px; color:var(--muted); user-select:none; }
     td{ font-size:14px; }
     tr:hover td{ background:rgba(125,240,255,.04); }
     .num{ text-align:right; font-variant-numeric: tabular-nums; }
     .ticker{ font-weight:800; letter-spacing:.2px; }
-    .badge{ padding:4px 8px; border-radius:999px; border:1px solid var(--border); font-size:12px; }
+    .sortable{ cursor:pointer; }
+    .sortable .dir{ opacity:.6; font-size:11px; margin-left:4px; }
+    .badge{
+      display:inline-block; padding:4px 8px; border-radius:999px; border:1px solid var(--border);
+      background:rgba(255,255,255,.03); font-size:12px;
+    }
     .ok{ background:rgba(0,200,83,.1); border-color:rgba(0,200,83,.2); }
     .warn{ background:rgba(255,193,7,.1); border-color:rgba(255,193,7,.2); }
+    .gray{ opacity:.6; }
 
-    /* ======== ПОИСК + ПАГИНАЦИЯ ======== */
+    /* нижняя панель: поиск + пагинация */
     .bottombar{ display:flex; gap:12px; justify-content:space-between; align-items:center; margin-top:12px; }
     .search{ min-width:260px; }
     .pagination{ display:flex; gap:6px; }
-    .pagebtn{ padding:8px 10px; border-radius:10px; border:1px solid var(--border);
-      background:#0b0f1a; color:var(--text); cursor:pointer; }
+    .pagebtn{ padding:8px 10px; border-radius:10px; border:1px solid var(--border); background:#0b0f1a; color:var(--text); cursor:pointer; }
     .pagebtn[disabled]{ opacity:.5; cursor:default; }
 
-    @media (max-width: 860px){ .filters{ grid-template-columns: 1fr 1fr; } .actions{ grid-column: 1 / -1; } }
+    @media (max-width: 860px){
+      .filters{ grid-template-columns: 1fr 1fr; }
+      .actions{ grid-column: 1 / -1; }
+    }
   </style>
 </head>
 <body>
   <canvas id="bg"></canvas>
 
-  <!-- ======== HEADER ======== -->
   <header class="nav">
     <div class="container nav-inner">
-      <a class="brand-link" href="https://www.hivio.uk">
+      <a class="brand-link" href="https://www.hivio.uk" aria-label="Go to homepage">
         <span class="logo-dot"></span><span>Hivio LTD</span>
       </a>
-      <div class="nav-center"><a class="pill" href="./cabinet.html">Dashboard</a></div>
+      <div class="nav-center">
+        <a class="pill" href="./cabinet.html">Dashboard</a>
+      </div>
       <a class="pill" href="./login.html">Sign in</a>
     </div>
   </header>
 
-  <!-- ======== MAIN ======== -->
   <main class="wrap">
     <h1 class="page-title">Analytics <span class="muted">/ Screener</span></h1>
-    <div class="muted">Find companies by exchange, sector, and key financial ratios.</div>
+    <div class="muted">Filter listed equities and view key fundamentals. Data from your API agent.</div>
 
-    <!-- FILTERS -->
+    <!-- ===== Панель фильтров ===== -->
     <section class="filters">
-      <div class="card control" style="grid-column: span 2;">
+      <div class="card control" style="grid-column: span 3;">
         <label for="fExchange">Exchange</label>
         <select id="fExchange">
-          <option value="nasdaq" selected>Nasdaq</option>
-          <option value="nyse">NYSE</option>
-          <option value="amex">AMEX</option>
+          <option value="NasdaqCM" selected>NasdaqCM</option>
+          <option value="NasdaqGS">NasdaqGS</option>
+          <option value="NYSE">NYSE</option>
         </select>
       </div>
-      <div class="card control" style="grid-column: span 2;">
-        <label for="fIndex">Index</label>
-        <select id="fIndex">
-          <option value="">—</option>
-          <option value="sp500">S&P 500</option>
-          <option value="nasdaq">Nasdaq 100</option>
-          <option value="dow">Dow Jones</option>
-          <option value="russell">Russell 2000</option>
-        </select>
-      </div>
+
       <div class="card control" style="grid-column: span 2;">
         <label for="fCountry">Country</label>
         <select id="fCountry">
           <option value="US" selected>United States</option>
           <option value="CA">Canada</option>
           <option value="GB">United Kingdom</option>
-          <option value="DE">Germany</option>
         </select>
       </div>
-      <div class="card control" style="grid-column: span 2;">
-        <label for="fSector">Sector</label>
-        <select id="fSector">
-          <option value="">Any</option>
-          <option value="Technology">Technology</option>
-          <option value="Healthcare">Healthcare</option>
-          <option value="Energy">Energy</option>
-          <option value="Financial">Financial</option>
-          <option value="Consumer">Consumer</option>
-        </select>
-      </div>
-      <div class="card control" style="grid-column: span 2;">
-        <label for="fPeMax">P/E max</label>
-        <input id="fPeMax" type="number" value="20" />
-      </div>
-      <div class="card control" style="grid-column: span 2;">
-        <label for="fPbMax">P/B max</label>
-        <input id="fPbMax" type="number" value="3" />
-      </div>
+
       <div class="card control" style="grid-column: span 2;">
         <label for="fRoeMin">ROE min (%)</label>
-        <input id="fRoeMin" type="number" value="15" />
+        <input id="fRoeMin" type="number" step="0.1" value="15" />
       </div>
+
       <div class="card control" style="grid-column: span 2;">
-        <label for="fYieldMin">Dividend Yield min (%)</label>
-        <input id="fYieldMin" type="number" value="0" />
+        <label for="fCapMin">Market Cap min ($M)</label>
+        <input id="fCapMin" type="number" step="0.1" value="5" />
       </div>
-      <div class="actions" style="grid-column: span 2;">
-        <button class="btn" id="btnFind">🔍 Find</button>
-        <button class="btn" id="btnExport">⬇ Export CSV</button>
+
+      <div class="card control" style="grid-column: span 2;">
+        <label for="fCapMax">Market Cap max ($M)</label>
+        <input id="fCapMax" type="number" step="0.1" value="50" />
+      </div>
+
+      <!-- скрытый провайдер: явно ходим в Yahoo -->
+      <input type="hidden" id="fProvider" value="yahoo" />
+
+      <div class="actions" style="grid-column: span 1;">
+        <button class="btn" id="btnFind">Find companies</button>
+        <button class="btn" id="btnExport" title="Export current view to CSV">Export CSV</button>
       </div>
     </section>
 
-    <!-- SUMMARY -->
+    <!-- ===== Summary ===== -->
     <section class="summary" id="summary">
       <span class="chip" id="sumCount">0 found</span>
       <span class="chip" id="sumAvgRoe">Avg ROE: —</span>
       <span class="chip" id="sumCap">Total Cap: —</span>
+      <span class="chip url" id="reqPreview" title="Last request URL"></span>
     </section>
 
-    <!-- TABLE -->
+    <!-- ===== Таблица ===== -->
     <section class="table-wrap card">
       <table id="tbl">
         <thead>
           <tr>
-            <th data-sort="ticker">Ticker</th>
-            <th data-sort="name">Name</th>
-            <th class="num" data-sort="marketCapUSD">Market Cap ($M)</th>
-            <th class="num" data-sort="ROE">ROE (%)</th>
-            <th class="num" data-sort="pe">P/E</th>
-            <th class="num" data-sort="pb">P/B</th>
-            <th class="num" data-sort="evebitda">EV/EBITDA</th>
+            <th class="sortable" data-sort="ticker">Ticker <span class="dir"></span></th>
+            <th class="sortable" data-sort="name">Name <span class="dir"></span></th>
+            <th class="sortable num" data-sort="marketCapUSD">Market Cap ($M) <span class="dir"></span></th>
+            <th class="sortable num" data-sort="ROE">ROE (%) <span class="dir"></span></th>
+            <th class="sortable num" data-sort="pe">P/E <span class="dir"></span></th>
+            <th class="sortable num" data-sort="pb">P/B <span class="dir"></span></th>
+            <th class="sortable num" data-sort="evebitda">EV/EBITDA <span class="dir"></span></th>
             <th>Sector</th>
             <th>Country</th>
           </tr>
         </thead>
-        <tbody id="tbody"></tbody>
+        <tbody id="tbody">
+          <!-- rows here -->
+        </tbody>
       </table>
     </section>
 
-    <!-- SEARCH & PAGINATION -->
     <div class="bottombar">
       <div class="control search">
-        <label for="fSearch">Search</label>
-        <input id="fSearch" type="text" placeholder="Ticker / Name…" />
+        <label for="fSearch">Search (ticker / name)</label>
+        <input id="fSearch" type="text" placeholder="Type to filter…" />
       </div>
       <div class="pagination">
         <button class="pagebtn" id="prevPage">Prev</button>
@@ -201,100 +246,224 @@
     </div>
   </main>
 
-  <!-- ======== SCRIPT ======== -->
   <script>
+    // ================== CONFIG ==================
     const API_BASE = (window.HIVIO_API_BASE) || 'https://api.hivio.uk';
-    const API_PATH = '/screener';
+    const API_PATH = '/screener'; // эндпоинт бэкенда FastAPI
     const PAGE_SIZE = 25;
 
-    let rawRows = [], viewRows = [], currentPage = 1, sortKey = 'ROE', sortDir = 'desc';
+    // === ТОТ САМЫЙ ДЕФОЛТНЫЙ ЗАПРОС (твой) ===
+    const DEFAULT_QUERY = new URLSearchParams({
+      exchange: 'NasdaqCM',
+      country: 'US',
+      roe_min: 15,
+      mcap_min: 5,
+      mcap_max: 50,
+      provider: 'yahoo'
+    }).toString();
 
-    const $ = (s)=>document.querySelector(s);
-    const fmtNum = (n,d=1)=>(n==null||isNaN(n))?'—':Number(n).toLocaleString(undefined,{maximumFractionDigits:d});
-    const toM = (usd)=>(usd?usd/1e6:null);
+    // ================== STATE ==================
+    let rawRows = [];       // что пришло с API
+    let viewRows = [];      // после поиска/клиентских фильтров
+    let currentPage = 1;
+    let sortKey = 'ROE';    // дефолт: ROE desc, cap asc
+    let sortDir = 'desc';
+
+    // ================== HELPERS ==================
+    const $ = (sel) => document.querySelector(sel);
+    const fmtNum = (n, d=1) => (n===null || n===undefined || isNaN(n)) ? '—' : Number(n).toLocaleString(undefined, {maximumFractionDigits:d});
+    const toMillions = (usd) => (usd===null||usd===undefined||isNaN(usd)) ? null : (usd/1_000_000);
 
     function buildQuery(){
-      const p=new URLSearchParams({
-        exchange:$('#fExchange').value,
-        index:$('#fIndex').value,
-        country:$('#fCountry').value,
-        sector:$('#fSector').value,
-        pe_max:$('#fPeMax').value,
-        pb_max:$('#fPbMax').value,
-        roe_min:$('#fRoeMin').value,
-        yield_min:$('#fYieldMin').value
+      const ex = $('#fExchange').value;
+      const co = $('#fCountry').value;
+      const roe = parseFloat($('#fRoeMin').value||'15');
+      const cmin = parseFloat($('#fCapMin').value||'5');
+      const cmax = parseFloat($('#fCapMax').value||'50');
+      const prov = $('#fProvider').value || 'yahoo';
+      const p = new URLSearchParams({
+        exchange: ex, country: co, roe_min: roe, mcap_min: cmin, mcap_max: cmax, provider: prov
       });
       return p.toString();
     }
 
     function computeSummary(rows){
-      const count=rows.length;
-      const avgRoe=count?rows.reduce((a,b)=>a+(+b.ROE||0),0)/count:null;
-      const totalCap=rows.reduce((a,b)=>a+(toM(b.marketCapUSD)||0),0);
-      $('#sumCount').textContent=`${count} found`;
-      $('#sumAvgRoe').textContent=`Avg ROE: ${avgRoe?fmtNum(avgRoe,1)+'%':'—'}`;
-      $('#sumCap').textContent=`Total Cap: ${fmtNum(totalCap,1)} M`;
+      const count = rows.length;
+      const avgRoe = count ? rows.reduce((a,b)=>a+(Number(b.ROE)||0),0)/count : null;
+      const totalCapM = rows.reduce((a,b)=>a+(toMillions(b.marketCapUSD)||0),0);
+      $('#sumCount').textContent = `${count} found`;
+      $('#sumAvgRoe').textContent = `Avg ROE: ${avgRoe===null?'—':fmtNum(avgRoe,1)}%`;
+      $('#sumCap').textContent = `Total Cap: ${fmtNum(totalCapM,1)} M`;
     }
 
     function applySearch(){
-      const q=$('#fSearch').value.toLowerCase();
-      viewRows=q?rawRows.filter(r=>(r.ticker||'').toLowerCase().includes(q)||(r.name||'').toLowerCase().includes(q)):[...rawRows];
+      const q = ($('#fSearch').value||'').trim().toLowerCase();
+      if(!q){ viewRows = [...rawRows]; return; }
+      viewRows = rawRows.filter(r=>{
+        const t = (r.ticker||'').toLowerCase();
+        const n = (r.name||'').toLowerCase();
+        return t.includes(q) || n.includes(q);
+      });
     }
 
     function applySort(){
-      const dir=(sortDir==='asc'?1:-1);
-      viewRows.sort((a,b)=>((+a[sortKey]||0)-(+b[sortKey]||0))*dir);
+      const dir = (sortDir==='asc') ? 1 : -1;
+      viewRows.sort((a,b)=>{
+        let av = a[sortKey], bv = b[sortKey];
+        if(sortKey==='ROE'){
+          if((av??-Infinity) !== (bv??-Infinity)) return ((av??-Infinity) > (bv??-Infinity) ? 1 : -1)*dir;
+          const ac = a.marketCapUSD ?? Infinity, bc = b.marketCapUSD ?? Infinity;
+          return ac - bc;
+        }
+        const an = Number(av), bn = Number(bv);
+        if(!isNaN(an) && !isNaN(bn)) return (an>bn?1:(an<bn?-1:0))*dir;
+        const as = (av??'').toString().toLowerCase();
+        const bs = (bv??'').toString().toLowerCase();
+        return (as>bs?1:(as<bs?-1:0))*dir;
+      });
+      document.querySelectorAll('th.sortable .dir').forEach(el=>el.textContent='');
+      const th = document.querySelector(`th.sortable[data-sort="${sortKey}"] .dir`);
+      if(th) th.textContent = sortDir==='asc' ? '▲' : '▼';
     }
 
     function renderTable(){
-      const start=(currentPage-1)*PAGE_SIZE;
-      const page=viewRows.slice(start,start+PAGE_SIZE);
-      $('#tbody').innerHTML=page.map(r=>`
-        <tr>
-          <td class="ticker">${r.ticker||'—'}</td>
-          <td>${r.name||'—'}</td>
-          <td class="num">${fmtNum(toM(r.marketCapUSD),1)}</td>
-          <td class="num"><span class="badge">${fmtNum(r.ROE,1)}</span></td>
-          <td class="num">${fmtNum(r.pe,2)}</td>
-          <td class="num">${fmtNum(r.pb,2)}</td>
-          <td class="num">${fmtNum(r.evebitda,2)}</td>
-          <td>${r.sector||'—'}</td>
-          <td>${r.country||'—'}</td>
-        </tr>`).join('');
-      const totalPages=Math.max(1,Math.ceil(viewRows.length/PAGE_SIZE));
-      $('#pageInfo').textContent=`Page ${currentPage}/${totalPages}`;
-      $('#prevPage').disabled=currentPage<=1;
-      $('#nextPage').disabled=currentPage>=totalPages;
+      const start = (currentPage-1)*PAGE_SIZE;
+      const page = viewRows.slice(start, start+PAGE_SIZE);
+      const tbody = $('#tbody');
+      tbody.innerHTML = page.map(r=>{
+        const capM = toMillions(r.marketCapUSD);
+        const roeBadgeCls = (r.ROE>=25)?'badge ok':(r.ROE>=15?'badge':'badge warn');
+        const pe = (r.pe ?? r.PE ?? r.p_e);
+        const pb = (r.pb ?? r.PB ?? r.p_b);
+        const ee = (r.evebitda ?? r.ev_ebitda ?? r.evEbitda);
+
+        return `<tr>
+          <td class="ticker"><a href="./company.html?t=${encodeURIComponent(r.ticker||'')}" class="pill" style="padding:6px 10px;">${r.ticker||'—'}</a></td>
+          <td>${r.name || '—'}</td>
+          <td class="num">${capM===null?'—':fmtNum(capM,1)}</td>
+          <td class="num"><span class="${roeBadgeCls}">${fmtNum(r.ROE,1)}</span></td>
+          <td class="num">${(pe==null||isNaN(pe))?'—':fmtNum(pe,2)}</td>
+          <td class="num">${(pb==null||isNaN(pb))?'—':fmtNum(pb,2)}</td>
+          <td class="num">${(ee==null||isNaN(ee))?'—':fmtNum(ee,2)}</td>
+          <td>${r.sector || '—'}</td>
+          <td>${(r.country || r.Country || '—')}</td>
+        </tr>`;
+      }).join('');
+
+      const totalPages = Math.max(1, Math.ceil(viewRows.length / PAGE_SIZE));
+      $('#pageInfo').textContent = `Page ${currentPage}/${totalPages}`;
+      $('#prevPage').disabled = currentPage<=1;
+      $('#nextPage').disabled = currentPage>=totalPages;
+
       computeSummary(viewRows);
     }
 
-    async function fetchData(){
-      const url=`${API_BASE}${API_PATH}?${buildQuery()}`;
-      $('#btnFind').textContent='Loading…';
-      try{
-        const res=await fetch(url); const data=await res.json();
-        rawRows=(data.results||data||[]).map(x=>({
-          ticker:x.ticker||x.symbol,
-          name:x.name||x.companyName,
-          marketCapUSD:x.marketCapUSD||x.market_cap,
-          ROE:x.ROE||x.roe,
-          pe:x.pe||x.PE,
-          pb:x.pb||x.PB,
-          evebitda:x.evebitda||x.ev_ebitda,
-          sector:x.sector, country:x.country
-        }));
-        applySearch(); applySort(); currentPage=1; renderTable();
-      }catch(e){ console.error(e); alert('API error'); }
-      $('#btnFind').textContent='🔍 Find';
+    function setSort(key){
+      if(sortKey===key){ sortDir = (sortDir==='asc'?'desc':'asc'); }
+      else { sortKey = key; sortDir = (key==='ROE'?'desc':'asc'); }
+      applySort(); currentPage=1; renderTable();
     }
 
-    document.addEventListener('DOMContentLoaded',()=>{
-      $('#btnFind').addEventListener('click',fetchData);
-      $('#btnExport').addEventListener('click',()=>{/* экспорт CSV аналогично */});
-      $('#prevPage').addEventListener('click',()=>{if(currentPage>1){currentPage--;renderTable();}});
-      $('#nextPage').addEventListener('click',()=>{const t=Math.ceil(viewRows.length/PAGE_SIZE);if(currentPage<t){currentPage++;renderTable();}});
-      $('#fSearch').addEventListener('input',()=>{applySearch();applySort();renderTable();});
-      fetchData();
+    function exportCSV(){
+      const headers = ['Ticker','Name','MarketCapUSD','ROE','PE','PB','EV_EBITDA','Sector','Country'];
+      const lines = [headers.join(',')];
+      viewRows.forEach(r=>{
+        const row = [
+          (r.ticker||''), (r.name||''),
+          (r.marketCapUSD??''), (r.ROE??''),
+          (r.pe ?? r.PE ?? r.p_e ?? ''),
+          (r.pb ?? r.PB ?? r.p_b ?? ''),
+          (r.evebitda ?? r.ev_ebitda ?? r.evEbitda ?? ''),
+          (r.sector||''), (r.country || r.Country || '')
+        ];
+        lines.push(row.map(v=>{
+          const s = String(v);
+          return (s.includes(',')||s.includes('"')) ? `"${s.replace(/"/g,'""')}"` : s;
+        }).join(','));
+      });
+      const blob = new Blob([lines.join('\n')], {type:'text/csv;charset=utf-8;'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'hivio_screener.csv';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    // queryStr — если передан, используем его (дефолтный твой запрос); иначе собираем из формы
+    async function fetchData(queryStr){
+      const qs = queryStr || buildQuery();
+      const url = `${API_BASE}${API_PATH}?${qs}`;
+      $('#reqPreview').textContent = url; // показать последний запрос
+      const btn = $('#btnFind'); const prevText = btn.textContent;
+      btn.textContent = 'Loading…'; btn.disabled = true;
+
+      try{
+        const res = await fetch(url, {mode:'cors'});
+        const data = await res.json();
+
+        const rows = (data.results || data || []);
+        rawRows = rows.map(x=>{
+          return {
+            ticker: x.ticker ?? x.symbol ?? '',
+            name: x.name ?? x.companyName ?? '',
+            marketCapUSD: (typeof x.marketCapUSD==='number') ? x.marketCapUSD
+                           : (typeof x.market_cap==='number') ? x.market_cap
+                           : (typeof x.marketCap==='number') ? x.marketCap
+                           : null,
+            ROE: (typeof x.ROE==='number') ? x.ROE
+                 : (typeof x.roe==='number') ? (x.roe > 1 ? x.roe : x.roe*100)
+                 : null,
+            pe: x.pe ?? x.PE ?? x.p_e ?? null,
+            pb: x.pb ?? x.PB ?? x.p_b ?? null,
+            evebitda: x.evebitda ?? x.ev_ebitda ?? x.evEbitda ?? null,
+            sector: x.sector ?? '',
+            country: x.country ?? x.Country ?? ''
+          }
+        });
+
+        applySearch();
+        sortKey='ROE'; sortDir='desc';
+        applySort();
+        currentPage=1;
+        renderTable();
+      }catch(err){
+        console.error(err);
+        rawRows = []; viewRows = [];
+        renderTable();
+        alert('Failed to load data from API. Check API_BASE or CORS settings.');
+      }finally{
+        btn.textContent = prevText; btn.disabled = false;
+      }
+    }
+
+    // ================== EVENTS ==================
+    document.addEventListener('DOMContentLoaded', ()=>{
+      // сортировка
+      document.querySelectorAll('th.sortable').forEach(th=>{
+        th.addEventListener('click', ()=> setSort(th.dataset.sort));
+      });
+
+      // поиск
+      let t=null;
+      $('#fSearch').addEventListener('input', ()=>{
+        clearTimeout(t);
+        t=setTimeout(()=>{ applySearch(); applySort(); currentPage=1; renderTable(); }, 180);
+      });
+
+      // пагинация
+      $('#prevPage').addEventListener('click', ()=>{ if(currentPage>1){ currentPage--; renderTable(); } });
+      $('#nextPage').addEventListener('click', ()=>{
+        const totalPages = Math.max(1, Math.ceil(viewRows.length / PAGE_SIZE));
+        if(currentPage<totalPages){ currentPage++; renderTable(); }
+      });
+
+      // кнопки
+      $('#btnFind').addEventListener('click', ()=> fetchData());         // из формы
+      $('#btnExport').addEventListener('click', exportCSV);
+
+      // первичный автозапуск — ТОТ САМЫЙ ЗАПРОС
+      fetchData(DEFAULT_QUERY);
     });
   </script>
-</body
+</body>
+</html>
