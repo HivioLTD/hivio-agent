@@ -98,6 +98,7 @@
       padding:8px 12px; border-radius:999px; border:1px solid var(--border);
       background:rgba(255,255,255,.03); color:var(--text); font-weight:700; font-size:12.8px;
     }
+    .chip.url{ max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
     /* таблица */
     .table-wrap{ overflow:auto; border-radius:14px; }
@@ -193,6 +194,9 @@
         <input id="fCapMax" type="number" step="0.1" value="50" />
       </div>
 
+      <!-- скрытый провайдер: явно ходим в Yahoo -->
+      <input type="hidden" id="fProvider" value="yahoo" />
+
       <div class="actions" style="grid-column: span 1;">
         <button class="btn" id="btnFind">Find companies</button>
         <button class="btn" id="btnExport" title="Export current view to CSV">Export CSV</button>
@@ -204,6 +208,7 @@
       <span class="chip" id="sumCount">0 found</span>
       <span class="chip" id="sumAvgRoe">Avg ROE: —</span>
       <span class="chip" id="sumCap">Total Cap: —</span>
+      <span class="chip url" id="reqPreview" title="Last request URL"></span>
     </section>
 
     <!-- ===== Таблица ===== -->
@@ -243,10 +248,19 @@
 
   <script>
     // ================== CONFIG ==================
-    // если настроишь поддомен на Render — оставь базу ниже
     const API_BASE = (window.HIVIO_API_BASE) || 'https://api.hivio.uk';
     const API_PATH = '/screener'; // эндпоинт бэкенда FastAPI
     const PAGE_SIZE = 25;
+
+    // === ТОТ САМЫЙ ДЕФОЛТНЫЙ ЗАПРОС (твой) ===
+    const DEFAULT_QUERY = new URLSearchParams({
+      exchange: 'NasdaqCM',
+      country: 'US',
+      roe_min: 15,
+      mcap_min: 5,
+      mcap_max: 50,
+      provider: 'yahoo'
+    }).toString();
 
     // ================== STATE ==================
     let rawRows = [];       // что пришло с API
@@ -266,8 +280,9 @@
       const roe = parseFloat($('#fRoeMin').value||'15');
       const cmin = parseFloat($('#fCapMin').value||'5');
       const cmax = parseFloat($('#fCapMax').value||'50');
+      const prov = $('#fProvider').value || 'yahoo';
       const p = new URLSearchParams({
-        exchange: ex, country: co, roe_min: roe, mcap_min: cmin, mcap_max: cmax
+        exchange: ex, country: co, roe_min: roe, mcap_min: cmin, mcap_max: cmax, provider: prov
       });
       return p.toString();
     }
@@ -295,21 +310,17 @@
       const dir = (sortDir==='asc') ? 1 : -1;
       viewRows.sort((a,b)=>{
         let av = a[sortKey], bv = b[sortKey];
-        // вторичная сортировка как в ТЗ: при равном ROE — по капе возрастанию
         if(sortKey==='ROE'){
           if((av??-Infinity) !== (bv??-Infinity)) return ((av??-Infinity) > (bv??-Infinity) ? 1 : -1)*dir;
           const ac = a.marketCapUSD ?? Infinity, bc = b.marketCapUSD ?? Infinity;
           return ac - bc;
         }
-        // числа
         const an = Number(av), bn = Number(bv);
         if(!isNaN(an) && !isNaN(bn)) return (an>bn?1:(an<bn?-1:0))*dir;
-        // строки
         const as = (av??'').toString().toLowerCase();
         const bs = (bv??'').toString().toLowerCase();
         return (as>bs?1:(as<bs?-1:0))*dir;
       });
-      // обновим стрелочки
       document.querySelectorAll('th.sortable .dir').forEach(el=>el.textContent='');
       const th = document.querySelector(`th.sortable[data-sort="${sortKey}"] .dir`);
       if(th) th.textContent = sortDir==='asc' ? '▲' : '▼';
@@ -339,7 +350,6 @@
         </tr>`;
       }).join('');
 
-      // пагинация
       const totalPages = Math.max(1, Math.ceil(viewRows.length / PAGE_SIZE));
       $('#pageInfo').textContent = `Page ${currentPage}/${totalPages}`;
       $('#prevPage').disabled = currentPage<=1;
@@ -379,8 +389,11 @@
       URL.revokeObjectURL(a.href);
     }
 
-    async function fetchData(){
-      const url = `${API_BASE}${API_PATH}?${buildQuery()}`;
+    // queryStr — если передан, используем его (дефолтный твой запрос); иначе собираем из формы
+    async function fetchData(queryStr){
+      const qs = queryStr || buildQuery();
+      const url = `${API_BASE}${API_PATH}?${qs}`;
+      $('#reqPreview').textContent = url; // показать последний запрос
       const btn = $('#btnFind'); const prevText = btn.textContent;
       btn.textContent = 'Loading…'; btn.disabled = true;
 
@@ -388,7 +401,6 @@
         const res = await fetch(url, {mode:'cors'});
         const data = await res.json();
 
-        // нормализуем поля, чтобы таблица всегда была стабильной
         const rows = (data.results || data || []);
         rawRows = rows.map(x=>{
           return {
@@ -399,7 +411,7 @@
                            : (typeof x.marketCap==='number') ? x.marketCap
                            : null,
             ROE: (typeof x.ROE==='number') ? x.ROE
-                 : (typeof x.roe==='number') ? (x.roe > 1 ? x.roe : x.roe*100) // если доля
+                 : (typeof x.roe==='number') ? (x.roe > 1 ? x.roe : x.roe*100)
                  : null,
             pe: x.pe ?? x.PE ?? x.p_e ?? null,
             pb: x.pb ?? x.PB ?? x.p_b ?? null,
@@ -446,11 +458,11 @@
       });
 
       // кнопки
-      $('#btnFind').addEventListener('click', fetchData);
+      $('#btnFind').addEventListener('click', ()=> fetchData());         // из формы
       $('#btnExport').addEventListener('click', exportCSV);
 
-      // первичный автозапуск
-      fetchData();
+      // первичный автозапуск — ТОТ САМЫЙ ЗАПРОС
+      fetchData(DEFAULT_QUERY);
     });
   </script>
 </body>
