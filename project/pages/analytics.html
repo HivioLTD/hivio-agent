@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="../css/style.css" />
   <script defer src="../js/main.js"></script>
   <style>
-    /* ======== ШАПКА ======== */
     .nav{ position:relative; z-index:50; }
     .nav .nav-inner{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
     .brand-link{ display:flex; align-items:center; gap:10px; padding:8px 14px; border-radius:12px;
@@ -25,86 +24,55 @@
     .pill:hover{ background:linear-gradient(90deg,rgba(125,240,255,.28),rgba(123,97,255,.28));
       border-color:transparent; box-shadow:0 0 18px rgba(125,240,255,.35); transform:translateY(-1px); }
 
-    /* account (правый верх) */
     .usermenu{ position:relative; display:inline-flex; align-items:center; z-index:60; }
-    .usermenu-toggle{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:8px 12px; border-radius:14px; border:1px solid var(--border);
-      background:#0b0f1a; color:var(--text); cursor:pointer; transition:0.25s;
-      -webkit-tap-highlight-color: transparent;
-    }
+    .usermenu-toggle{ display:inline-flex; align-items:center; gap:10px; padding:8px 12px; border-radius:14px;
+      border:1px solid var(--border); background:#0b0f1a; color:var(--text); cursor:pointer; transition:0.25s; -webkit-tap-highlight-color: transparent; }
     .usermenu-toggle:hover,
     .usermenu[aria-expanded="true"] .usermenu-toggle{
-      background: linear-gradient(90deg, rgba(125,240,255,.28), rgba(123,97,255,.28));
-      border-color:transparent;
-      box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
-      transform: translateY(-1px);
+      background:linear-gradient(90deg,rgba(125,240,255,.28),rgba(123,97,255,.28));
+      border-color:transparent; box-shadow:0 0 18px rgba(125,240,255,.35), 0 0 28px rgba(123,97,255,.35);
+      transform:translateY(-1px);
     }
-    .user-icon{ width:22px;height:22px; }
-    .user-caret{ width:14px;height:14px; opacity:.7; transform: translateY(1px); }
-    .userpanel{
-      position:absolute; right:0; top:calc(100% + 8px); width:260px;
-      background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:14px;
-      box-shadow:0 20px 60px -25px rgba(0,0,0,.6);
-      padding:8px; backdrop-filter: blur(6px);
-      opacity:0; visibility:hidden; transform: translateY(-6px); transition: all .18s ease;
-      z-index:70;
-    }
+    .user-icon{ width:22px;height:22px; } .user-caret{ width:14px;height:14px; opacity:.7; transform:translateY(1px); }
+    .userpanel{ position:absolute; right:0; top:calc(100% + 8px); width:260px; background:rgba(255,255,255,.03);
+      border:1px solid var(--border); border-radius:14px; box-shadow:0 20px 60px -25px rgba(0,0,0,.6);
+      padding:8px; backdrop-filter: blur(6px); opacity:0; visibility:hidden; transform: translateY(-6px); transition: all .18s ease; z-index:70; }
     .userpanel.open{ opacity:1; visibility:visible; transform: translateY(0); }
-    .userpanel a{
-      display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; text-decoration:none; color:var(--text);
-      transition: background .2s, box-shadow .2s;
-    }
-    .userpanel a:hover{ background: linear-gradient(90deg, rgba(125,240,255,.18), rgba(123,97,255,.18)); box-shadow:0 0 10px rgba(125,240,255,.25); }
+    .userpanel a{ display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; text-decoration:none; color:var(--text); transition:background .2s, box-shadow .2s; }
+    .userpanel a:hover{ background:linear-gradient(90deg,rgba(125,240,255,.18),rgba(123,97,255,.18)); box-shadow:0 0 10px rgba(125,240,255,.25); }
     .userpanel .sep{ height:1px; background:rgba(255,255,255,.08); margin:6px 4px; border-radius:1px; }
-    .usercard{
-      display:grid; grid-template-columns:40px 1fr; gap:10px;
-      align-items:center; padding:10px; border-radius:10px;
-      background:rgba(255,255,255,.04); border:1px solid var(--border);
-      margin:2px 2px 6px 2px;
-    }
-    .usercard .ico{
-      width:40px;height:40px;border-radius:10px;display:grid;place-items:center;
-      background:linear-gradient(180deg, rgba(125,240,255,.15), rgba(123,97,255,.15));
-      border:1px solid var(--border);
-    }
-    .usercard .title{ font-weight:800; line-height:1.1; }
-    .usercard .sub{ font-size:12.5px; color:var(--muted); margin-top:2px; }
+    .usercard{ display:grid; grid-template-columns:40px 1fr; gap:10px; align-items:center; padding:10px; border-radius:10px;
+      background:rgba(255,255,255,.04); border:1px solid var(--border); margin:2px 2px 6px; }
+    .usercard .ico{ width:40px;height:40px;border-radius:10px;display:grid;place-items:center;
+      background:linear-gradient(180deg,rgba(125,240,255,.15),rgba(123,97,255,.15)); border:1px solid var(--border); }
+    .usercard .title{ font-weight:800; line-height:1.1; } .usercard .sub{ font-size:12.5px; color:var(--muted); margin-top:2px; }
 
-    /* ======== ОСНОВНОЙ МАКЕТ ======== */
     #bg{ position:fixed; inset:0; z-index:-1; pointer-events:none; }
     .wrap{ max-width:1300px; margin:28px auto 80px; padding:0 16px; }
     .page-title{ font-size:28px; font-weight:800; margin:8px 0 18px; }
     .muted{ color:var(--muted); }
 
-    /* ======== ФИЛЬТРЫ ======== */
-    .filters{ display:grid; grid-template-columns: repeat(12, 1fr); gap:12px; margin:20px 0; }
+    .filters{ display:grid; grid-template-columns:repeat(12,1fr); gap:12px; margin:20px 0; }
     .card{ background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:14px;
       padding:14px; backdrop-filter:blur(6px); box-shadow:0 20px 60px -25px rgba(0,0,0,.6); }
     .control{ display:flex; flex-direction:column; gap:6px; }
     .control label{ font-size:12.5px; color:var(--muted); }
-    .control input, .control select{ width:100%; padding:10px 12px; border-radius:10px;
-      border:1px solid var(--border); background:#0b0f1a; color:var(--text); transition:0.2s; }
-    .control input:focus, .control select:focus{ border-color:transparent; box-shadow:0 0 0 2px rgba(125,240,255,.35); }
+    .control input,.control select{ width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--border);
+      background:#0b0f1a; color:var(--text); transition:0.2s; }
+    .control input:focus,.control select:focus{ border-color:transparent; box-shadow:0 0 0 2px rgba(125,240,255,.35); }
 
     .actions{ display:flex; gap:10px; align-items:end; }
-    .btn{ padding:10px 16px; border-radius:12px; border:1px solid var(--border);
-      background:#0b0f1a; color:var(--text); font-weight:700; cursor:pointer; transition:0.25s; }
-    .btn:hover{ background:linear-gradient(90deg,rgba(125,240,255,.28),rgba(123,97,255,.28));
-      border-color:transparent; box-shadow:0 0 18px rgba(125,240,255,.35); transform:translateY(-1px); }
+    .btn{ padding:10px 16px; border-radius:12px; border:1px solid var(--border); background:#0b0f1a; color:var(--text); font-weight:700; cursor:pointer; transition:0.25s; }
+    .btn:hover{ background:linear-gradient(90deg,rgba(125,240,255,.28),rgba(123,97,255,.28)); border-color:transparent; box-shadow:0 0 18px rgba(125,240,255,.35); transform:translateY(-1px); }
 
-    /* ======== SUMMARY ======== */
     .summary{ display:flex; flex-wrap:wrap; gap:10px; margin:6px 0 16px; }
-    .chip{ padding:8px 12px; border-radius:999px; border:1px solid var(--border);
-      background:rgba(255,255,255,.03); color:var(--text); font-weight:700; font-size:12.8px; }
+    .chip{ padding:8px 12px; border-radius:999px; border:1px solid var(--border); background:rgba(255,255,255,.03); color:var(--text); font-weight:700; font-size:12.8px; }
 
-    /* ======== ТАБЛИЦА ======== */
     .table-wrap{ overflow:auto; border-radius:14px; }
-    table{ width:100%; border-collapse:separate; border-spacing:0;
-      background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:14px; }
-    thead th{ position:sticky; top:0; background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
-      backdrop-filter:blur(4px); }
-    th, td{ padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.06); white-space:nowrap; }
+    table{ width:100%; border-collapse:separate; border-spacing:0; background:rgba(255,255,255,.03);
+      border:1px solid var(--border); border-radius:14px; }
+    thead th{ position:sticky; top:0; background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02)); backdrop-filter:blur(4px); }
+    th,td{ padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.06); white-space:nowrap; }
     th{ font-size:13px; color:var(--muted); cursor:pointer; }
     td{ font-size:14px; }
     tr:hover td{ background:rgba(125,240,255,.04); }
@@ -114,32 +82,25 @@
     .ok{ background:rgba(0,200,83,.1); border-color:rgba(0,200,83,.2); }
     .warn{ background:rgba(255,193,7,.1); border-color:rgba(255,193,7,.2); }
 
-    /* ======== ПОИСК + ПАГИНАЦИЯ ======== */
     .bottombar{ display:flex; gap:12px; justify-content:space-between; align-items:center; margin-top:12px; }
     .search{ min-width:260px; }
     .pagination{ display:flex; gap:6px; }
-    .pagebtn{ padding:8px 10px; border-radius:10px; border:1px solid var(--border);
-      background:#0b0f1a; color:var(--text); cursor:pointer; }
+    .pagebtn{ padding:8px 10px; border-radius:10px; border:1px solid var(--border); background:#0b0f1a; color:var(--text); cursor:pointer; }
     .pagebtn[disabled]{ opacity:.5; cursor:default; }
 
-    @media (max-width: 860px){ .filters{ grid-template-columns: 1fr 1fr; } .actions{ grid-column: 1 / -1; } }
+    @media (max-width:860px){ .filters{ grid-template-columns: 1fr 1fr; } .actions{ grid-column:1 / -1; } }
   </style>
 </head>
 <body>
   <canvas id="bg"></canvas>
 
-  <!-- ======== HEADER ======== -->
   <header class="nav">
     <div class="container nav-inner">
-      <!-- слева: бренд -->
       <a class="brand-link" href="https://www.hivio.uk">
         <span class="logo-dot"></span><span>Hivio LTD</span>
       </a>
-
-      <!-- центр: Dashboard -->
       <div class="nav-center"><a class="pill" href="./cabinet.html">Dashboard</a></div>
 
-      <!-- справа: Account (вернул полностью) -->
       <div class="usermenu" id="usermenu" aria-expanded="false">
         <button type="button" class="usermenu-toggle" id="usermenuToggle" aria-haspopup="true" aria-controls="userpanel" aria-expanded="false">
           <svg class="user-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -186,12 +147,10 @@
     </div>
   </header>
 
-  <!-- ======== MAIN ======== -->
   <main class="wrap">
     <h1 class="page-title">Analytics <span class="muted">/ Screener</span></h1>
     <div class="muted">Find companies by exchange, sector, and key financial ratios.</div>
 
-    <!-- FILTERS -->
     <section class="filters">
       <div class="card control" style="grid-column: span 2;">
         <label for="fExchange">Exchange</label>
@@ -253,14 +212,12 @@
       </div>
     </section>
 
-    <!-- SUMMARY -->
     <section class="summary" id="summary">
       <span class="chip" id="sumCount">0 found</span>
       <span class="chip" id="sumAvgRoe">Avg ROE: —</span>
       <span class="chip" id="sumCap">Total Cap: —</span>
     </section>
 
-    <!-- TABLE -->
     <section class="table-wrap card">
       <table id="tbl">
         <thead>
@@ -280,7 +237,6 @@
       </table>
     </section>
 
-    <!-- SEARCH & PAGINATION -->
     <div class="bottombar">
       <div class="control search">
         <label for="fSearch">Search</label>
@@ -294,55 +250,64 @@
     </div>
   </main>
 
-  <!-- ======== SCRIPT ======== -->
   <script>
-    const API_BASE = (window.HIVIO_API_BASE) || 'https://api.hivio.uk';
-    const API_PATH = '/screener';
+    // Базовый адрес API: можно переопределить через window.HIVIO_API_BASE
+    const API_BASE = window.HIVIO_API_BASE || 'https://hivio-api.onrender.com';
+    const API_PATH = '/companies';
     const PAGE_SIZE = 25;
 
     let rawRows = [], viewRows = [], currentPage = 1, sortKey = 'ROE', sortDir = 'desc';
 
-    const $ = (s)=>document.querySelector(s);
+    const $ = s => document.querySelector(s);
     const fmtNum = (n,d=1)=>(n==null||isNaN(n))?'—':Number(n).toLocaleString(undefined,{maximumFractionDigits:d});
-    const toM = (usd)=>(usd?usd/1e6:null);
+    const toM = usd => (usd?usd/1e6:null);
 
     function buildQuery(){
       const p=new URLSearchParams({
-        exchange:$('#fExchange').value,
-        index:$('#fIndex').value,
-        country:$('#fCountry').value,
-        sector:$('#fSector').value,
-        pe_max:$('#fPeMax').value,
-        pb_max:$('#fPbMax').value,
-        roe_min:$('#fRoeMin').value,
+        exchange: $('#fExchange').value,
+        index:    $('#fIndex').value,
+        country:  $('#fCountry').value,
+        sector:   $('#fSector').value,
+        pe_max:   $('#fPeMax').value,
+        pb_max:   $('#fPbMax').value,
+        roe_min:  $('#fRoeMin').value,
         yield_min:$('#fYieldMin').value
       });
       return p.toString();
     }
 
     function computeSummary(rows){
-      const count=rows.length;
-      const avgRoe=count?rows.reduce((a,b)=>a+(+b.ROE||0),0)/count:null;
-      const totalCap=rows.reduce((a,b)=>a+(toM(b.marketCapUSD)||0),0);
-      $('#sumCount').textContent=`${count} found`;
-      $('#sumAvgRoe').textContent=`Avg ROE: ${avgRoe?fmtNum(avgRoe,1)+'%':'—'}`;
-      $('#sumCap').textContent=`Total Cap: ${fmtNum(totalCap,1)} M`;
+      const count = rows.length;
+      const avgRoe = count ? rows.reduce((a,b)=>a+(+b.ROE||0),0)/count : null;
+      const totalCap = rows.reduce((a,b)=>a+(toM(b.marketCapUSD)||0),0);
+      $('#sumCount').textContent = `${count} found`;
+      $('#sumAvgRoe').textContent = `Avg ROE: ${avgRoe?fmtNum(avgRoe,1)+'%':'—'}`;
+      $('#sumCap').textContent = `Total Cap: ${fmtNum(totalCap,1)} M`;
     }
 
     function applySearch(){
-      const q=$('#fSearch').value.toLowerCase();
-      viewRows=q?rawRows.filter(r=>(r.ticker||'').toLowerCase().includes(q)||(r.name||'').toLowerCase().includes(q)):[...rawRows];
+      const q = $('#fSearch').value.toLowerCase();
+      viewRows = q
+        ? rawRows.filter(r => (r.ticker||'').toLowerCase().includes(q) || (r.name||'').toLowerCase().includes(q))
+        : [...rawRows];
     }
 
     function applySort(){
-      const dir=(sortDir==='asc'?1:-1);
-      viewRows.sort((a,b)=>((+a[sortKey]||0)-(+b[sortKey]||0))*dir);
+      const dir = (sortDir==='asc'?1:-1);
+      viewRows.sort((a,b)=>{
+        const key = sortKey;
+        const av = a[key], bv = b[key];
+        if (['ticker','name'].includes(key)) {
+          return String(av||'').localeCompare(String(bv||'')) * dir;
+        }
+        return ((+av||0) - (+bv||0)) * dir;
+      });
     }
 
     function renderTable(){
       const start=(currentPage-1)*PAGE_SIZE;
       const page=viewRows.slice(start,start+PAGE_SIZE);
-      $('#tbody').innerHTML=page.map(r=>`
+      $('#tbody').innerHTML = page.map(r=>`
         <tr>
           <td class="ticker">${r.ticker||'—'}</td>
           <td>${r.name||'—'}</td>
@@ -362,60 +327,70 @@
     }
 
     async function fetchData(){
-      const url=`${API_BASE}${API_PATH}?${buildQuery()}`;
-      const btn = document.getElementById('btnFind');
+      const url = `${API_BASE}${API_PATH}?${buildQuery()}`;
+      const btn = $('#btnFind');
       const prevTxt = btn.textContent;
       btn.textContent='Loading…'; btn.disabled = true;
       try{
-        const res=await fetch(url,{mode:'cors'}); const data=await res.json();
-        rawRows=(data.results||data||[]).map(x=>({
-          ticker:x.ticker||x.symbol,
-          name:x.name||x.companyName,
-          marketCapUSD:x.marketCapUSD||x.market_cap||x.marketCap,
-          ROE:(typeof x.ROE==='number')?x.ROE:(typeof x.roe==='number'?(x.roe>1?x.roe:x.roe*100):null),
-          pe:x.pe||x.PE||x.p_e,
-          pb:x.pb||x.PB||x.p_b,
-          evebitda:x.evebitda||x.ev_ebitda||x.evEbitda,
-          sector:x.sector, country:x.country||x.Country
+        const res = await fetch(url,{mode:'cors'});
+        if (!res.ok) {
+          const t = await res.text().catch(()=> '');
+          throw new Error(`API ${res.status}: ${t || res.statusText}`);
+        }
+        const data = await res.json();
+
+        rawRows = (data.results || data || []).map(x => ({
+          ticker: x.ticker || x.symbol,
+          name:   x.name   || x.companyName,
+          marketCapUSD: x.marketCapUSD || x.market_cap_usd || x.market_cap || x.marketCap,
+          ROE:
+            typeof x.ROE === 'number' ? x.ROE :
+            typeof x.roe === 'number' ? (x.roe > 1 ? x.roe : x.roe * 100) : null,
+          pe:       x.pe || x.PE || x.p_e,
+          pb:       x.pb || x.PB || x.p_b,
+          evebitda: x.evebitda || x.ev_ebitda || x.evEbitda,
+          sector:   x.sector,
+          country:  x.country || x.Country
         }));
+
         applySearch(); applySort(); currentPage=1; renderTable();
-      }catch(e){ console.error(e); alert('API error'); }
-      finally{ btn.textContent=prevTxt; btn.disabled=false; }
+      }catch(e){
+        console.error(e);
+        alert('API error: ' + e.message);
+      }finally{
+        btn.textContent=prevTxt; btn.disabled=false;
+      }
     }
 
-    // сортировка по клику на заголовок
     document.addEventListener('DOMContentLoaded',()=>{
       document.querySelectorAll('th[data-sort]').forEach(th=>{
         th.addEventListener('click', ()=>{
           const key = th.dataset.sort;
-          if(sortKey===key){ sortDir = (sortDir==='asc'?'desc':'asc'); } else { sortKey=key; sortDir='desc'; }
+          if (sortKey===key) sortDir = (sortDir==='asc'?'desc':'asc');
+          else { sortKey=key; sortDir='desc'; }
           applySort(); currentPage=1; renderTable();
         });
       });
-      document.getElementById('btnFind').addEventListener('click',fetchData);
-      document.getElementById('btnExport').addEventListener('click',()=>{/* при необходимости добавим экспорт */});
-      document.getElementById('prevPage').addEventListener('click',()=>{ if(currentPage>1){ currentPage--; renderTable(); } });
-      document.getElementById('nextPage').addEventListener('click',()=>{ const t=Math.max(1,Math.ceil(viewRows.length/PAGE_SIZE)); if(currentPage<t){ currentPage++; renderTable(); } });
-      document.getElementById('fSearch').addEventListener('input',()=>{ applySearch(); applySort(); renderTable(); });
 
-      // первичная загрузка
+      $('#btnFind').addEventListener('click', fetchData);
+      $('#prevPage').addEventListener('click', ()=>{ if(currentPage>1){ currentPage--; renderTable(); } });
+      $('#nextPage').addEventListener('click', ()=>{ const t=Math.max(1,Math.ceil(viewRows.length/PAGE_SIZE)); if(currentPage<t){ currentPage++; renderTable(); } });
+      $('#fSearch').addEventListener('input', ()=>{ applySearch(); applySort(); renderTable(); });
+
       fetchData();
     });
 
-    // ===== Account dropdown logic =====
+    // Аккаунт-дропдаун
     (function(){
       const menu   = document.getElementById('usermenu');
       const toggle = document.getElementById('usermenuToggle');
       const panel  = document.getElementById('userpanel');
-
       function open(){ menu.setAttribute('aria-expanded','true'); toggle.setAttribute('aria-expanded','true'); panel.classList.add('open'); }
       function close(){ menu.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-expanded','false'); panel.classList.remove('open'); }
-
       if(toggle){
         toggle.addEventListener('click', (e)=>{ e.stopPropagation(); panel.classList.contains('open') ? close() : open(); });
         document.addEventListener('click', (e)=>{ if(!menu.contains(e.target)) close(); });
       }
-
       try{
         const prof = JSON.parse(localStorage.getItem('hivio_profile') || 'null');
         const first = prof?.firstName || 'Vsevolod';
@@ -424,7 +399,6 @@
         document.getElementById('ucName').textContent = `${last} ${first}`.trim();
         document.getElementById('ucPos').textContent  = pos;
       }catch(e){}
-
       const signout = document.getElementById('menuSignout');
       if(signout){
         signout.addEventListener('click', ()=>{
